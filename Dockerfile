@@ -13,9 +13,9 @@ RUN yarn build
 
 FROM nginx:alpine
 
-ENV HOST="http://host.docker.internal"
+ENV API_HOST="http://host.docker.internal"
 
-ENV PORT=8080
+ENV API_PORT=8080
 
 COPY ./docker-conf/nginx/segment-admin-panel.conf.template /etc/nginx/conf.d/
 
