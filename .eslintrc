@@ -1,0 +1,10 @@
+{
+    "root": true,
+    "extends": ["react-app", "react-app/jest", ".eslint-config-base.js"],
+    "overrides": [
+        {
+            "files": "*.{ts,tsx}",
+            "extends": ".eslint-config-typescript.js"
+        }
+    ]
+}
