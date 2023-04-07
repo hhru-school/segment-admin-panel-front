@@ -8,7 +8,7 @@ server {
     index  index.html;
 
     location / {
-        try_files $uri $uri/ $uri.html /index.html;
+        try_files ${DOLLAR}uri ${DOLLAR}uri/ ${DOLLAR}uri.html /index.html;
     }
 
     location ~ /api/ {
