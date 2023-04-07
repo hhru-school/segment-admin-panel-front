@@ -1,0 +1,20 @@
+server {
+    listen       80;
+    server_name  frontend;
+    charset      utf-8;
+    access_log   off;
+
+    root   /var/www/html;
+    index  index.html;
+
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    location ~ /api/ {
+        proxy_pass        ${API_HOST}:${API_PORT};
+        proxy_set_header  Host ${DOLLAR}http_host;
+        proxy_set_header  X-Real-IP ${DOLLAR}remote_addr;
+        proxy_set_header  X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
+    }
+}
