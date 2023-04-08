@@ -8,7 +8,7 @@ RUN yarn install
 
 COPY . .
 
-RUN yarn build
+RUN yarn lint && yarn build
 
 
 FROM nginx:alpine
@@ -17,9 +17,11 @@ ENV API_HOST="http://host.docker.internal"
 
 ENV API_PORT=8080
 
+ENV DOLLAR="$"
+
 COPY ./docker-conf/nginx/segment-admin-panel.conf.template /etc/nginx/conf.d/
 
-COPY ./docker-conf/start.sh .
+RUN envsubst < /etc/nginx/conf.d/segment-admin-panel.conf.template > /etc/nginx/conf.d/default.conf
 
 WORKDIR /var/www/html
 
@@ -27,4 +29,4 @@ COPY --from=builder /app/build .
 
 EXPOSE 80
 
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
