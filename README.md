@@ -40,6 +40,8 @@
   docker run -d --rm --name segment-front -e API_PORT=3000 -p 80:80 segment-front
 ```
 
+API будет доступен по адресу [http://localhost/api](http://localhost/api).
+
 ### Остановка контейнера
 
 Для остановки контейнера выполните команду:
