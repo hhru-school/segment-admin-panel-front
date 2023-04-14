@@ -25,8 +25,11 @@ const router = createBrowserRouter([
             { path: '', element: <Navigate to="info" replace /> },
             { path: 'info', element: <InfoPage /> },
             { path: 'changes', element: <LayerChangesPage /> },
-            { path: 'segments', element: <SegmentsPage /> },
-            { path: 'segments/:segmentId', element: <SegmentPage /> },
+            {
+                path: 'segments',
+                element: <SegmentsPage />,
+                children: [{ path: ':segmentId', element: <SegmentPage /> }],
+            },
             { path: 'entry-points', element: <EntryPointsPage /> },
             { path: 'entry-points/:entryPointId', element: <EntryPointPage /> },
             { path: 'fields', element: <FieldsPage /> },

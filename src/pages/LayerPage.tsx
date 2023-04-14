@@ -9,9 +9,9 @@ import GroupFieldsIcon from '@mui/icons-material/QuizOutlined';
 import LayerLayout from 'layouts/LayerLayout';
 
 const LayerPage: React.FC = () => {
-    const { segmentId, entryPointId, fieldId } = useParams();
+    const { entryPointId, fieldId } = useParams();
 
-    if (segmentId != null || entryPointId != null || fieldId != null) {
+    if (entryPointId != null || fieldId != null) {
         return <Outlet />;
     }
 
