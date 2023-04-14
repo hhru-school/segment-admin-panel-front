@@ -69,7 +69,7 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
                     ))}
                 </DrawerBody>
             </Drawer>
-            <Main drawerWidth={drawerWidth}>
+            <Main>
                 <ToolbarSpace />
                 <Container disableGutters>{children}</Container>
             </Main>
