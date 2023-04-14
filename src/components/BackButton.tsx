@@ -4,11 +4,11 @@ import Tooltip from '@mui/material/Tooltip';
 
 import IconButton from 'components/IconButton';
 
-type BackButtonProps = {
+interface BackButtonProps {
     href: string;
     tooltipTitle: string;
     relative?: string;
-};
+}
 
 const BackButton: React.FC<BackButtonProps> = ({ href, tooltipTitle }) => {
     return (
@@ -21,4 +21,3 @@ const BackButton: React.FC<BackButtonProps> = ({ href, tooltipTitle }) => {
 };
 
 export default BackButton;
-export type { BackButtonProps };

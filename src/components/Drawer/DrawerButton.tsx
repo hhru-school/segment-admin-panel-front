@@ -4,9 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import IconButton from 'components/IconButton';
 
-type DrawerButtonProps = Pick<IconButtonProps, 'onClick'>;
-
-const DrawerButton: React.FC<DrawerButtonProps> = ({ onClick }) => {
+const DrawerButton: React.FC<Pick<IconButtonProps, 'onClick'>> = ({ onClick }) => {
     return (
         <Tooltip title="Меню" disableInteractive>
             <IconButton size="small" onClick={onClick}>
@@ -17,4 +15,3 @@ const DrawerButton: React.FC<DrawerButtonProps> = ({ onClick }) => {
 };
 
 export default DrawerButton;
-export type { DrawerButtonProps };

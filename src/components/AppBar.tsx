@@ -9,9 +9,9 @@ const StyledMuiAppBar = styled(MuiAppBar)(({ theme }) => ({
     backgroundColor: theme.palette.common.white,
 }));
 
-type AppBarProps = {
+interface AppBarProps {
     children?: React.ReactNode;
-};
+}
 
 const AppBar: React.FC<AppBarProps> = ({ children }) => {
     return (

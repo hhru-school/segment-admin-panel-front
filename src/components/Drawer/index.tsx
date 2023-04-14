@@ -5,9 +5,9 @@ import ToolbarSpace from 'components/ToolbarSpace';
 
 import DrawerWrapper from 'components/Drawer/DrawerWrapper';
 
-type DrawerProps = {
+interface DrawerProps extends Pick<MuiDrawerProps, 'children' | 'onClose' | 'open' | 'variant'> {
     width?: number;
-} & Pick<MuiDrawerProps, 'children' | 'onClose' | 'open' | 'variant'>;
+}
 
 const DEFAULT_DRAWER_WIDTH = 240;
 
@@ -35,4 +35,3 @@ const Drawer: React.FC<DrawerProps> = ({ children, open, width = DEFAULT_DRAWER_
 };
 export default Drawer;
 export { DEFAULT_DRAWER_WIDTH };
-export type { DrawerProps };

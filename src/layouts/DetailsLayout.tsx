@@ -7,10 +7,10 @@ import Main from 'components/Main';
 import ToolbarSpace from 'components/ToolbarSpace';
 import Wrapper from 'components/Wrapper';
 
-type DetailsLayoutProps = {
+interface DetailsLayoutProps {
     children?: React.ReactNode;
     title?: React.ReactNode;
-};
+}
 
 const DetailsLayout: React.FC<DetailsLayoutProps> = ({ children, title }) => {
     return (
@@ -30,4 +30,3 @@ const DetailsLayout: React.FC<DetailsLayoutProps> = ({ children, title }) => {
 };
 
 export default DetailsLayout;
-export type { DetailsLayoutProps };

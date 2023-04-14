@@ -11,10 +11,10 @@ const Wrapper = styled(Paper)({
     backgroundPosition: 'center 40%',
 });
 
-type UnderConstructionPageProps = {
+interface UnderConstructionPageProps {
     pageName: string;
     nextLink?: React.ReactNode;
-};
+}
 
 const UnderConstructionPage: React.FC<UnderConstructionPageProps> = ({ pageName, nextLink }) => {
     return (
@@ -37,4 +37,3 @@ const UnderConstructionPage: React.FC<UnderConstructionPageProps> = ({ pageName,
 };
 
 export default UnderConstructionPage;
-export type { UnderConstructionPageProps };

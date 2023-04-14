@@ -8,9 +8,9 @@ import Main from 'components/Main';
 import ToolbarSpace from 'components/ToolbarSpace';
 import Wrapper from 'components/Wrapper';
 
-type HomeLayoutProps = {
+interface HomeLayoutProps {
     children?: React.ReactNode;
-};
+}
 
 const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
     return (
@@ -36,4 +36,3 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 };
 
 export default HomeLayout;
-export type { HomeLayoutProps };

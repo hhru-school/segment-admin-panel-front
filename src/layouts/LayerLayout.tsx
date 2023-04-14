@@ -15,11 +15,11 @@ import Main from 'components/Main';
 import ToolbarSpace from 'components/ToolbarSpace';
 import Wrapper from 'components/Wrapper';
 
-type LayerLayoutProps = {
+interface LayerLayoutProps {
     drawerOptions: Omit<DrawerOptionProps, 'onClick'>[];
     children?: React.ReactNode;
     title?: React.ReactNode;
-};
+}
 
 const drawerWidth = 290;
 
@@ -78,4 +78,3 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
 };
 
 export default LayerLayout;
-export type { LayerLayoutProps };

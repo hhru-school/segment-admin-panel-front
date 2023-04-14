@@ -6,13 +6,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { alpha, styled } from '@mui/material/styles';
 
-type DrawerOptionProps = {
+export interface DrawerOptionProps {
     href: string;
     primaryText: string;
     icon?: React.ReactNode;
     secondaryText?: string;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLDivElement>;
-};
+}
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
     paddingLeft: theme.spacing(3),
@@ -53,4 +53,3 @@ const DrawerOption: React.FC<DrawerOptionProps> = ({ href, primaryText, icon, se
 };
 
 export default DrawerOption;
-export type { DrawerOptionProps };
