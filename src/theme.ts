@@ -13,6 +13,9 @@ const theme = createTheme({
             xl: 1536,
         },
     },
+    shape: {
+        borderRadius: 6,
+    },
     // https://mui.com/material-ui/guides/routing/#global-theme-link
     components: {
         MuiLink: {
