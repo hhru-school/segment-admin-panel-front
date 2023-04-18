@@ -1,13 +1,11 @@
-import Link from '@mui/material/Link';
+import { Outlet } from 'react-router-dom';
 
 import HomeLayout from 'layouts/HomeLayout';
-
-import UnderConstructionPage from 'pages/UnderConstructionPage';
 
 const HomePage: React.FC = () => {
     return (
         <HomeLayout>
-            <UnderConstructionPage pageName="Главная" nextLink={<Link href="layer/1">Слой</Link>} />
+            <Outlet />
         </HomeLayout>
     );
 };

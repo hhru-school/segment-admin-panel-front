@@ -9,6 +9,7 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
+import ErrorAlertProvider from 'components/ErrorAlert/ErrorAlertContext';
 import router from 'router';
 import { store } from 'store';
 import theme from 'theme';
@@ -19,7 +20,9 @@ root.render(
         <CssBaseline />
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <RouterProvider router={router} />
+                <ErrorAlertProvider>
+                    <RouterProvider router={router} />
+                </ErrorAlertProvider>
             </ThemeProvider>
         </Provider>
     </React.StrictMode>
