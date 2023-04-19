@@ -94,16 +94,9 @@ const LayersTable: React.FC = () => {
     const { items, isLoading, error } = useAppSelector(selectLayersList, shallowEqual);
     const { setAlert } = useErrorAlert();
 
-    // нужно для теста сообщения (потом удалить)
-    const test = () => {
-        void dispatch(fetchLayersList());
-    };
-
     useEffect(() => {
-        if (items == null) {
-            void dispatch(fetchLayersList());
-        }
-    }, [items, dispatch]);
+        void dispatch(fetchLayersList());
+    }, [dispatch]);
 
     useEffect(() => {
         if (error != null) {
@@ -118,7 +111,7 @@ const LayersTable: React.FC = () => {
                     Слои
                 </Typography>
                 <Box sx={{ ml: 'auto', width: 'max-content' }}>
-                    <Button startIcon={<AddIcon />} variant="contained" onClick={test}>
+                    <Button startIcon={<AddIcon />} variant="contained">
                         Создать новый слой
                     </Button>
                 </Box>
