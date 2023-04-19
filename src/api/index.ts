@@ -4,7 +4,7 @@ export interface ApiError {
     message: string;
 }
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api' : 'http://localhost/api';
+const BASE_URL = '/api';
 const GET_LAYERS_LIST_URL = '/layers';
 
 const api = axios.create({
