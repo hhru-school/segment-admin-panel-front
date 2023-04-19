@@ -13,11 +13,11 @@ interface LayerStatusChipProps {
 const LayerStatusChip: React.FC<LayerStatusChipProps> = ({ status }) => {
     switch (status) {
         case 'ARCHIVED':
-            return <Chip icon={<ArchivedIcon />} variant="outlined" label="Архивный" />;
+            return <Chip icon={<ArchivedIcon />} label="Архивный" variant="outlined" />;
         case 'EXPERIMENTAL':
             return <Chip icon={<ExperimentalIcon />} label="Пробный" variant="outlined" color="warning" />;
         case 'STABLE':
-            return <Chip icon={<StableIcon />} label="Стабильный" variant="outlined" color="success" />;
+            return <Chip icon={<StableIcon />} label="Базовый" variant="outlined" color="success" />;
     }
     return exhaustiveCheck(status);
 };
