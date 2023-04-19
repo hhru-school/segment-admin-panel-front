@@ -54,7 +54,7 @@ const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React
                 timeStyle: 'medium',
             });
         case 'layerStatus':
-            return <LayerStatusChip status={data[key]} />;
+            return <LayerStatusChip status={data[key]} variant="outlined" />;
         case 'actions':
             return (
                 <Button href={`/layers/${data.id}/info`} size="small">
