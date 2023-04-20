@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import api, { GET_LAYERS_LIST_URL, ApiError, apiErrorHandler } from 'api';
+import api, { GET_LAYERS_URL, ApiError, apiErrorHandler } from 'api';
 import hasFields from 'helpers/hasField';
 import isObject from 'helpers/isObject';
 import { RootState } from 'store';
@@ -21,7 +21,7 @@ function isLayersListItem(value: unknown): value is LayersListItem {
     return isObject(value) && hasFields<LayersListItem>(value, ['id', 'title', 'createTime', 'layerStatus']);
 }
 
-type LayersList = LayersListItem[];
+export type LayersList = LayersListItem[];
 
 function isLayersList(value: unknown): value is LayersList {
     return Array.isArray(value) && (value.length === 0 ? true : value.every(isLayersListItem));
@@ -39,7 +39,7 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
         let response: AxiosResponse<LayersList>;
 
         try {
-            response = await api.get<LayersList>(GET_LAYERS_LIST_URL);
+            response = await api.get<LayersList>(GET_LAYERS_URL);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
@@ -85,7 +85,9 @@ const layersListSlice = createSlice({
     },
 });
 
-const selectLayersList = (state: RootState): LayersListState => state.layersList;
+const selectLayersList = (state: RootState): LayersList | null => state.layersList.items;
+const selectLayersListError = (state: RootState): ApiError | null => state.layersList.error;
+const selectLayersListLoadingStatus = (state: RootState): boolean => state.layersList.isLoading;
 
 export default layersListSlice.reducer;
-export { fetchLayersList, selectLayersList };
+export { fetchLayersList, selectLayersList, selectLayersListError, selectLayersListLoadingStatus };
