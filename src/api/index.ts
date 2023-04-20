@@ -5,7 +5,7 @@ export interface ApiError {
 }
 
 const BASE_URL = '/api';
-const GET_LAYERS_LIST_URL = '/layers';
+const GET_LAYERS_URL = '/layers';
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -37,4 +37,4 @@ const apiErrorHandler = (error: unknown): ApiError => {
 };
 
 export default api;
-export { GET_LAYERS_LIST_URL, apiErrorHandler };
+export { GET_LAYERS_URL, apiErrorHandler };
