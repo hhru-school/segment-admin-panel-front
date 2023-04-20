@@ -2,6 +2,7 @@ import axios, { isAxiosError } from 'axios';
 
 export interface ApiError {
     message: string;
+    code?: number;
 }
 
 const BASE_URL = '/api';
@@ -19,7 +20,7 @@ const apiErrorHandler = (error: unknown): ApiError => {
                 case 400:
                     return { message: 'Плохой запрос.' };
                 case 404:
-                    return { message: 'Ресурс не найден.' };
+                    return { message: 'Ресурс не найден.', code: 404 };
                 case 500:
                     return { message: 'Внутренняя ошибка сервера.' };
             }
