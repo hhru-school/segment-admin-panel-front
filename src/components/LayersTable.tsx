@@ -1,25 +1,19 @@
-import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
-import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
-import Typography from '@mui/material/Typography';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
-import useErrorAlert from 'hooks/useErrorAlert';
-import { LayersListItem, fetchLayersList, selectLayersList } from 'models/layersList';
+import { useAppSelector } from 'hooks/redux-hooks';
+import { LayersListItem, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
 
 import LayerStatusChip from 'components/LayerStatusChip';
 import TableDataRow, { DataConverter, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
 import TableEmptyRow from 'components/Table/TableEmptyRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 
-const columns: Column<LayersListItem>[] = [
+const columns: Column<LayersListItem, 'actions'>[] = [
     {
         key: 'createTime',
         headerName: 'Создан',
@@ -49,7 +43,7 @@ const columns: Column<LayersListItem>[] = [
     },
 ];
 
-const convertData: DataConverter<LayersListItem> = (key, data): React.ReactNode => {
+const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
         case 'title':
@@ -72,7 +66,7 @@ const convertData: DataConverter<LayersListItem> = (key, data): React.ReactNode 
 };
 
 const renderBody = (
-    columns: Column<LayersListItem>[],
+    columns: Column<LayersListItem, 'actions'>[],
     rows: LayersListItem[] | null,
     isLoading: boolean
 ): React.ReactNode => {
@@ -90,39 +84,16 @@ const renderBody = (
 };
 
 const LayersTable: React.FC = () => {
-    const dispatch = useAppDispatch();
-    const { items, isLoading, error } = useAppSelector(selectLayersList, shallowEqual);
-    const { setAlert } = useErrorAlert();
-
-    useEffect(() => {
-        void dispatch(fetchLayersList());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (error != null) {
-            setAlert(error.message);
-        }
-    }, [error, setAlert]);
+    const layersList = useAppSelector(selectLayersList, shallowEqual);
+    const isLoading = useAppSelector(selectLayersListLoadingStatus);
 
     return (
-        <Paper sx={{ p: { sm: 4, md: 6 } }}>
-            <Box sx={{ pb: 4, pl: 4, pr: 2 }}>
-                <Typography component="h2" variant="h4">
-                    Слои
-                </Typography>
-                <Box sx={{ ml: 'auto', width: 'max-content' }}>
-                    <Button startIcon={<AddIcon />} variant="contained">
-                        Создать новый слой
-                    </Button>
-                </Box>
-            </Box>
-            <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
-                <Table stickyHeader>
-                    <TableHead columns={columns} />
-                    <TableBody>{renderBody(columns, items, isLoading)}</TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
+            <Table stickyHeader>
+                <TableHead columns={columns} />
+                <TableBody>{renderBody(columns, layersList, isLoading)}</TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
