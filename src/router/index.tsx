@@ -47,7 +47,8 @@ const router = createBrowserRouter([
                     { path: 'field-groups', element: <FieldGroupsPage /> },
                 ],
             },
-            { path: '*', element: <NotFoundPage /> },
+            { path: 'not-found', element: <NotFoundPage /> },
+            { path: '*', element: <Navigate to="not-found" replace /> },
         ],
     },
 ]);
