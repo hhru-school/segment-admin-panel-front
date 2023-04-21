@@ -28,7 +28,7 @@ function isLayersList(value: unknown): value is LayersList {
 }
 
 interface LayersListState {
-    items: LayersList | null;
+    items: LayersList;
     isLoading: boolean;
     error: ApiError | null;
 }
@@ -46,7 +46,9 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
 
         if (!isLayersList(response.data)) {
             console.error(new TypeError('Получен не верный тип данных для списка слоев.'));
-            return thunkApi.rejectWithValue({ message: 'С сервера получены неверные данные.' });
+            return thunkApi.rejectWithValue({
+                message: 'С сервера получены неверные данные. Обратитесь к администратору.',
+            });
         }
 
         return response.data;
@@ -54,7 +56,7 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
 );
 
 const initialState: LayersListState = {
-    items: null,
+    items: [],
     isLoading: false,
     error: null,
 };
@@ -85,7 +87,7 @@ const layersListSlice = createSlice({
     },
 });
 
-const selectLayersList = (state: RootState): LayersList | null => state.layersList.items;
+const selectLayersList = (state: RootState): LayersList => state.layersList.items;
 const selectLayersListError = (state: RootState): ApiError | null => state.layersList.error;
 const selectLayersListLoadingStatus = (state: RootState): boolean => state.layersList.isLoading;
 

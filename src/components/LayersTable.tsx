@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { LayersListItem, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { LayersListItem, LayersList, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
 
 import LayerStatusChip from 'components/LayerStatusChip';
 import TableDataRow, { DataConverter, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
@@ -67,7 +67,7 @@ const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React
 
 const renderBody = (
     columns: Column<LayersListItem, 'actions'>[],
-    rows: LayersListItem[] | null,
+    rows: LayersList,
     isLoading: boolean
 ): React.ReactNode => {
     const columnsCount = columns.length;
@@ -76,7 +76,7 @@ const renderBody = (
         return <TableEmptyRow columnsCount={columnsCount} loading={isLoading} />;
     }
 
-    if (rows == null || rows.length === 0) {
+    if (rows.length === 0) {
         return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
     }
 
