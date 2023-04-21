@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import App from 'App';
+import CreateNewLayerPage from 'pages/CreateNewLayerPage';
 import EntryPointPage from 'pages/EntryPointPage';
 import EntryPointsPage from 'pages/EntryPointsPage';
 import FieldGroupsPage from 'pages/FieldGroupsPage';
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
                     { path: 'field-groups', element: <FieldGroupsPage /> },
                 ],
             },
+            { path: 'new/layer', element: <CreateNewLayerPage /> },
             { path: 'not-found', element: <NotFoundPage /> },
             { path: '*', element: <Navigate to="not-found" replace /> },
         ],
