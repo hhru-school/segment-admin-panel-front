@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import api, { GET_LAYERS_URL, ApiError, apiErrorHandler } from 'api';
-import hasFields from 'helpers/hasField';
-import isObject from 'helpers/isObject';
 import { RootState } from 'store';
 
 const LAYERS_STATUSES = ['ARCHIVED', 'EXPERIMENTAL', 'STABLE'] as const;
@@ -17,15 +15,7 @@ export interface LayersListItem {
     layerStatus: LayerStatus;
 }
 
-function isLayersListItem(value: unknown): value is LayersListItem {
-    return isObject(value) && hasFields<LayersListItem>(value, ['id', 'title', 'createTime', 'layerStatus']);
-}
-
 export type LayersList = LayersListItem[];
-
-function isLayersList(value: unknown): value is LayersList {
-    return Array.isArray(value) && (value.length === 0 ? true : value.every(isLayersListItem));
-}
 
 interface LayersListState {
     items: LayersList;
@@ -42,13 +32,6 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
             response = await api.get<LayersList>(GET_LAYERS_URL);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
-        }
-
-        if (!isLayersList(response.data)) {
-            console.error(new TypeError('Получен не верный тип данных для списка слоев.'));
-            return thunkApi.rejectWithValue({
-                message: 'С сервера получены неверные данные. Обратитесь к администратору.',
-            });
         }
 
         return response.data;
