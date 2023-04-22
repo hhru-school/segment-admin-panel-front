@@ -79,14 +79,14 @@ const selectCurrentLayerError = (state: RootState): ApiError | null => state.cur
 const selectCurrentLayerLoadingStatus = (state: RootState): boolean => state.currentLayer.isLoading;
 const selectCurrentLayerTitle = (state: RootState): string => {
     const item = state.currentLayer.item;
-    if (item == null) {
+    if (item === null) {
         return '';
     }
     return item.title;
 };
 const selectCurrentLayerParentLayers = (state: RootState): LayersList | null => {
     const item = state.currentLayer.item;
-    if (item == null) {
+    if (item === null) {
         return item;
     }
     return item.parentLayersList;

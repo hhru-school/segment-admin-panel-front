@@ -31,7 +31,7 @@ const InfoPage: React.FC = () => {
         );
     }
 
-    if (layer == null) {
+    if (layer === null) {
         return (
             <>
                 <DataCard title="Общая информация" margin>

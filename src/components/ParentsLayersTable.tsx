@@ -55,7 +55,7 @@ const convertData: DataConverter<LayersListItem> = (key, data): React.ReactNode 
 };
 
 const renderBody = (columns: Column<LayersListItem>[], rows: LayersList | null): React.ReactNode => {
-    if (rows == null || rows.length === 0) {
+    if (rows === null || rows.length === 0) {
         return <TableEmptyRow columnsCount={columns.length} text="Родительского слоя нет." />;
     }
 
