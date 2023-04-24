@@ -1,0 +1,39 @@
+name: Deploy docker image
+
+on:
+    push:
+        branches:
+            - 'main'
+
+jobs:
+
+    build_docker_image:
+        runs-on: ubuntu-latest
+        steps:
+
+            -   uses: actions/checkout@v2
+            -   name: Build the Docker image
+                run: docker build . --file Dockerfile --tag segmentadminka.ru/segment-front:latest
+
+
+            -   name: Docker login
+                run: docker login segmentadminka.ru -u ${{ secrets.DOCKER_LOGIN }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+            #     Publish image to github package d repository:
+            -   name: Publish image
+                run: docker push segmentadminka.ru/segment-front:latest
+    build:
+        name: docker run
+        needs: build_docker_image
+        runs-on: ubuntu-latest
+        steps:
+            -   name: executing remote ssh commands using password
+                uses: appleboy/ssh-action@v0.1.10
+                with:
+                    host: ${{ secrets.SSH_HOST }}
+                    username: ${{ secrets.SSH_USER }}
+                    password: ${{ secrets.SSH_PASSWORD }}
+                    script: |
+                        docker stop segment-front
+                        docker pull segmentadminka.ru/segment-front &&  docker run -d --rm --name segment-front --add-host host.docker.internal:host-gateway -p 80:80 segmentadminka.ru/segment-front
+                        yes|docker system prune -a
