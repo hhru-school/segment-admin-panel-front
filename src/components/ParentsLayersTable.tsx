@@ -1,19 +1,19 @@
 import { shallowEqual } from 'react-redux';
-import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { LayersListItem, LayersList, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { selectCurrentLayerParentLayers } from 'models/currentLayer';
+import { LayersListItem, LayersList } from 'models/layersList';
 
 import LayerStatusChip from 'components/LayerStatusChip';
 import TableDataRow, { DataConverter, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
 import TableEmptyRow from 'components/Table/TableEmptyRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 
-const columns: Column<LayersListItem, 'actions'>[] = [
+const columns: Column<LayersListItem>[] = [
     {
         key: 'createTime',
         headerName: 'Создан',
@@ -36,14 +36,9 @@ const columns: Column<LayersListItem, 'actions'>[] = [
         headerName: 'ID',
         align: 'center',
     },
-    {
-        key: 'actions',
-        headerName: '',
-        width: '130px',
-    },
 ];
 
-const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
+const convertData: DataConverter<LayersListItem> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
         case 'title':
@@ -55,43 +50,26 @@ const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React
             });
         case 'layerStatus':
             return <LayerStatusChip status={data[key]} variant="outlined" />;
-        case 'actions':
-            return (
-                <Button href={`/layers/${data.id}/info`} size="small">
-                    Подробнее
-                </Button>
-            );
     }
     return exhaustiveCheck(key);
 };
 
-const renderBody = (
-    columns: Column<LayersListItem, 'actions'>[],
-    rows: LayersList,
-    isLoading: boolean
-): React.ReactNode => {
-    const columnsCount = columns.length;
-
-    if (isLoading) {
-        return <TableEmptyRow columnsCount={columnsCount} loading={isLoading} />;
-    }
-
-    if (rows.length === 0) {
-        return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
+const renderBody = (columns: Column<LayersListItem>[], rows: LayersList | null): React.ReactNode => {
+    if (rows === null || rows.length === 0) {
+        return <TableEmptyRow columnsCount={columns.length} text="Родительского слоя нет." />;
     }
 
     return rows.map((row) => <TableDataRow key={row.id} columns={columns} row={row} dataConverter={convertData} />);
 };
 
 const LayersTable: React.FC = () => {
-    const layersList = useAppSelector(selectLayersList, shallowEqual);
-    const isLoading = useAppSelector(selectLayersListLoadingStatus);
+    const items = useAppSelector(selectCurrentLayerParentLayers, shallowEqual);
 
     return (
-        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
+        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 4 }}>
             <Table stickyHeader>
                 <TableHead columns={columns} />
-                <TableBody>{renderBody(columns, layersList, isLoading)}</TableBody>
+                <TableBody>{renderBody(columns, items)}</TableBody>
             </Table>
         </TableContainer>
     );

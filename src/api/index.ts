@@ -16,7 +16,7 @@ const apiErrorHandler = (error: unknown): ApiError => {
     if (isAxiosError(error)) {
         if (error.response) {
             console.error(`${error.name}: ${error.message}`, error.response);
-            return { message: 'Произошла ошибка. Попробуйте перезагрузить страницу' };
+            return { message: 'Произошла ошибка. Попробуйте перезагрузить страницу', code: error.response.status };
         }
 
         if (error.request) {

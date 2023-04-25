@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
@@ -19,11 +21,12 @@ interface LayerLayoutProps {
     drawerOptions: Omit<DrawerOptionProps, 'onClick'>[];
     children?: React.ReactNode;
     title?: React.ReactNode;
+    loading?: boolean;
 }
 
 const drawerWidth = 290;
 
-const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOptions }) => {
+const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOptions, loading }) => {
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const isSmallWindow = useMediaQuery(theme.breakpoints.down('md'));
@@ -46,9 +49,11 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
                     <BackButton href="/" tooltipTitle="На главную" />
                     {isSmallWindow && <DrawerButton onClick={handleDrawerToggle} />}
                 </Stack>
-                <Typography variant="h6" noWrap component="h1" sx={{ ml: 3 }}>
-                    {title}
-                </Typography>
+                <Box sx={{ ml: 3 }}>
+                    <Typography variant="h6" noWrap component="h1">
+                        {loading ? <Skeleton width={250} /> : title}
+                    </Typography>
+                </Box>
             </AppBar>
             <Drawer
                 open={open}
