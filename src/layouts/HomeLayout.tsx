@@ -20,7 +20,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     <Stack direction="row" spacing={4} alignItems="center">
                         <Logo />
                         <Typography variant="h6" noWrap component="h1">
-                            Админ-панель полей пользователей
+                            Панель администратора
                         </Typography>
                     </Stack>
                 </Container>
