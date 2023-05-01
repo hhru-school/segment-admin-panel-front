@@ -14,7 +14,7 @@ const QuestionStatusWrapper = styled('nav', {
     padding: '9px',
     borderRadius: '50%',
     verticalAlign: 'middle',
-    ...(changed && { backgroundColor: alpha(theme.palette.info.light, 0.04) }),
+    ...(changed && { backgroundColor: alpha(theme.palette.info.light, 0.1) }),
 }));
 
 export default QuestionStatusWrapper;
