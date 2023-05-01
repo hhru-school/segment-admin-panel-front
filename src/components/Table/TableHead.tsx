@@ -4,7 +4,7 @@ import TableRow from '@mui/material/TableRow';
 
 export interface Column<T, K = unknown> extends Pick<TableCellProps, 'align'> {
     key: K extends string ? Extract<keyof T, string> | K : Extract<keyof T, string>;
-    headerName: string;
+    headerName?: string;
     width?: number | string;
 }
 
