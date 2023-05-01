@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
-import { Outlet, redirect, useParams } from 'react-router-dom';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import SegmentsIcon from '@mui/icons-material/DonutSmallOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import LayerIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -8,6 +8,7 @@ import EntryPointIcon from '@mui/icons-material/OpenInNewOutlined';
 import FieldsIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import GroupFieldsIcon from '@mui/icons-material/QuizOutlined';
 
+import { isApiError } from 'api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import LayerLayout from 'layouts/LayerLayout';
@@ -30,18 +31,20 @@ const LayerPage: React.FC = () => {
 
     useEffect(() => {
         void dispatch(fetchLayer(Number(layerId)))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error) && error.code === 404) {
+                    navigate('/not-found', { replace: true });
+                }
+            });
         return () => {
             dispatch(reset());
         };
     }, [layerId, dispatch, navigate]);
 
     useEffect(() => {
-        if (error != null) {
-            if (error.code === 404) {
-                redirect('/not-found');
-            } else {
-                setAlert(error.message);
-            }
+        if (error !== null && error.code !== 404) {
+            setAlert(error.message);
         }
     }, [error, setAlert]);
 
