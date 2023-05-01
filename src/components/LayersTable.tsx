@@ -80,7 +80,15 @@ const renderBody = (
         return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
     }
 
-    return rows.map((row) => <TableDataRow key={row.id} columns={columns} row={row} dataConverter={convertData} />);
+    return rows.map((row) => (
+        <TableDataRow
+            key={row.id}
+            columns={columns}
+            row={row}
+            dataConverter={convertData}
+            sx={{ height: DEFAULT_ROW_HEIGHT }}
+        />
+    ));
 };
 
 const LayersTable: React.FC = () => {
