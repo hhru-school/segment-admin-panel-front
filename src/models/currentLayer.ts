@@ -38,7 +38,7 @@ const fetchLayer = createAsyncThunk<Layer, number, { rejectValue: ApiError }>(
 
 const initialState: CurrentLayerState = {
     item: null,
-    isLoading: false,
+    isLoading: true,
     error: null,
 };
 
@@ -46,9 +46,8 @@ const currentLayerSlice = createSlice({
     name: 'currentLayer',
     initialState,
     reducers: {
-        remove: (state) => {
-            state.item = null;
-            state.error = null;
+        reset: (state) => {
+            state = initialState;
             return state;
         },
     },
@@ -64,8 +63,7 @@ const currentLayerSlice = createSlice({
             })
             .addCase(fetchLayer.rejected, (state, action) => {
                 state.isLoading = false;
-
-                if (action.payload != null) {
+                if (action.payload !== undefined) {
                     state.error = action.payload;
                 } else {
                     state.error = { message: 'Произошла непредвиденная ошибка' };
@@ -92,9 +90,11 @@ const selectCurrentLayerParentLayers = (state: RootState): LayersList | null => 
     return item.parentLayersList;
 };
 
+const { reset } = currentLayerSlice.actions;
+
 export default currentLayerSlice.reducer;
-export const { remove } = currentLayerSlice.actions;
 export {
+    reset,
     fetchLayer,
     selectCurrentLayer,
     selectCurrentLayerTitle,

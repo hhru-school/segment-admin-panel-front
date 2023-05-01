@@ -12,27 +12,28 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import LayerLayout from 'layouts/LayerLayout';
 import {
-    remove,
     fetchLayer,
     selectCurrentLayerTitle,
     selectCurrentLayerError,
     selectCurrentLayerLoadingStatus,
+    reset,
 } from 'models/currentLayer';
 
 const LayerPage: React.FC = () => {
-    const { layerId, entryPointId, fieldId } = useParams();
     const dispatch = useAppDispatch();
-    const title = useAppSelector(selectCurrentLayerTitle);
-    const error = useAppSelector(selectCurrentLayerError, shallowEqual);
+    const navigate = useNavigate();
+    const { layerId, entryPointId, fieldId } = useParams();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
+    const error = useAppSelector(selectCurrentLayerError, shallowEqual);
+    const title = useAppSelector(selectCurrentLayerTitle);
     const { setAlert } = useErrorAlert();
 
     useEffect(() => {
-        if (layerId != null) {
-            void dispatch(fetchLayer(Number(layerId)));
-        }
-        return () => void dispatch(remove());
-    }, [layerId, dispatch]);
+        void dispatch(fetchLayer(Number(layerId)))
+        return () => {
+            dispatch(reset());
+        };
+    }, [layerId, dispatch, navigate]);
 
     useEffect(() => {
         if (error != null) {
@@ -44,7 +45,7 @@ const LayerPage: React.FC = () => {
         }
     }, [error, setAlert]);
 
-    if (entryPointId != null || fieldId != null) {
+    if (entryPointId !== undefined || fieldId !== undefined) {
         return <Outlet />;
     }
 
