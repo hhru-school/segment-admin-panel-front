@@ -8,7 +8,7 @@ import LayersTable from 'components/LayersTable';
 import Title from 'components/Title';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { fetchLayersList, selectLayersListError, selectLayersListLoadingStatus } from 'models/layersList';
+import { fetchLayersList, selectLayersListError, selectLayersListLoadingStatus, reset } from 'models/layersList';
 
 const LayersPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -18,6 +18,9 @@ const LayersPage: React.FC = () => {
 
     useEffect(() => {
         void dispatch(fetchLayersList());
+        return () => {
+            dispatch(reset());
+        };
     }, [dispatch]);
 
     useEffect(() => {
