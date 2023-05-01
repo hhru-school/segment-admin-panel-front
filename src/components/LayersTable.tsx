@@ -73,7 +73,15 @@ const renderBody = (
     const columnsCount = columns.length;
 
     if (isLoading) {
-        return <TableEmptyRow columnsCount={columnsCount} loading={isLoading} />;
+        return (
+            <>
+                {Array(7)
+                    .fill(0)
+                    .map((_, index) => (
+                        <TableEmptyRow key={index} columnsCount={columnsCount} loading={isLoading} />
+                    ))}
+            </>
+        );
     }
 
     if (rows.length === 0) {
@@ -92,8 +100,8 @@ const renderBody = (
 };
 
 const LayersTable: React.FC = () => {
-    const layersList = useAppSelector(selectLayersList, shallowEqual);
     const isLoading = useAppSelector(selectLayersListLoadingStatus);
+    const layersList = useAppSelector(selectLayersList, shallowEqual);
 
     return (
         <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
