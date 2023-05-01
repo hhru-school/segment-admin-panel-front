@@ -11,6 +11,7 @@ const isApiError = (error: unknown): error is ApiError => isObject(error) && has
 
 const BASE_URL = '/api';
 const GET_LAYERS_URL = '/layers';
+const LAYER_CHANGES_PATH = 'changes';
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -34,4 +35,4 @@ const apiErrorHandler = (error: unknown): ApiError => {
 };
 
 export default api;
-export { GET_LAYERS_URL, apiErrorHandler, isApiError };
+export { GET_LAYERS_URL, LAYER_CHANGES_PATH, apiErrorHandler, isApiError };
