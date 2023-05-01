@@ -1,12 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import currentLayerReducer from 'models/currentLayer';
+import layerChangesReducer from 'models/layerChanges';
 import layersListReducer from 'models/layersList';
 
 export const store = configureStore({
     reducer: {
         layersList: layersListReducer,
         currentLayer: currentLayerReducer,
+        currentLayerChanges: layerChangesReducer,
     },
 });
 
