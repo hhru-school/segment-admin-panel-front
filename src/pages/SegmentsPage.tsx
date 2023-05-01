@@ -6,7 +6,7 @@ import UnderConstructionPage from 'pages/UnderConstructionPage';
 const SegmentsPage: React.FC = () => {
     const { segmentId } = useParams();
 
-    if (segmentId != null) {
+    if (segmentId !== undefined) {
         return <Outlet />;
     }
 
