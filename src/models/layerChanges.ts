@@ -139,73 +139,37 @@ const layerChangesSlice = createSlice({
 const selectLayerChangesError = (state: RootState): ApiError | null => state.currentLayerChanges.error;
 const selectLayerChangesLoadingStatus = (state: RootState): boolean => state.currentLayerChanges.isLoading;
 const selectCreatedSegments = (state: RootState): SegmentsList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.segmentMap.CREATED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.segmentMap.CREATED.length === 0) {
+    if (!state.currentLayerChanges.item?.segmentMap.CREATED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.segmentMap.CREATED;
 };
 const selectArchivedSegments = (state: RootState): SegmentsList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.segmentMap.ARCHIVED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.segmentMap.ARCHIVED.length === 0) {
+    if (!state.currentLayerChanges.item?.segmentMap.ARCHIVED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.segmentMap.ARCHIVED;
 };
 const selectCreatedEntryPoints = (state: RootState): EntryPointList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.entrypointMap.CREATED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.entrypointMap.CREATED.length === 0) {
+    if (!state.currentLayerChanges.item?.entrypointMap.CREATED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.entrypointMap.CREATED;
 };
 const selectArchivedEntryPoints = (state: RootState): EntryPointList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.entrypointMap.ARCHIVED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.entrypointMap.ARCHIVED.length === 0) {
+    if (!state.currentLayerChanges.item?.entrypointMap.ARCHIVED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.entrypointMap.ARCHIVED;
 };
 const selectCreatedQuestion = (state: RootState): QuestionList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.questionMap.CREATED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.questionMap.CREATED.length === 0) {
+    if (!state.currentLayerChanges.item?.questionMap.CREATED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.questionMap.CREATED;
 };
 const selectArchivedQuestion = (state: RootState): QuestionList | null => {
-    if (state.currentLayerChanges.item === null) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.questionMap.ARCHIVED === undefined) {
-        return null;
-    }
-    if (state.currentLayerChanges.item.questionMap.ARCHIVED.length === 0) {
+    if (!state.currentLayerChanges.item?.questionMap.ARCHIVED?.length) {
         return null;
     }
     return state.currentLayerChanges.item.questionMap.ARCHIVED;
