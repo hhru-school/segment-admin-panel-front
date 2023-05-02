@@ -7,14 +7,11 @@ export interface ApiError {
     message: string;
     code?: number;
 }
-const isApiError = (error: unknown): error is ApiError => isObject(error) && hasFields(error, ['message', 'code']);
-
-const BASE_URL = '/api';
-const GET_LAYERS_URL = '/layers';
-const LAYER_CHANGES_PATH = 'changes';
+const isApiError = (error: unknown): error is ApiError =>
+    isObject(error) && hasFields<ApiError>(error, ['message', 'code']);
 
 const api = axios.create({
-    baseURL: BASE_URL,
+    baseURL: '/api',
 });
 
 const apiErrorHandler = (error: unknown): ApiError => {
@@ -35,4 +32,4 @@ const apiErrorHandler = (error: unknown): ApiError => {
 };
 
 export default api;
-export { GET_LAYERS_URL, LAYER_CHANGES_PATH, apiErrorHandler, isApiError };
+export { apiErrorHandler, isApiError };

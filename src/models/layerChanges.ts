@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import api, { GET_LAYERS_URL, LAYER_CHANGES_PATH, ApiError, apiErrorHandler } from 'api';
+import api, { ApiError, apiErrorHandler } from 'api';
 import hasFields from 'helpers/hasField';
 import isObject from 'helpers/isObject';
 import { RootState } from 'store';
@@ -48,7 +48,7 @@ export interface Question {
 }
 export type QuestionList = Question[];
 const isQuestion = (node: unknown): node is Question => {
-    return isObject(node) && hasFields(node, ['id', 'title', 'description', 'answerList']);
+    return isObject(node) && hasFields<Question>(node, ['id', 'title', 'description', 'answerList']);
 };
 
 const QUESTION_VISIBILITY_STATUS = ['SHOW', 'HIDE', 'HIDE_PREFILLED'] as const;
@@ -90,7 +90,7 @@ const fetchLayerChanges = createAsyncThunk<LayerChanges, number, { rejectValue: 
         let response: AxiosResponse<LayerChanges>;
 
         try {
-            response = await api.get<LayerChanges>(`${GET_LAYERS_URL}/${id}/${LAYER_CHANGES_PATH}`);
+            response = await api.get<LayerChanges>(`/layers/${id}/changes`);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }

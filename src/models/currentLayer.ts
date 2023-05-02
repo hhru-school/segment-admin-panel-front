@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import api, { GET_LAYERS_URL, ApiError, apiErrorHandler } from 'api';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
 import { LayersList, LayerStatus } from 'models/layersList';
@@ -27,7 +27,7 @@ const fetchLayer = createAsyncThunk<Layer, number, { rejectValue: ApiError }>(
         let response: AxiosResponse<Layer>;
 
         try {
-            response = await api.get<Layer>(`${GET_LAYERS_URL}/${id}`);
+            response = await api.get<Layer>(`/layers/${id}`);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
