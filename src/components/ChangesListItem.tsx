@@ -6,9 +6,15 @@ import ListItemText from '@mui/material/ListItemText';
 import { lightGreen, red } from '@mui/material/colors';
 import { styled, alpha } from '@mui/material/styles';
 
+const enum Variant {
+    CREATED = 'created',
+    ARCHIVE = 'archive',
+    DEFAULT = 'default',
+}
+
 interface ChangesListItemProps {
     text?: string;
-    variant?: 'created' | 'archive' | 'default';
+    variant?: `${Variant}`;
 }
 
 const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 'variant' })<ChangesListItemProps>(
@@ -19,11 +25,11 @@ const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 
         '&:not(:last-child)': {
             marginBottom: theme.spacing(1),
         },
-        ...(variant === 'created' && {
+        ...(variant === Variant.CREATED && {
             color: lightGreen[900],
             backgroundColor: alpha(lightGreen.A400, 0.1),
         }),
-        ...(variant === 'archive' && {
+        ...(variant === Variant.ARCHIVE && {
             color: red[900],
             backgroundColor: alpha(red.A400, 0.1),
         }),
@@ -39,15 +45,15 @@ const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 }));
 
 const icons = new Map<ChangesListItemProps['variant'], JSX.Element>([
-    ['created', <AddCircleOutlineIcon />],
-    ['archive', <RemoveCircleOutlineIcon />],
+    [Variant.CREATED, <AddCircleOutlineIcon />],
+    [Variant.ARCHIVE, <RemoveCircleOutlineIcon />],
 ]);
 
 const ChangesListItem: React.FC<ChangesListItemProps> = ({ text, variant }) => {
     return (
         <StyledListItem variant={variant}>
             <ListItemText primary={text} />
-            {(variant === 'created' || variant === 'archive') && (
+            {(variant === Variant.CREATED || variant === Variant.ARCHIVE) && (
                 <StyledListItemIcon>{icons.get(variant)}</StyledListItemIcon>
             )}
         </StyledListItem>

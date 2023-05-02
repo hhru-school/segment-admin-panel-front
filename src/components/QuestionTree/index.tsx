@@ -10,9 +10,15 @@ import { Answer, Question, QuestionList, isQuestion } from 'models/layerChanges'
 import QuestionTreeLabel from 'components/QuestionTree/QuestionTreeLabel';
 import QuestionTreeNode from 'components/QuestionTree/QuestionTreeNode';
 
+const enum Variant {
+    CREATED = 'created',
+    ARCHIVE = 'archive',
+    DEFAULT = 'default',
+}
+
 export interface QuestionTreeProps {
     items: QuestionList;
-    variant?: 'default' | 'created' | 'archive';
+    variant?: `${Variant}`;
 }
 
 type Node = Question | Answer;
@@ -25,7 +31,7 @@ const StyledTreeView = styled(TreeView, { shouldForwardProp: (prop) => prop !== 
 
 const renderTree = (
     node?: Node | null,
-    variant: QuestionTreeProps['variant'] = 'default',
+    variant: QuestionTreeProps['variant'] = Variant.DEFAULT,
     key = '',
     isRoot = true
 ): React.ReactNode => {
@@ -47,8 +53,8 @@ const renderTree = (
                             title="Вопрос:"
                             text={node.title}
                             icon={
-                                (variant === 'created' && <AddCircleOutlineIcon />) ||
-                                (variant === 'archive' && <RemoveCircleOutlineIcon />)
+                                (variant === Variant.CREATED && <AddCircleOutlineIcon />) ||
+                                (variant === Variant.ARCHIVE && <RemoveCircleOutlineIcon />)
                             }
                         />
                     }
