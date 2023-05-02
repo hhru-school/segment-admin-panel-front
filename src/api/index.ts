@@ -1,15 +1,17 @@
 import axios, { isAxiosError } from 'axios';
 
+import hasFields from 'helpers/hasField';
+import isObject from 'helpers/isObject';
+
 export interface ApiError {
     message: string;
     code?: number;
 }
-
-const BASE_URL = '/api';
-const GET_LAYERS_URL = '/layers';
+const isApiError = (error: unknown): error is ApiError =>
+    isObject(error) && hasFields<ApiError>(error, ['message', 'code']);
 
 const api = axios.create({
-    baseURL: BASE_URL,
+    baseURL: '/api',
 });
 
 const apiErrorHandler = (error: unknown): ApiError => {
@@ -30,4 +32,4 @@ const apiErrorHandler = (error: unknown): ApiError => {
 };
 
 export default api;
-export { GET_LAYERS_URL, apiErrorHandler };
+export { apiErrorHandler, isApiError };

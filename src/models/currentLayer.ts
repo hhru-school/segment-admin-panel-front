@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import api, { GET_LAYERS_URL, ApiError, apiErrorHandler } from 'api';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
 import { LayersList, LayerStatus } from 'models/layersList';
@@ -27,7 +27,7 @@ const fetchLayer = createAsyncThunk<Layer, number, { rejectValue: ApiError }>(
         let response: AxiosResponse<Layer>;
 
         try {
-            response = await api.get<Layer>(`${GET_LAYERS_URL}/${id}`);
+            response = await api.get<Layer>(`/layers/${id}`);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
@@ -38,7 +38,7 @@ const fetchLayer = createAsyncThunk<Layer, number, { rejectValue: ApiError }>(
 
 const initialState: CurrentLayerState = {
     item: null,
-    isLoading: false,
+    isLoading: true,
     error: null,
 };
 
@@ -46,9 +46,8 @@ const currentLayerSlice = createSlice({
     name: 'currentLayer',
     initialState,
     reducers: {
-        remove: (state) => {
-            state.item = null;
-            state.error = null;
+        reset: (state) => {
+            state = initialState;
             return state;
         },
     },
@@ -64,8 +63,7 @@ const currentLayerSlice = createSlice({
             })
             .addCase(fetchLayer.rejected, (state, action) => {
                 state.isLoading = false;
-
-                if (action.payload != null) {
+                if (action.payload !== undefined) {
                     state.error = action.payload;
                 } else {
                     state.error = { message: 'Произошла непредвиденная ошибка' };
@@ -92,9 +90,11 @@ const selectCurrentLayerParentLayers = (state: RootState): LayersList | null => 
     return item.parentLayersList;
 };
 
+const { reset } = currentLayerSlice.actions;
+
 export default currentLayerSlice.reducer;
-export const { remove } = currentLayerSlice.actions;
 export {
+    reset,
     fetchLayer,
     selectCurrentLayer,
     selectCurrentLayerTitle,

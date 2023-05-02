@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -18,8 +19,10 @@ const TableEmptyRow: React.FC<TableEmptyRowProps> = ({ columnsCount, loading, te
                     <Skeleton variant="rectangular" height={DEFAULT_ROW_HEIGHT} />
                 </TableCell>
             ) : (
-                <TableCell colSpan={columnsCount} align="center">
-                    {text}
+                <TableCell colSpan={columnsCount} align="center" sx={{ py: 0 }}>
+                    <Alert severity="info" sx={{ justifyContent: 'center' }}>
+                        {text}
+                    </Alert>
                 </TableCell>
             )}
         </TableRow>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import api, { GET_LAYERS_URL, ApiError, apiErrorHandler } from 'api';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
 const LAYERS_STATUSES = ['ARCHIVED', 'EXPERIMENTAL', 'STABLE'] as const;
@@ -29,7 +29,7 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
         let response: AxiosResponse<LayersList>;
 
         try {
-            response = await api.get<LayersList>(GET_LAYERS_URL);
+            response = await api.get<LayersList>('/layers');
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
@@ -40,14 +40,19 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
 
 const initialState: LayersListState = {
     items: [],
-    isLoading: false,
+    isLoading: true,
     error: null,
 };
 
 const layersListSlice = createSlice({
     name: 'layersList',
     initialState,
-    reducers: {},
+    reducers: {
+        reset: (state) => {
+            state = initialState;
+            return state;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchLayersList.pending, (state) => {
@@ -61,7 +66,7 @@ const layersListSlice = createSlice({
             .addCase(fetchLayersList.rejected, (state, action) => {
                 state.isLoading = false;
 
-                if (action.payload != null) {
+                if (action.payload !== undefined) {
                     state.error = action.payload;
                 } else {
                     state.error = { message: 'Произошла непредвиденная ошибка' };
@@ -74,5 +79,7 @@ const selectLayersList = (state: RootState): LayersList => state.layersList.item
 const selectLayersListError = (state: RootState): ApiError | null => state.layersList.error;
 const selectLayersListLoadingStatus = (state: RootState): boolean => state.layersList.isLoading;
 
+const { reset } = layersListSlice.actions;
+
 export default layersListSlice.reducer;
-export { fetchLayersList, selectLayersList, selectLayersListError, selectLayersListLoadingStatus };
+export { reset, fetchLayersList, selectLayersList, selectLayersListError, selectLayersListLoadingStatus };

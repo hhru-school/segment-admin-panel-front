@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { shallowEqual } from 'react-redux';
-import { Outlet, redirect, useParams } from 'react-router-dom';
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import SegmentsIcon from '@mui/icons-material/DonutSmallOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import LayerIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -8,43 +7,38 @@ import EntryPointIcon from '@mui/icons-material/OpenInNewOutlined';
 import FieldsIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import GroupFieldsIcon from '@mui/icons-material/QuizOutlined';
 
+import { isApiError } from 'api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import LayerLayout from 'layouts/LayerLayout';
-import {
-    remove,
-    fetchLayer,
-    selectCurrentLayerTitle,
-    selectCurrentLayerError,
-    selectCurrentLayerLoadingStatus,
-} from 'models/currentLayer';
+import { fetchLayer, selectCurrentLayerTitle, selectCurrentLayerLoadingStatus, reset } from 'models/currentLayer';
 
 const LayerPage: React.FC = () => {
-    const { layerId, entryPointId, fieldId } = useParams();
     const dispatch = useAppDispatch();
-    const title = useAppSelector(selectCurrentLayerTitle);
-    const error = useAppSelector(selectCurrentLayerError, shallowEqual);
+    const navigate = useNavigate();
+    const { layerId, entryPointId, fieldId } = useParams();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
+    const title = useAppSelector(selectCurrentLayerTitle);
     const { setAlert } = useErrorAlert();
 
     useEffect(() => {
-        if (layerId != null) {
-            void dispatch(fetchLayer(Number(layerId)));
-        }
-        return () => void dispatch(remove());
-    }, [layerId, dispatch]);
+        void dispatch(fetchLayer(Number(layerId)))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error)) {
+                    if (error.code === 404) {
+                        navigate('/not-found', { replace: true });
+                    } else {
+                        setAlert(error.message);
+                    }
+                }
+            });
+        return () => {
+            dispatch(reset());
+        };
+    }, [layerId, dispatch, navigate, setAlert]);
 
-    useEffect(() => {
-        if (error != null) {
-            if (error.code === 404) {
-                redirect('/not-found');
-            } else {
-                setAlert(error.message);
-            }
-        }
-    }, [error, setAlert]);
-
-    if (entryPointId != null || fieldId != null) {
+    if (entryPointId !== undefined || fieldId !== undefined) {
         return <Outlet />;
     }
 

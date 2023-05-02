@@ -73,19 +73,35 @@ const renderBody = (
     const columnsCount = columns.length;
 
     if (isLoading) {
-        return <TableEmptyRow columnsCount={columnsCount} loading={isLoading} />;
+        return (
+            <>
+                {Array(7)
+                    .fill(0)
+                    .map((_, index) => (
+                        <TableEmptyRow key={index} columnsCount={columnsCount} loading={isLoading} />
+                    ))}
+            </>
+        );
     }
 
     if (rows.length === 0) {
         return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
     }
 
-    return rows.map((row) => <TableDataRow key={row.id} columns={columns} row={row} dataConverter={convertData} />);
+    return rows.map((row) => (
+        <TableDataRow
+            key={row.id}
+            columns={columns}
+            row={row}
+            dataConverter={convertData}
+            sx={{ height: DEFAULT_ROW_HEIGHT }}
+        />
+    ));
 };
 
 const LayersTable: React.FC = () => {
-    const layersList = useAppSelector(selectLayersList, shallowEqual);
     const isLoading = useAppSelector(selectLayersListLoadingStatus);
+    const layersList = useAppSelector(selectLayersList, shallowEqual);
 
     return (
         <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>

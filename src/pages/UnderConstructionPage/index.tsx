@@ -24,7 +24,7 @@ const UnderConstructionPage: React.FC<UnderConstructionPageProps> = ({ pageName,
                 <Typography component="span" sx={{ fontWeight: 'bold' }}>
                     {pageName}
                 </Typography>
-                {nextLink != null ? <Typography component="span">, перейти на {nextLink}</Typography> : '.'}
+                {nextLink !== undefined ? <Typography component="span">, перейти на {nextLink}</Typography> : '.'}
             </Typography>
             <Typography variant="h4" align="center" sx={{ mb: 3 }}>
                 В разработке
