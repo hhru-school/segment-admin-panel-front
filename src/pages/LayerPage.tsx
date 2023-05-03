@@ -4,7 +4,6 @@ import SegmentsIcon from '@mui/icons-material/DonutSmallOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import LayerIcon from '@mui/icons-material/LibraryAddOutlined';
 import EntryPointIcon from '@mui/icons-material/OpenInNewOutlined';
-import FieldsIcon from '@mui/icons-material/QuestionAnswerOutlined';
 import GroupFieldsIcon from '@mui/icons-material/QuizOutlined';
 
 import { isApiError } from 'api';
@@ -49,7 +48,6 @@ const LayerPage: React.FC = () => {
                 { href: 'changes', primaryText: 'Изменения в слое', icon: <LayerIcon /> },
                 { href: 'segments', primaryText: 'Сегменты', icon: <SegmentsIcon /> },
                 { href: 'entry-points', primaryText: 'Точки входа', icon: <EntryPointIcon /> },
-                { href: 'fields', primaryText: 'Поля', icon: <FieldsIcon /> },
                 { href: 'field-groups', primaryText: 'Группы полей', icon: <GroupFieldsIcon /> },
             ]}
             title={title}
