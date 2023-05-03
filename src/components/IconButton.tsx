@@ -2,14 +2,13 @@ import MuiIconButton from '@mui/material/IconButton';
 import { styled, alpha } from '@mui/material/styles';
 
 const IconButton = styled(MuiIconButton)(({ theme }) => ({
-    borderRadius: theme.spacing(0.5),
-    backgroundColor: theme.palette.grey[100],
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.3),
     '& .MuiTouchRipple-root .MuiTouchRipple-child': {
-        borderRadius: theme.spacing(0.5),
+        borderRadius: theme.shape.borderRadius,
     },
     ':hover': {
-        color: theme.palette.primary.main,
-        backgroundColor: alpha(theme.palette.primary.main, 0.04),
+        backgroundColor: alpha(theme.palette.common.white, 0.5),
     },
 })) as typeof MuiIconButton;
 

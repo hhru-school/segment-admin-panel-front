@@ -13,7 +13,7 @@ interface BackButtonProps {
 const BackButton: React.FC<BackButtonProps> = ({ href, tooltipTitle }) => {
     return (
         <Tooltip title={tooltipTitle} disableInteractive>
-            <IconButton component={Link} to={href} relative="path" edge="start" size="small">
+            <IconButton component={Link} to={href} relative="path" edge="start" size="small" color="inherit">
                 <ArrowBackIcon />
             </IconButton>
         </Tooltip>

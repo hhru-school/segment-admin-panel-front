@@ -7,7 +7,7 @@ import IconButton from 'components/IconButton';
 const DrawerButton: React.FC<Pick<IconButtonProps, 'onClick'>> = ({ onClick }) => {
     return (
         <Tooltip title="Меню" disableInteractive>
-            <IconButton size="small" onClick={onClick}>
+            <IconButton size="small" onClick={onClick} color="inherit">
                 <MenuIcon />
             </IconButton>
         </Tooltip>
