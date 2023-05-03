@@ -1,14 +1,14 @@
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 
-import logo from 'components/Logo/logo.svg';
+import logo from 'components/Logo/hh_logo.svg';
 
 const StyledImg = styled('img')(({ theme }) => ({
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
     [theme.breakpoints.up('sm')]: {
-        width: 50,
-        height: 50,
+        width: 48,
+        height: 48,
     },
 }));
 
