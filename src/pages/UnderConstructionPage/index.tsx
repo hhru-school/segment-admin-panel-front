@@ -18,7 +18,7 @@ interface UnderConstructionPageProps {
 
 const UnderConstructionPage: React.FC<UnderConstructionPageProps> = ({ pageName, nextLink }) => {
     return (
-        <Wrapper variant="outlined" sx={{ p: 6 }}>
+        <Wrapper variant="outlined" sx={{ p: 6, mt: 3 }}>
             <Typography align="center" sx={{ mb: 42 }}>
                 Вы сейчас находитесь на странице{' '}
                 <Typography component="span" sx={{ fontWeight: 'bold' }}>

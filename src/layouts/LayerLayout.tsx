@@ -50,8 +50,8 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
                     {isSmallWindow && <DrawerButton onClick={handleDrawerToggle} />}
                 </Stack>
                 <Box sx={{ ml: 3 }}>
-                    <Typography variant="h6" noWrap component="h1">
-                        {loading ? <Skeleton width={250} /> : title}
+                    <Typography variant="h5" noWrap component="h1">
+                        {loading ? <Skeleton width={250} sx={{ bgcolor: 'grey.600' }} /> : title}
                     </Typography>
                 </Box>
             </AppBar>

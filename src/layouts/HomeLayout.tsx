@@ -1,10 +1,11 @@
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import AppBar from 'components/AppBar';
 import Logo from 'components/Logo';
 import Main from 'components/Main';
+import NavMenu from 'components/NavMenu';
 import ToolbarSpace from 'components/ToolbarSpace';
 import Wrapper from 'components/Wrapper';
 
@@ -16,13 +17,25 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
     return (
         <Wrapper>
             <AppBar>
-                <Container disableGutters>
-                    <Stack direction="row" spacing={4} alignItems="center">
+                <Container sx={{ display: 'flex', justifyContent: 'space-between' }} disableGutters>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
                         <Logo />
-                        <Typography variant="h6" noWrap component="h1">
-                            Панель администратора
+                        <Typography
+                            variant="h5"
+                            component="h1"
+                            noWrap
+                            sx={{ display: { xs: 'none', sm: 'block' }, ml: 1.5 }}
+                        >
+                            Поля пользователей
                         </Typography>
-                    </Stack>
+                    </Box>
+                    <NavMenu
+                        links={[
+                            { label: 'Слои', href: '/layers' },
+                            { label: 'Поля', href: '/fields' },
+                            { label: 'Экраны', href: '/screens' },
+                        ]}
+                    />
                 </Container>
             </AppBar>
             <Main>

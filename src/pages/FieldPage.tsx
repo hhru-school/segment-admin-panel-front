@@ -5,7 +5,7 @@ import UnderConstructionPage from 'pages/UnderConstructionPage';
 const FieldPage: React.FC = () => {
     return (
         <DetailsLayout title="Поле такое-то">
-            <UnderConstructionPage pageName="Поле" />;
+            <UnderConstructionPage pageName="Поле" />
         </DetailsLayout>
     );
 };

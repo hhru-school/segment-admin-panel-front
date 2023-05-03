@@ -13,6 +13,7 @@ import LayerChangesPage from 'pages/LayerChangesPage';
 import LayerPage from 'pages/LayerPage';
 import LayersPage from 'pages/LayersPage';
 import NotFoundPage from 'pages/NotFoundPage';
+import ScreensPage from 'pages/ScreensPage';
 import SegmentPage from 'pages/SegmentPage';
 import SegmentsPage from 'pages/SegmentsPage';
 
@@ -27,6 +28,8 @@ const router = createBrowserRouter([
                 children: [
                     { path: '', element: <Navigate to="/layers" replace /> },
                     { path: 'layers', element: <LayersPage /> },
+                    { path: 'fields', element: <FieldsPage /> },
+                    { path: 'screens', element: <ScreensPage /> },
                 ],
             },
             {
@@ -43,11 +46,10 @@ const router = createBrowserRouter([
                     },
                     { path: 'entry-points', element: <EntryPointsPage /> },
                     { path: 'entry-points/:entryPointId', element: <EntryPointPage /> },
-                    { path: 'fields', element: <FieldsPage /> },
-                    { path: 'fields/:fieldId', element: <FieldPage /> },
                     { path: 'field-groups', element: <FieldGroupsPage /> },
                 ],
             },
+            { path: 'fields/:fieldId', element: <FieldPage /> },
             { path: 'new/layer', element: <CreateNewLayerPage /> },
         ],
     },
