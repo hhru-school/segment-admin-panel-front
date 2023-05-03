@@ -25,17 +25,6 @@ const theme = createTheme({
                 LinkComponent: LinkBehavior,
             },
         },
-        // MuiButton: {
-        //     variants: [
-        //       {
-        //         props: { variant: 'header' },
-        //         style: {
-        //           textTransform: 'none',
-        //           border: `2px dashed grey${blue[500]}`,
-        //         },
-        //       },
-        //     ],
-        //   },
     },
 });
 
