@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from 'axios';
 
-import hasFields from 'helpers/hasField';
+import hasFields from 'helpers/hasFields';
 import isObject from 'helpers/isObject';
 
 export interface ApiError {

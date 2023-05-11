@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
-import hasFields from 'helpers/hasField';
+import hasFields from 'helpers/hasFields';
 import isObject from 'helpers/isObject';
 import { RootState } from 'store';
 
