@@ -1,4 +1,6 @@
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Container, { ContainerProps } from '@mui/material/Container';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import AppBar from 'components/AppBar';
@@ -10,20 +12,26 @@ import Wrapper from 'components/Wrapper';
 interface DetailsLayoutProps {
     children?: React.ReactNode;
     title?: React.ReactNode;
+    loading?: boolean;
+    ContainerProps?: ContainerProps;
 }
 
-const DetailsLayout: React.FC<DetailsLayoutProps> = ({ children, title }) => {
+const DetailsLayout: React.FC<DetailsLayoutProps> = ({ children, title, loading, ContainerProps }) => {
     return (
         <Wrapper>
             <AppBar>
                 <BackButton href=".." tooltipTitle="Назад" />
-                <Typography variant="h6" noWrap component="h1" sx={{ ml: 3 }}>
-                    {title}
-                </Typography>
+                <Box sx={{ ml: 3 }}>
+                    <Typography variant="h5" noWrap component="h1">
+                        {loading ? <Skeleton width={250} sx={{ bgcolor: 'grey.600' }} /> : title}
+                    </Typography>
+                </Box>
             </AppBar>
             <Main>
                 <ToolbarSpace />
-                <Container>{children}</Container>
+                <Container disableGutters {...ContainerProps}>
+                    {children}
+                </Container>
             </Main>
         </Wrapper>
     );
