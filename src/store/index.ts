@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
+import currentFieldReducer from 'models/currentField';
 import currentLayerReducer from 'models/currentLayer';
 import fieldsReducer from 'models/fields';
 import layerChangesReducer from 'models/layerChanges';
@@ -11,6 +12,7 @@ export const store = configureStore({
         currentLayer: currentLayerReducer,
         currentLayerChanges: layerChangesReducer,
         fields: fieldsReducer,
+        currentField: currentFieldReducer,
     },
 });
 
