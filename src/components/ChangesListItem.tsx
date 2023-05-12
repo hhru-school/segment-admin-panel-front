@@ -39,7 +39,6 @@ const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 
 const StyledListItemIcon = styled(ListItemIcon)({
     minWidth: 0,
     padding: '5px',
-    alignSelf: 'flex-start',
     marginLeft: '8px',
     color: 'inherit',
 });
