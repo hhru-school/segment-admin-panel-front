@@ -35,7 +35,7 @@ const FieldsPage: React.FC = () => {
         <>
             <Title>Поля</Title>
             <AddButtonWrapper>
-                <AddButton href="/new/layer" disabled={isLoading}>
+                <AddButton href="/new/field" disabled={isLoading}>
                     Добавить поле
                 </AddButton>
             </AddButtonWrapper>
