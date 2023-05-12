@@ -6,7 +6,7 @@ import ContentBox from 'components/ContentBox';
 import FieldTree from 'components/FieldTree';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import DetailsLayout from 'layouts/DetailsLayout';
+import SecondaryLayout from 'layouts/SecondaryLayout';
 import { fetchField, reset, selectCurrentFieldTitle, selectCurrentFieldLoadingStatus } from 'models/currentField';
 
 const FieldPage: React.FC = () => {
@@ -35,7 +35,7 @@ const FieldPage: React.FC = () => {
     }, [fieldId, dispatch, navigate, setAlert]);
 
     return (
-        <DetailsLayout title={title} loading={isLoading} ContainerProps={{ maxWidth: 'md' }}>
+        <SecondaryLayout title={title} loading={isLoading} ContainerProps={{ maxWidth: 'md' }}>
             <ContentBox
                 loading={isLoading}
                 SkeletonProps={{ sx: { height: '128px', width: '100%', maxWidth: 'none' } }}
@@ -43,7 +43,7 @@ const FieldPage: React.FC = () => {
             >
                 <FieldTree />
             </ContentBox>
-        </DetailsLayout>
+        </SecondaryLayout>
     );
 };
 

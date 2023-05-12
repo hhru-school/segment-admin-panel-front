@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
 
-import HomeLayout from 'layouts/HomeLayout';
+import MainLayout from 'layouts/MainLayout';
 
 const HomePage: React.FC = () => {
     return (
-        <HomeLayout>
+        <MainLayout>
             <Outlet />
-        </HomeLayout>
+        </MainLayout>
     );
 };
 
