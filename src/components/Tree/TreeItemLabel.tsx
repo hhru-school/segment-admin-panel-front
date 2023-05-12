@@ -1,15 +1,12 @@
 import CreatedIcon from '@mui/icons-material/AddCircleOutline';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArchiveIcon from '@mui/icons-material/RemoveCircleOutline';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { lightGreen, red } from '@mui/material/colors';
 import { styled, alpha } from '@mui/material/styles';
 
-import useTreeItemContext from 'hooks/useTreeItemContext';
+import ExpandButton from 'components/Tree/ExpandButton';
 
 const enum Variant {
     UNSTYLED = 'unstyled',
@@ -24,6 +21,8 @@ export interface TreeItemLabelProps {
     variant?: `${Variant}`;
     collapsible?: boolean;
     showEndIcon?: boolean;
+    expand?: boolean;
+    toggleExpand: () => void;
 }
 
 const ContentBox = styled(Stack, {
@@ -59,15 +58,14 @@ const TreeItemLabel: React.FC<TreeItemLabelProps> = ({
     variant = Variant.DEFAULT,
     showEndIcon,
     collapsible,
+    expand,
+    toggleExpand,
 }) => {
-    const { expand, toggleExpand } = useTreeItemContext();
     const notDefault = variant !== Variant.DEFAULT;
     return (
         <ContentBox direction="row" gap={1} alignItems="center" variant={variant} collapsible={collapsible}>
             {collapsible && (
-                <IconButton onClick={toggleExpand} size="small" {...(notDefault && { color: 'inherit' })}>
-                    {expand ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-                </IconButton>
+                <ExpandButton expand={expand} onClick={toggleExpand} {...(notDefault && { color: 'inherit' })} />
             )}
             <Typography sx={{ flexGrow: 1 }}>{children}</Typography>
             <Box>{actionButton}</Box>

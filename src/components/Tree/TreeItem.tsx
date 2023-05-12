@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { styled } from '@mui/material/styles';
 
-import TreeItemProvider from 'components/Tree/TreeItemContext';
 import TreeItemGroup from 'components/Tree/TreeItemGroup';
 
+export interface RenderLabel {
+    (expand: boolean, toggleExpand: () => void): JSX.Element;
+}
+
 export interface TreeItemProps {
-    label?: React.ReactNode;
+    renderLabel: RenderLabel;
     children?: React.ReactNode;
     expanded?: boolean;
 }
@@ -16,16 +19,19 @@ const StyledLi = styled('li')({
     },
 });
 
-const TreeItem: React.FC<TreeItemProps> = ({ label, children, expanded }) => {
+const TreeItem: React.FC<TreeItemProps> = ({ renderLabel, children, expanded = false }) => {
     const hasChildren = React.Children.count(children) > 0;
+    const [expand, setExpand] = useState(expanded);
+
+    const handleToggleExpand = useCallback(() => {
+        setExpand(!expand);
+    }, [expand, setExpand]);
 
     return (
-        <TreeItemProvider expanded={expanded}>
-            <StyledLi>
-                {label}
-                {hasChildren && <TreeItemGroup>{children}</TreeItemGroup>}
-            </StyledLi>
-        </TreeItemProvider>
+        <StyledLi>
+            {renderLabel(expand, handleToggleExpand)}
+            {hasChildren && <TreeItemGroup expand={expand}>{children}</TreeItemGroup>}
+        </StyledLi>
     );
 };
 

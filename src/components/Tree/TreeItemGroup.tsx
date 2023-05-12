@@ -2,10 +2,9 @@ import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import { styled } from '@mui/material/styles';
 
-import useTreeItemContext from 'hooks/useTreeItemContext';
-
 interface TreeItemGroupProps {
     children?: React.ReactNode;
+    expand?: boolean;
 }
 const StyledList = styled(List)({
     marginTop: '8px',
@@ -13,8 +12,7 @@ const StyledList = styled(List)({
     padding: 0,
 });
 
-const TreeItemGroup: React.FC<TreeItemGroupProps> = ({ children }) => {
-    const { expand } = useTreeItemContext();
+const TreeItemGroup: React.FC<TreeItemGroupProps> = ({ children, expand = false }) => {
     return (
         <Collapse in={expand}>
             <StyledList>{children}</StyledList>
