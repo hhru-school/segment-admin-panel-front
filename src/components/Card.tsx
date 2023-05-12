@@ -63,7 +63,7 @@ const InnerBox = styled(Box)(({ theme }) => ({
 
 const Header = styled(Typography, { shouldForwardProp: (prop) => prop !== 'color' })<CardProps>(
     ({ theme, color = Color.DEFAULT }) => ({
-        padding: '6px 8px',
+        padding: '6px 16px',
         fontWeight: 500,
         textAlign: 'right',
         ...(color === Color.DEFAULT && {
