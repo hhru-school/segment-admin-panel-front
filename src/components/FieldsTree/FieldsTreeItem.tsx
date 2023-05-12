@@ -23,11 +23,11 @@ const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) 
         return (
             <TreeItem
                 key={uniqueKey}
-                label={
-                    <TreeItemLabel collapsible={!isEmpty(nextNodeList)}>
+                renderLabel={(expand, toggleExpand) => (
+                    <TreeItemLabel collapsible={!isEmpty(nextNodeList)} expand={expand} toggleExpand={toggleExpand}>
                         {node.searchedObject ? <SearchView string={node.title} subString={searchString} /> : node.title}
                     </TreeItemLabel>
-                }
+                )}
                 expanded={!isFound}
             >
                 {nextNodeList.map(render)}
@@ -37,7 +37,7 @@ const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) 
 
     return (
         <TreeItem
-            label={
+            renderLabel={(expand, toggleExpand) => (
                 <TreeItemLabel
                     actionButton={
                         <Button href={field.id.toString()} size="small">
@@ -45,10 +45,12 @@ const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) 
                         </Button>
                     }
                     collapsible={!isEmpty(field.answerDtoList)}
+                    expand={expand}
+                    toggleExpand={toggleExpand}
                 >
                     {field.searchedObject ? <SearchView string={field.title} subString={searchString} /> : field.title}
                 </TreeItemLabel>
-            }
+            )}
             expanded={!isFound}
         >
             {field.answerDtoList.map(render)}
