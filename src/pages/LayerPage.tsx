@@ -15,7 +15,7 @@ import { fetchLayer, selectCurrentLayerTitle, selectCurrentLayerLoadingStatus, r
 const LayerPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { layerId, entryPointId, fieldId } = useParams();
+    const { layerId, entryPointId } = useParams();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const title = useAppSelector(selectCurrentLayerTitle);
     const { setAlert } = useErrorAlert();
@@ -37,7 +37,7 @@ const LayerPage: React.FC = () => {
         };
     }, [layerId, dispatch, navigate, setAlert]);
 
-    if (entryPointId !== undefined || fieldId !== undefined) {
+    if (entryPointId !== undefined) {
         return <Outlet />;
     }
 

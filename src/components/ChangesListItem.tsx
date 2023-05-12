@@ -1,5 +1,5 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import CreatedIcon from '@mui/icons-material/AddCircleOutline';
+import ArchiveIcon from '@mui/icons-material/RemoveCircleOutline';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,8 +19,8 @@ interface ChangesListItemProps {
 
 const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 'variant' })<ChangesListItemProps>(
     ({ theme, variant }) => ({
-        paddingLeft: '30px',
-        alignItems: 'flex-start',
+        padding: '9px 8px 9px 16px',
+        alignItems: 'center',
         borderRadius: theme.spacing(0.5),
         '&:not(:last-child)': {
             marginBottom: theme.spacing(1),
@@ -36,23 +36,26 @@ const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 
     })
 );
 
-const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
+const StyledListItemIcon = styled(ListItemIcon)({
     minWidth: 0,
-    paddingLeft: theme.spacing(2),
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
+    padding: '5px',
+    marginLeft: '8px',
     color: 'inherit',
-}));
+});
+
+const StyledListItemText = styled(ListItemText)({
+    margin: 0,
+});
 
 const icons = new Map<ChangesListItemProps['variant'], JSX.Element>([
-    [Variant.CREATED, <AddCircleOutlineIcon />],
-    [Variant.ARCHIVE, <RemoveCircleOutlineIcon />],
+    [Variant.CREATED, <CreatedIcon sx={{ height: 20, width: 20 }} />],
+    [Variant.ARCHIVE, <ArchiveIcon sx={{ height: 20, width: 20 }} />],
 ]);
 
 const ChangesListItem: React.FC<ChangesListItemProps> = ({ text, variant }) => {
     return (
         <StyledListItem variant={variant}>
-            <ListItemText primary={text} />
+            <StyledListItemText primary={text} />
             {(variant === Variant.CREATED || variant === Variant.ARCHIVE) && (
                 <StyledListItemIcon>{icons.get(variant)}</StyledListItemIcon>
             )}

@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
-import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 
+import AddButton from 'components/AddButton';
+import AddButtonWrapper from 'components/AddButton/AddButtonWrapper';
 import LayersTable from 'components/LayersTable';
 import Title from 'components/Title';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
@@ -32,11 +31,11 @@ const LayersPage: React.FC = () => {
     return (
         <>
             <Title>Слои</Title>
-            <Box sx={{ mb: 2, ml: 'auto', width: 'max-content' }}>
-                <Button href="/new/layer" startIcon={<AddIcon />} variant="contained" disabled={isLoading}>
+            <AddButtonWrapper>
+                <AddButton href="/new/layer" disabled={isLoading}>
                     Создать новый слой
-                </Button>
-            </Box>
+                </AddButton>
+            </AddButtonWrapper>
             <LayersTable />
         </>
     );

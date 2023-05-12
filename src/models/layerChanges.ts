@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
-import hasFields from 'helpers/hasField';
+import hasFields from 'helpers/hasFields';
 import isObject from 'helpers/isObject';
 import { RootState } from 'store';
 
@@ -126,12 +126,7 @@ const layerChangesSlice = createSlice({
             })
             .addCase(fetchLayerChanges.rejected, (state, action) => {
                 state.isLoading = false;
-
-                if (action.payload !== undefined) {
-                    state.error = action.payload;
-                } else {
-                    state.error = { message: 'Произошла непредвиденная ошибка' };
-                }
+                state.error = action.payload || { message: 'Произошла непредвиденная ошибка' };
             });
     },
 });

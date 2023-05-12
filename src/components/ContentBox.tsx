@@ -1,16 +1,17 @@
 import Box from '@mui/material/Box';
 import Skeleton, { SkeletonProps } from '@mui/material/Skeleton';
+import { SxProps, Theme } from '@mui/material/styles';
 
 interface ContentBoxProps {
-    itemsGap?: number;
     loading?: boolean;
     children?: React.ReactNode;
     SkeletonProps?: Omit<SkeletonProps, 'children'>;
+    sx?: SxProps<Theme>;
 }
 
-const ContentBox: React.FC<ContentBoxProps> = ({ itemsGap = 1, children, loading, SkeletonProps }) => {
+const ContentBox: React.FC<ContentBoxProps> = ({ children, loading, sx = {}, SkeletonProps }) => {
     return (
-        <Box sx={{ pb: 3, '> :not(:last-child)': { mb: itemsGap } }}>
+        <Box sx={{ pb: 3, ...sx }}>
             {loading ? (
                 <Skeleton variant="rounded" {...SkeletonProps}>
                     {children}
