@@ -1,7 +1,8 @@
+import List from '@mui/material/List';
+
 import isEmpty from 'helpers/isEmpty';
 import { Answer, Question, QuestionList, isQuestion } from 'models/layerChanges';
 
-import Tree from 'components/Tree';
 import TreeItem from 'components/Tree/TreeItem';
 import TreeItemLabel, { TreeItemLabelProps } from 'components/Tree/TreeItemLabel';
 
@@ -31,15 +32,17 @@ const renderTree = (node?: Node | null, { key, variant, isRoot = false }: Render
     return (
         <TreeItem
             key={uniqueKey}
-            label={
+            renderLabel={(expand, toggleExpand) => (
                 <TreeItemLabel
                     variant={variant}
-                    collapsible={!isEmpty(nextNodeList)}
                     showEndIcon={nodeIsQuestion && isRoot}
+                    collapsible={!isEmpty(nextNodeList)}
+                    expand={expand}
+                    toggleExpand={toggleExpand}
                 >
                     {node.title}
                 </TreeItemLabel>
-            }
+            )}
         >
             {nextNodeList.map((item) => renderTree(item, { key: uniqueKey, variant }))}
         </TreeItem>
@@ -47,7 +50,7 @@ const renderTree = (node?: Node | null, { key, variant, isRoot = false }: Render
 };
 
 const QuestionTree: React.FC<QuestionTreeProps> = ({ items, variant, showLink }) => {
-    return <Tree>{items.map((item) => renderTree(item, { variant, showLink, isRoot: true }))}</Tree>;
+    return <List>{items.map((item) => renderTree(item, { variant, showLink, isRoot: true }))}</List>;
 };
 
 export default QuestionTree;
