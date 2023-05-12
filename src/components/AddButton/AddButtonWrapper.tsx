@@ -1,9 +1,11 @@
-import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
-const AddButtonWrapper = styled('div')({
-    marginBottom: '32px',
-    marginLeft: 'auto',
-    width: 'max-content',
-});
+interface AddButtonWrapperProps {
+    children?: React.ReactNode;
+}
+
+const AddButtonWrapper: React.FC<AddButtonWrapperProps> = ({ children }) => {
+    return <Box sx={{ mb: 4, ml: 'auto', width: 'max-content' }}>{children}</Box>;
+};
 
 export default AddButtonWrapper;

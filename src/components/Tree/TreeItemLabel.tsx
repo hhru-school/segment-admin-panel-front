@@ -2,7 +2,10 @@ import CreatedIcon from '@mui/icons-material/AddCircleOutline';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArchiveIcon from '@mui/icons-material/RemoveCircleOutline';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { lightGreen, red } from '@mui/material/colors';
 import { styled, alpha } from '@mui/material/styles';
 
@@ -23,12 +26,9 @@ export interface TreeItemLabelProps {
     showEndIcon?: boolean;
 }
 
-const ContentBox = styled('div', {
+const ContentBox = styled(Stack, {
     shouldForwardProp: (prop) => prop !== 'collapsible' && prop !== 'variant',
 })<Pick<TreeItemLabelProps, 'collapsible' | 'variant'>>(({ theme, collapsible, variant }) => ({
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
     ...(variant === Variant.DEFAULT && {
         padding: collapsible ? '9px 16px 9px 4px' : '9px 16px',
         border: `1px solid ${theme.palette.divider}`,
@@ -48,33 +48,6 @@ const ContentBox = styled('div', {
     }),
 }));
 
-const ExpandingButtonSlot = styled('div')({
-    width: '30px',
-    height: '30px',
-    alignSelf: 'flex-start',
-    marginRight: '8px',
-});
-
-const ActionButtonSlot = styled('div')({
-    alignSelf: 'flex-start',
-    marginLeft: '8px',
-});
-
-const EndIconSlot = styled('div')({
-    width: '30px',
-    height: '30px',
-    padding: '5px',
-    alignSelf: 'flex-start',
-    marginLeft: '8px',
-});
-
-const MainSlot = styled('div')(({ theme }) => ({
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center',
-    ...theme.typography.body1,
-}));
-
 const icons = new Map<TreeItemLabelProps['variant'], JSX.Element>([
     [Variant.CREATED, <CreatedIcon sx={{ height: 20, width: 20 }} />],
     [Variant.ARCHIVE, <ArchiveIcon sx={{ height: 20, width: 20 }} />],
@@ -84,23 +57,23 @@ const TreeItemLabel: React.FC<TreeItemLabelProps> = ({
     children,
     actionButton,
     variant = Variant.DEFAULT,
-    collapsible,
     showEndIcon,
+    collapsible,
 }) => {
     const { expand, toggleExpand } = useTreeItemContext();
     const notDefault = variant !== Variant.DEFAULT;
     return (
-        <ContentBox variant={variant} collapsible={collapsible}>
+        <ContentBox direction="row" gap={1} alignItems="center" variant={variant} collapsible={collapsible}>
             {collapsible && (
-                <ExpandingButtonSlot>
-                    <IconButton onClick={toggleExpand} size="small" {...(notDefault && { color: 'inherit' })}>
-                        {expand ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
-                    </IconButton>
-                </ExpandingButtonSlot>
+                <IconButton onClick={toggleExpand} size="small" {...(notDefault && { color: 'inherit' })}>
+                    {expand ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
+                </IconButton>
             )}
-            <MainSlot>{children}</MainSlot>
-            {actionButton && <ActionButtonSlot>{actionButton}</ActionButtonSlot>}
-            {notDefault && <EndIconSlot>{showEndIcon && icons.get(variant)}</EndIconSlot>}
+            <Typography sx={{ flexGrow: 1 }}>{children}</Typography>
+            <Box>{actionButton}</Box>
+            {notDefault && (
+                <Box sx={{ width: '30px', height: '30px', padding: '5px' }}>{showEndIcon && icons.get(variant)}</Box>
+            )}
         </ContentBox>
     );
 };
