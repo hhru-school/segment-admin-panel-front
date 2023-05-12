@@ -1,6 +1,6 @@
 import Alert from '@mui/material/Alert';
+import List from '@mui/material/List';
 
-import Tree from 'components/Tree';
 import TreeItem from 'components/Tree/TreeItem';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectCurrentField } from 'models/currentField';
@@ -12,7 +12,13 @@ const render = (node: Question | Answer): JSX.Element => {
     const nextNodeList = isQuestion(node) ? node.answerDtoList : node.openQuestonDtoList;
 
     return (
-        <TreeItem key={node.id} label={<FieldTreeLabel node={node} />} expanded>
+        <TreeItem
+            key={node.id}
+            renderLabel={(expand, toggleExpand) => (
+                <FieldTreeLabel node={node} expand={expand} toggleExpand={toggleExpand} />
+            )}
+            expanded
+        >
             {nextNodeList.map(render)}
         </TreeItem>
     );
@@ -23,15 +29,15 @@ const FieldTree: React.FC = () => {
 
     if (field === null) {
         return (
-            <Tree>
+            <List>
                 <li>
                     <Alert severity="info">Нет данных.</Alert>
                 </li>
-            </Tree>
+            </List>
         );
     }
 
-    return <Tree>{render(field)}</Tree>;
+    return <List>{render(field)}</List>;
 };
 
 export default FieldTree;

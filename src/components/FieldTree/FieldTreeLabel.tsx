@@ -7,11 +7,12 @@ import Card from 'components/Card';
 import LightenChip from 'components/LightenChip';
 import QuestionTypeChip from 'components/QuestionTypeChip';
 import isEmpty from 'helpers/isEmpty';
-import useTreeItemContext from 'hooks/useTreeItemContext';
 import { Answer, Question, isQuestion } from 'models/fields';
 
 interface FieldTreeLabelProps {
     node: Question | Answer;
+    expand?: boolean;
+    toggleExpand: () => void;
 }
 
 const ExpandButton = styled('button')(({ theme }) => ({
@@ -37,8 +38,7 @@ const ExpandButton = styled('button')(({ theme }) => ({
     },
 }));
 
-const FieldTreeLabel: React.FC<FieldTreeLabelProps> = ({ node }) => {
-    const { expand, toggleExpand } = useTreeItemContext();
+const FieldTreeLabel: React.FC<FieldTreeLabelProps> = ({ node, expand, toggleExpand }) => {
     if (isQuestion(node)) {
         return (
             <Card caption="Вопрос" color="primary">
