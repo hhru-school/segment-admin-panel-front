@@ -98,11 +98,7 @@ const fieldsSlice = createSlice({
             })
             .addCase(fetchFields.rejected, (state, action) => {
                 state.isLoading = false;
-                if (action.payload !== undefined) {
-                    state.error = action.payload;
-                } else {
-                    state.error = { message: 'Произошла непредвиденная ошибка' };
-                }
+                state.error = action.payload || { message: 'Произошла непредвиденная ошибка' };
             });
     },
 });
