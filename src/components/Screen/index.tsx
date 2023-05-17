@@ -1,6 +1,5 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 
 import { FieldsList, VersionsList } from 'models/screens';
@@ -23,7 +22,7 @@ export interface ScreenProps {
 
 const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'filtered' })<
     Pick<ScreenProps, 'variant' | 'filtered'>
->(({ variant = Variant.STATIC, filtered }) => ({
+>(({ theme, variant = Variant.STATIC, filtered }) => ({
     height: '100%',
     minHeight: '280px',
     width: '200px',
@@ -31,7 +30,7 @@ const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'varian
     borderRadius: '4px',
     ...(variant === Variant.STATIC && { backgroundColor: '#ffd1d1' }),
     ...(variant === Variant.DYNAMIC && { backgroundColor: '#75ade4' }),
-    ...(filtered && { color: grey[600], filter: 'grayscale(1)' }),
+    ...(filtered && { color: theme.palette.text.disabled, backgroundColor: '#cccccc', filter: 'grayscale(1)' }),
 }));
 
 const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, filtered }) => {
