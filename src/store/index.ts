@@ -5,6 +5,7 @@ import currentLayerReducer from 'models/currentLayer';
 import fieldsReducer from 'models/fields';
 import layerChangesReducer from 'models/layerChanges';
 import layersListReducer from 'models/layersList';
+import screensReducer from 'models/screens';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         currentLayerChanges: layerChangesReducer,
         fields: fieldsReducer,
         currentField: currentFieldReducer,
+        screens: screensReducer,
     },
 });
 

@@ -29,7 +29,7 @@ const drawerWidth = 290;
 const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOptions, loading }) => {
     const [open, setOpen] = useState(false);
     const theme = useTheme();
-    const isSmallWindow = useMediaQuery(theme.breakpoints.down('md'));
+    const isSmallWindow = useMediaQuery(theme.breakpoints.down('lg'));
 
     const handleDrawerToggle = useCallback(() => {
         setOpen(!open);

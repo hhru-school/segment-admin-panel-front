@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from 'App';
 import CreateNewFieldPage from 'pages/CreateNewFieldPage';
 import CreateNewLayerPage from 'pages/CreateNewLayerPage';
+import CreateNewScreen from 'pages/CreateNewScreen';
 import EntryPointPage from 'pages/EntryPointPage';
 import EntryPointsPage from 'pages/EntryPointsPage';
 import FieldGroupsPage from 'pages/FieldGroupsPage';
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
             { path: 'fields/:fieldId', element: <FieldPage /> },
             { path: 'new/layer', element: <CreateNewLayerPage /> },
             { path: 'new/field', element: <CreateNewFieldPage /> },
+            { path: 'new/screen', element: <CreateNewScreen /> },
         ],
     },
     { path: '/not-found', element: <NotFoundPage /> },
