@@ -171,7 +171,7 @@ const MOCK_SCREENS: ScreensList = [
     {
         id: 10,
         title: 'main_3_3',
-        type: 'DYNAMIC',
+        type: 'STATIC',
         filtered: true,
         fields: [
             { id: 1, title: 'Имя' },

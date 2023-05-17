@@ -11,18 +11,15 @@ interface ScreenAppVersionsProps {
     filtered?: boolean;
 }
 
-const StyledList = styled(List, { shouldForwardProp: (prop) => prop !== 'filtered' })<
-    Pick<ScreenAppVersionsProps, 'filtered'>
->(({ filtered }) => ({
+const StyledList = styled(List)({
     padding: '4px 0',
     borderRadius: '4px',
     backgroundColor: '#dee3e9',
-    ...(filtered && { backgroundColor: '#e5e5e5' }),
-}));
+});
 
-const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions, filtered }) => {
+const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions }) => {
     return (
-        <StyledList filtered={filtered}>
+        <StyledList>
             {versions.map(({ id, platform, version }) => (
                 <ListItem key={id} sx={{ py: 0 }}>
                     <Stack direction="row" justifyContent="space-between" sx={{ width: '100%' }}>

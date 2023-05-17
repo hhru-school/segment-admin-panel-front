@@ -1,5 +1,6 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 
 import { FieldsList, VersionsList } from 'models/screens';
@@ -30,7 +31,7 @@ const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'varian
     borderRadius: '4px',
     ...(variant === Variant.STATIC && { backgroundColor: '#ffd1d1' }),
     ...(variant === Variant.DYNAMIC && { backgroundColor: '#75ade4' }),
-    ...(filtered && { color: '#999999', backgroundColor: '#cccccc' }),
+    ...(filtered && { color: grey[600], filter: 'grayscale(1)' }),
 }));
 
 const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, filtered }) => {
@@ -38,8 +39,8 @@ const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, fi
         <ScreenCard variant={variant} filtered={filtered}>
             <Typography sx={{ fontWeight: '700', textAlign: 'center' }}>{title}</Typography>
             <Stack justifyContent="space-between" flexGrow={1}>
-                <ScreenFieldsList variant={variant} fields={fields} filtered={filtered} />
-                <ScreenAppVersions versions={appVersions} filtered={filtered} />
+                <ScreenFieldsList variant={variant} fields={fields} />
+                <ScreenAppVersions versions={appVersions} />
             </Stack>
         </ScreenCard>
     );
