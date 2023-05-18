@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "parentSegmentId": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Программист, разработчик",
+    "description": "Разработчик программного обеспечения",
+    "roles": [
+      {
+        "id": 96,
+        "name": "Программист, разработчик"
+      }
+    ],
+    "tags": ["Programmer", "Software", "IT"]
+  },
+  {
+    "id": 2,
+    "parentSegmentId": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Переводчик",
+    "description": "Переводчик",
+    "roles": [
+      {
+        "id": 93,
+        "name": "Переводчик"
+      }
+    ],
+    "tags": ["Translator", "ForeignLanguages"]
+  },
+  {
+    "id": 3,
+    "parentSegmentId": 2,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Переводчик с китайского",
+    "description": "Переводчик, владеющмя китайским языком, унаследован от переводчика",
+    "roles": [
+      {
+        "id": 93,
+        "name": "Переводчик"
+      }
+    ],
+    "tags": ["Translator", "Chinese"]
+  },
+  {
+    "id": 4,
+    "parentSegmentId": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Охранник",
+    "description": "Охранник",
+    "roles": [
+      {
+        "id": 90,
+        "name": "Охранник"
+      }
+    ],
+    "tags": ["Security", "Safety", "Guard"]
+  },
+  {
+    "id": 5,
+    "parentSegmentId": 1,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Java-разработчик",
+    "description": "Разработчик серверной части приложений на языке Java",
+    "roles": [
+      {
+        "id": 96,
+        "name": "Программист, разработчик"
+      }
+    ],
+    "tags": ["Java", "Backend", "Programmer", "Software", "IT"]
+  },
+  {
+    "id": 6,
+    "parentSegmentId": 3,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Телохранитель",
+    "description": "Телохранитель, унаследован от охранника",
+    "roles": [
+      {
+        "id": 90,
+        "name": "Охранник"
+      }
+    ],
+    "tags": ["Bodyguard", "Security", "PrivateProtection"]
+  }
+]

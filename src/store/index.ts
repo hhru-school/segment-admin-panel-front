@@ -6,6 +6,7 @@ import fieldsReducer from 'models/fields';
 import layerChangesReducer from 'models/layerChanges';
 import layersListReducer from 'models/layersList';
 import screensReducer from 'models/screens';
+import segmentsReducer from 'models/segments';
 
 export const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
         fields: fieldsReducer,
         currentField: currentFieldReducer,
         screens: screensReducer,
+        segments: segmentsReducer,
     },
 });
 
