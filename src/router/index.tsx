@@ -18,6 +18,7 @@ import LayerSegmentsPage from 'pages/LayerSegmentsPage';
 import LayersPage from 'pages/LayersPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import ScreensPage from 'pages/ScreensPage';
+import SegmentsPage from 'pages/SegmentsPage';
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
                     { path: 'layers', element: <LayersPage /> },
                     { path: 'fields', element: <FieldsPage /> },
                     { path: 'screens', element: <ScreensPage /> },
+                    { path: 'segments', element: <SegmentsPage /> },
                 ],
             },
             {
