@@ -1,22 +1,30 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import Box from '@mui/material/Box';
 
 import AddButton from 'components/AddButton';
 import AddButtonWrapper from 'components/AddButton/AddButtonWrapper';
 import ContentBox from 'components/ContentBox';
-import FieldsSearchForm from 'components/FieldsSearchForm';
 import FieldsTree from 'components/FieldsTree';
+import SearchForm from 'components/SearchForm';
 import Title from 'components/Title';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { fetchFields, reset, selectFieldsLoadingStatus, selectFieldsError } from 'models/fields';
+import { fetchFields, reset, selectFieldsLoadingStatus, selectFieldsError, setSearchString } from 'models/fields';
 
 const FieldsPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const { setAlert } = useErrorAlert();
     const isLoading = useAppSelector(selectFieldsLoadingStatus);
     const error = useAppSelector(selectFieldsError, shallowEqual);
+
+    const handleSearch = useCallback(
+        (searchString: string) => {
+            void dispatch(fetchFields({ layerId: 7, searchString }));
+            dispatch(setSearchString(searchString));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         void dispatch(fetchFields({ layerId: 7, searchString: '' }));
@@ -40,7 +48,7 @@ const FieldsPage: React.FC = () => {
                 </AddButton>
             </AddButtonWrapper>
             <Box sx={{ mb: 2 }}>
-                <FieldsSearchForm disabled={isLoading} />
+                <SearchForm onSubmit={handleSearch} disabled={isLoading} />
             </Box>
             <ContentBox loading={isLoading} SkeletonProps={{ height: 48, width: '100%' }}>
                 <FieldsTree />
