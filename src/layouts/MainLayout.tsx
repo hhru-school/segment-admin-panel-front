@@ -34,6 +34,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                             { label: 'Слои', href: '/layers' },
                             { label: 'Поля', href: '/fields' },
                             { label: 'Экраны', href: '/screens' },
+                            { label: 'Сегменты', href: '/segments' },
                         ]}
                     />
                 </Container>
