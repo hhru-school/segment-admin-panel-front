@@ -1,7 +1,7 @@
 import UnderConstructionPage from 'pages/UnderConstructionPage';
 
-const SegmentsPage: React.FC = () => {
+const LayerSegmentsPage: React.FC = () => {
     return <UnderConstructionPage pageName="Сегмент" />;
 };
 
-export default SegmentsPage;
+export default LayerSegmentsPage;
