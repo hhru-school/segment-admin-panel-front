@@ -44,7 +44,7 @@ const SegmentsPage: React.FC = () => {
                     </Box>
                 </Box>
                 <Box sx={{ flexShrink: 0 }}>
-                    <AddButton href="/new/segment" disabled={isLoading}>
+                    <AddButton href="new" disabled={isLoading}>
                         Новый сегмент
                     </AddButton>
                 </Box>
