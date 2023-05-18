@@ -14,10 +14,10 @@ import InfoPage from 'pages/InfoPage';
 import LayerChangesPage from 'pages/LayerChangesPage';
 import LayerPage from 'pages/LayerPage';
 import LayerSegmentPage from 'pages/LayerSegmentPage';
+import LayerSegmentsPage from 'pages/LayerSegmentsPage';
 import LayersPage from 'pages/LayersPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import ScreensPage from 'pages/ScreensPage';
-import SegmentsPage from 'pages/SegmentsPage';
 
 const router = createBrowserRouter([
     {
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
                     { path: 'changes', element: <LayerChangesPage /> },
                     {
                         path: 'segments',
-                        element: <SegmentsPage />,
+                        element: <LayerSegmentsPage />,
                         children: [{ path: ':segmentId', element: <LayerSegmentPage /> }],
                     },
                     { path: 'entry-points', element: <EntryPointsPage /> },
