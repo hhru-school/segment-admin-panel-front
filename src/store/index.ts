@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import currentFieldReducer from 'models/currentField';
 import currentLayerReducer from 'models/currentLayer';
+import currentSegmentReducer from 'models/currentSegment';
 import fieldsReducer from 'models/fields';
 import layerChangesReducer from 'models/layerChanges';
 import layersListReducer from 'models/layersList';
@@ -13,6 +14,7 @@ export const store = configureStore({
         layersList: layersListReducer,
         currentLayer: currentLayerReducer,
         currentLayerChanges: layerChangesReducer,
+        currentSegment: currentSegmentReducer,
         fields: fieldsReducer,
         currentField: currentFieldReducer,
         screens: screensReducer,
