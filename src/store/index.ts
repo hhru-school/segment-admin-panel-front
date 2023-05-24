@@ -6,6 +6,7 @@ import currentSegmentReducer from 'models/currentSegment';
 import fieldsReducer from 'models/fields';
 import layerChangesReducer from 'models/layerChanges';
 import layersListReducer from 'models/layersList';
+import rolesReducer from 'models/roles';
 import screensReducer from 'models/screens';
 import segmentsReducer from 'models/segments';
 
@@ -19,6 +20,7 @@ export const store = configureStore({
         currentField: currentFieldReducer,
         screens: screensReducer,
         segments: segmentsReducer,
+        roles: rolesReducer,
     },
 });
 
