@@ -5,10 +5,11 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
+import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { Segment, SegmentsList, selectSegments, selectSegmentsLoadingStatus } from 'models/segments';
 
-import TableDataRow, { DataConverter, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
+import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
 import TableEmptyRow from 'components/Table/TableEmptyRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 
@@ -33,7 +34,7 @@ const columns: Column<Segment, 'actions'>[] = [
     },
 ];
 
-const convertData: DataConverter<Segment, 'actions'> = (key, data): React.ReactNode => {
+const renderData: DataRender<Segment, 'actions'> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
         case 'parentSegmentId':
@@ -73,7 +74,7 @@ const renderBody = (columns: Column<Segment, 'actions'>[], rows: SegmentsList, i
         );
     }
 
-    if (rows.length === 0) {
+    if (isEmpty(rows)) {
         return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного сегмента." />;
     }
 
@@ -82,7 +83,7 @@ const renderBody = (columns: Column<Segment, 'actions'>[], rows: SegmentsList, i
             key={row.id}
             columns={columns}
             row={row}
-            dataConverter={convertData}
+            dataRender={renderData}
             sx={{ height: DEFAULT_ROW_HEIGHT }}
         />
     ));

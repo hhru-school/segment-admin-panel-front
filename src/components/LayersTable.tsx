@@ -5,11 +5,12 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
+import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { LayersListItem, LayersList, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
 
 import LayerStatusChip from 'components/LayerStatusChip';
-import TableDataRow, { DataConverter, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
+import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
 import TableEmptyRow from 'components/Table/TableEmptyRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 
@@ -43,7 +44,7 @@ const columns: Column<LayersListItem, 'actions'>[] = [
     },
 ];
 
-const convertData: DataConverter<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
+const renderData: DataRender<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
         case 'title':
@@ -84,7 +85,7 @@ const renderBody = (
         );
     }
 
-    if (rows.length === 0) {
+    if (isEmpty(rows)) {
         return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
     }
 
@@ -93,7 +94,7 @@ const renderBody = (
             key={row.id}
             columns={columns}
             row={row}
-            dataConverter={convertData}
+            dataRender={renderData}
             sx={{ height: DEFAULT_ROW_HEIGHT }}
         />
     ));

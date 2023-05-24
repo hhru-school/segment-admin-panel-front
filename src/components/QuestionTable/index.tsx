@@ -2,7 +2,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 
 import QuestionRequiredElement from 'components/QuestionStatus/QuestionRequiredElement';
-import TableCollapsedDataRow, { DataConverter } from 'components/Table/TableCollapsedDataRow';
+import TableCollapsedDataRow, { DataRender } from 'components/Table/TableCollapsedDataRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
 import { Link, QuestionVisibilityStatus } from 'models/layerChanges';
@@ -54,7 +54,7 @@ const createRows = (links: Link[]): QuestionLink[] => {
     return Object.keys(questionMap).map((key) => questionMap[key]);
 };
 
-const convertData: DataConverter<QuestionLink> = (key, data) => {
+const renderData: DataRender<QuestionLink> = (key, data) => {
     switch (key) {
         case 'required':
             return <QuestionRequiredElement required={data[key]} changed={!data[key]} />;
@@ -77,7 +77,7 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ items }) => {
             <TableHead columns={[{ key: 'empty', width: '1%' }, ...columns]} />
             <TableBody>
                 {rows.map((row) => (
-                    <TableCollapsedDataRow key={row.title} columns={columns} row={row} dataConverter={convertData}>
+                    <TableCollapsedDataRow key={row.title} columns={columns} row={row} dataRender={renderData}>
                         <QuestionVisibilityTable rows={row.visibility} />
                     </TableCollapsedDataRow>
                 ))}

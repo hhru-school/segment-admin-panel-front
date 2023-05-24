@@ -2,7 +2,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 
 import QuestionVisibilityElement from 'components/QuestionStatus/QuestionVisibilityElement';
-import TableDataRow, { DataConverter } from 'components/Table/TableDataRow';
+import TableDataRow, { DataRender } from 'components/Table/TableDataRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
 
@@ -20,7 +20,7 @@ interface QuestionVisibilityTableProps {
     rows: QuestionVisibility[];
 }
 
-const convertData: DataConverter<QuestionVisibility> = (key, data): React.ReactNode => {
+const renderData: DataRender<QuestionVisibility> = (key, data): React.ReactNode => {
     switch (key) {
         case 'title':
             return data[key];
@@ -40,7 +40,7 @@ const QuestionVisibilityTable: React.FC<QuestionVisibilityTableProps> = ({ rows 
                         key={row.title}
                         columns={columns}
                         row={row}
-                        dataConverter={convertData}
+                        dataRender={renderData}
                         sx={{ '&:last-child > td': { borderBottom: 'unset' } }}
                     />
                 ))}
