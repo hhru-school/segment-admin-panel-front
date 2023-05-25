@@ -69,14 +69,14 @@ const AddingSegmentForm: React.FC = () => {
     const { setAlert } = useErrorAlert();
 
     const handleCancel = () => {
-        navigate(-1);
+        navigate('/segments');
     };
 
     const onSubmit = async (values: Values) => {
         await sleep(2000);
         // eslint-disable-next-line no-console
         console.log(convertToRequestBody(values));
-        navigate(-1);
+        navigate('/segments');
     };
 
     useEffect(() => {
