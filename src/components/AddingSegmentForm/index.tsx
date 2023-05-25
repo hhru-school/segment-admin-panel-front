@@ -7,8 +7,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 import { isApiError } from 'api';
+import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import isEmpty from 'helpers/isEmpty';
-import isMessage from 'helpers/isMessage';
 import sleep from 'helpers/sleep';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
@@ -100,28 +100,26 @@ const AddingSegmentForm: React.FC = () => {
             render={({ handleSubmit, submitting, submitSucceeded }) => (
                 <form id="adding-segment-from" autoComplete="off" onSubmit={handleSubmit}>
                     <Field<string> name={FieldName.Title}>
-                        {({ input, meta }) => (
-                            <TextField
-                                label="Наименование *"
-                                value={input.value}
-                                onBlur={input.onBlur}
-                                onChange={input.onChange}
-                                error={isMessage(meta.error) && meta.touched}
-                                helperText={isMessage(meta.error) && meta.touched && meta.error}
-                                margin="normal"
-                                disabled={submitting}
-                                fullWidth
-                            />
-                        )}
+                        {({ input, meta }) => {
+                            const [isError, errorMessage] = extractFinalFormErrorState(meta);
+                            return (
+                                <TextField
+                                    {...input}
+                                    label="Наименование *"
+                                    error={isError}
+                                    helperText={isError && errorMessage}
+                                    margin="normal"
+                                    disabled={submitting}
+                                    fullWidth
+                                />
+                            );
+                        }}
                     </Field>
                     <Field<string> name={FieldName.Description}>
-                        {({ input, meta }) => (
+                        {({ input }) => (
                             <TextField
+                                {...input}
                                 label="Описание"
-                                value={input.value}
-                                onChange={input.onChange}
-                                error={isMessage(meta.error)}
-                                helperText={isMessage(meta.error) && meta.touched && meta.error}
                                 margin="normal"
                                 multiline
                                 rows={3}

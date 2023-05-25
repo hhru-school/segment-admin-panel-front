@@ -12,8 +12,9 @@ import { Segment } from 'models/segments';
 
 import { FieldName } from 'components/AddingSegmentForm';
 
-const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input: { name, value, onChange }, meta }) => {
+const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input, meta }) => {
     const [inputValue, setInputValue] = useState('');
+    const { value, name, onBlur, onChange, onFocus } = input;
     const parentFieldProps = useField<Segment | null>(FieldName.ParentSegment, {
         subscription: { value: true },
         allowNull: true,
@@ -49,7 +50,9 @@ const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input: { name, value,
     return (
         <Autocomplete
             value={value}
+            onBlur={onBlur}
             onChange={handleChange}
+            onFocus={onFocus}
             inputValue={inputValue}
             onInputChange={inputHandleChange}
             options={[]}

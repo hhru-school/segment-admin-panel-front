@@ -4,13 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
-import isMessage from 'helpers/isMessage';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { Segment, selectSegmentsLoadingStatus, selectSegments } from 'models/segments';
 
-const ParentSegmentField: React.FC<FieldRenderProps<Segment | null>> = ({ input: { name, onChange }, meta }) => {
+const ParentSegmentField: React.FC<FieldRenderProps<Segment | null>> = ({ input, meta }) => {
     const isLoading = useAppSelector(selectSegmentsLoadingStatus);
     const segments = useAppSelector(selectSegments, shallowEqual);
+    const { value, name, onBlur, onChange, onFocus } = input;
 
     const handleChange = (event: React.SyntheticEvent, newValue: Segment | null) => {
         onChange(newValue);
@@ -18,7 +18,10 @@ const ParentSegmentField: React.FC<FieldRenderProps<Segment | null>> = ({ input:
 
     return (
         <Autocomplete
+            value={value}
+            onBlur={onBlur}
             onChange={handleChange}
+            onFocus={onFocus}
             options={segments}
             getOptionLabel={(option) => option.title}
             renderInput={(params) => (
@@ -35,8 +38,6 @@ const ParentSegmentField: React.FC<FieldRenderProps<Segment | null>> = ({ input:
                             </>
                         ),
                     }}
-                    error={isMessage(meta.error) && meta.touched}
-                    helperText={isMessage(meta.error) && meta.touched && meta.error}
                     margin="normal"
                 />
             )}

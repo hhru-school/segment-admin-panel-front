@@ -6,16 +6,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
 import LightenChip from 'components/LightenChip';
-import isMessage from 'helpers/isMessage';
+import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectRoles, selectRolesLoadingStatus, RolesList } from 'models/roles';
 import { Segment } from 'models/segments';
 
 import { FieldName } from 'components/AddingSegmentForm';
 
-const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input: { name, value, onChange }, meta }) => {
+const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input, meta }) => {
     const isLoading = useAppSelector(selectRolesLoadingStatus);
     const roles = useAppSelector(selectRoles, shallowEqual);
+    const { value, name, onBlur, onChange, onFocus } = input;
+    const [isError, errorMessage] = extractFinalFormErrorState(meta);
     const parentFieldProps = useField<Segment | null>(FieldName.ParentSegment, {
         subscription: { value: true },
         allowNull: true,
@@ -43,7 +45,9 @@ const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input: { name, valu
     return (
         <Autocomplete
             value={value}
+            onBlur={onBlur}
             onChange={handleChange}
+            onFocus={onFocus}
             options={roles}
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -61,8 +65,8 @@ const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input: { name, valu
                             </>
                         ),
                     }}
-                    error={isMessage(meta.error) && meta.touched}
-                    helperText={isMessage(meta.error) && meta.touched && meta.error}
+                    error={isError}
+                    helperText={isError && errorMessage}
                     margin="normal"
                 />
             )}
