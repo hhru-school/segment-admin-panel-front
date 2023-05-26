@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { FieldRenderProps, useField } from 'react-final-form';
+import { useState } from 'react';
+import { FieldRenderProps } from 'react-final-form';
 import AddIcon from '@mui/icons-material/Add';
 import Autocomplete from '@mui/material/Autocomplete';
 import IconButton from '@mui/material/IconButton';
@@ -8,29 +8,20 @@ import TextField from '@mui/material/TextField';
 
 import LightenChip from 'components/LightenChip';
 import isEmpty from 'helpers/isEmpty';
-import { Segment } from 'models/segments';
+import useFixedOptions, { Normalizer, Mapper } from 'hooks/useFixedOptions';
 
-import { FieldName } from 'components/AddingSegmentForm';
+import { useParentFieldRoles } from 'components/AddingSegmentForm/ParentSegmentField';
+
+const normalizer: Normalizer<string> = (tag, fixedTagsMap) => {
+    return !fixedTagsMap.get(tag);
+};
+const mapper: Mapper<string> = (tag) => [tag, true];
 
 const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input, meta }) => {
     const [inputValue, setInputValue] = useState('');
     const { value, name, onBlur, onChange, onFocus } = input;
-    const parentFieldProps = useField<Segment | null>(FieldName.ParentSegment, {
-        subscription: { value: true },
-        allowNull: true,
-    });
-    const parentSegment = parentFieldProps.input.value;
-
-    const handleChange = (event: React.SyntheticEvent, newValue: string[]) => {
-        if (parentSegment) {
-            const normalizeValue = parentSegment.tags.concat(
-                newValue.filter((option) => !parentSegment.tags.includes(option))
-            );
-            onChange(normalizeValue);
-        } else {
-            onChange(newValue);
-        }
-    };
+    const parentSegment = useParentFieldRoles();
+    const [fixedOptions, handleChange] = useFixedOptions(parentSegment?.tags || null, mapper, normalizer, onChange);
 
     const inputHandleChange = (event: React.SyntheticEvent, newValue: string) => {
         setInputValue(newValue);
@@ -42,10 +33,6 @@ const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input, meta }) => {
         }
         setInputValue('');
     };
-
-    useEffect(() => {
-        onChange(parentSegment ? parentSegment.tags : []);
-    }, [parentSegment, onChange]);
 
     return (
         <Autocomplete
@@ -85,7 +72,7 @@ const TagsField: React.FC<FieldRenderProps<string[]>> = ({ input, meta }) => {
                         label={option}
                         color="secondary"
                         {...getTagProps({ index })}
-                        disabled={meta.submitting || parentSegment?.tags.includes(option)}
+                        disabled={meta.submitting || fixedOptions?.get(option)}
                     />
                 ))
             }

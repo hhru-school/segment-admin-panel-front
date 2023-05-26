@@ -1,5 +1,4 @@
-import { useEffect, useMemo } from 'react';
-import { FieldRenderProps, useField } from 'react-final-form';
+import { FieldRenderProps } from 'react-final-form';
 import { shallowEqual } from 'react-redux';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -8,39 +7,23 @@ import TextField from '@mui/material/TextField';
 import LightenChip from 'components/LightenChip';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { selectRoles, selectRolesLoadingStatus, RolesList } from 'models/roles';
-import { Segment } from 'models/segments';
+import useFixedOptions, { Normalizer, Mapper } from 'hooks/useFixedOptions';
+import { selectRoles, selectRolesLoadingStatus, RolesList, Role } from 'models/roles';
 
-import { FieldName } from 'components/AddingSegmentForm';
+import { useParentFieldRoles } from 'components/AddingSegmentForm/ParentSegmentField';
+
+const normalizer: Normalizer<Role> = (role, fixedRolesMap) => {
+    return !fixedRolesMap.get(role.id);
+};
+const mapper: Mapper<Role> = (role) => [role.id, true];
 
 const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input, meta }) => {
     const isLoading = useAppSelector(selectRolesLoadingStatus);
     const roles = useAppSelector(selectRoles, shallowEqual);
     const { value, name, onBlur, onChange, onFocus } = input;
     const [isError, errorMessage] = extractFinalFormErrorState(meta);
-    const parentFieldProps = useField<Segment | null>(FieldName.ParentSegment, {
-        subscription: { value: true },
-        allowNull: true,
-    });
-    const parentSegment = parentFieldProps.input.value;
-    const fixedOptions = useMemo(() => {
-        return parentSegment ? new Map(parentSegment.roles.map((role) => [role.id, true])) : null;
-    }, [parentSegment]);
-
-    const handleChange = (event: React.SyntheticEvent, newValue: RolesList) => {
-        if (parentSegment && fixedOptions) {
-            const normalizeValue = parentSegment.roles.concat(
-                newValue.filter((option) => !fixedOptions.get(option.id))
-            );
-            onChange(normalizeValue);
-        } else {
-            onChange(newValue);
-        }
-    };
-
-    useEffect(() => {
-        onChange(parentSegment ? parentSegment.roles : []);
-    }, [parentSegment, onChange]);
+    const parentSegment = useParentFieldRoles();
+    const [fixedOptions, handleChange] = useFixedOptions(parentSegment?.roles || null, mapper, normalizer, onChange);
 
     return (
         <Autocomplete
@@ -80,7 +63,6 @@ const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input, meta }) => {
                     />
                 ))
             }
-            ListboxProps={{ sx: { maxHeight: 196 } }}
             loading={isLoading}
             disabled={meta.submitting}
             clearText=""
