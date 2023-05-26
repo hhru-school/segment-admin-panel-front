@@ -29,11 +29,9 @@ const FieldTree: React.FC = () => {
 
     if (field === null) {
         return (
-            <List>
-                <li>
-                    <Alert severity="info">Нет данных.</Alert>
-                </li>
-            </List>
+            <Alert severity="warning">
+                Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к администратору.
+            </Alert>
         );
     }
 

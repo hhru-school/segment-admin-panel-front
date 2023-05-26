@@ -3,6 +3,7 @@ import { shallowEqual } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -20,6 +21,7 @@ const SegmentPage: React.FC = () => {
     const { segmentId } = useParams();
     const isLoading = useAppSelector(selectCurrentSegmentLoadingStatus);
     const segment = useAppSelector(selectCurrentSegment, shallowEqual);
+    const parentSegment = segment?.parentSegment;
     const { setAlert } = useErrorAlert();
 
     useEffect(() => {
@@ -27,7 +29,7 @@ const SegmentPage: React.FC = () => {
             .unwrap()
             .catch((error) => {
                 if (isApiError(error)) {
-                    if (error.code === 404) {
+                    if (error?.code === 404) {
                         navigate('/not-found', { replace: true });
                     } else {
                         setAlert(error.message);
@@ -39,48 +41,70 @@ const SegmentPage: React.FC = () => {
         };
     }, [segmentId, dispatch, navigate, setAlert]);
 
+    if (isLoading) {
+        return (
+            <SecondaryLayout backHref=".." loading={isLoading}>
+                <Stack sx={{ pt: 5 }} spacing={4}>
+                    <ContentBox title="Описание" loading={isLoading} skeletonWidth="100%">
+                        <Typography>.</Typography>
+                    </ContentBox>
+                    <ContentBox title="Родительский сегмент" loading={isLoading} skeletonWidth="100%">
+                        <Typography>.</Typography>
+                    </ContentBox>
+                    <ContentBox title="Роли" loading={isLoading} skeletonWidth="100%">
+                        <LightenChip />
+                    </ContentBox>
+                    <ContentBox title="Теги" loading={isLoading} skeletonWidth="100%">
+                        <LightenChip />
+                    </ContentBox>
+                </Stack>
+            </SecondaryLayout>
+        );
+    }
+
+    if (segment === null) {
+        return (
+            <SecondaryLayout title="Нет данных" backHref="..">
+                <Box sx={{ pt: 5 }}>
+                    <Alert severity="warning">
+                        Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к
+                        администратору.
+                    </Alert>
+                </Box>
+            </SecondaryLayout>
+        );
+    }
+
     return (
-        <SecondaryLayout title={segment?.title} backHref="/segments" loading={isLoading}>
-            <Box sx={{ pt: 5, pb: 4 }}>
-                <Typography component="h2" variant="h5">
-                    Описание
-                </Typography>
-            </Box>
-            <ContentBox loading={isLoading} SkeletonProps={{ width: '100%' }} sx={{ pb: 4 }}>
-                {segment ? <Typography>{segment.description}</Typography> : <Alert severity="info">Нет данных.</Alert>}
-            </ContentBox>
-            <Box sx={{ pb: 4 }}>
-                <Typography component="h2" variant="h5">
-                    Роли
-                </Typography>
-            </Box>
-            <ContentBox loading={isLoading} SkeletonProps={{ width: '100%' }} sx={{ pb: 4 }}>
-                {segment ? (
+        <SecondaryLayout title={segment.title} backHref="..">
+            <Stack sx={{ pt: 5 }} spacing={4}>
+                <ContentBox title="Описание">
+                    <Typography sx={{ textIndent: 32 }}>{segment.description}</Typography>
+                </ContentBox>
+                <ContentBox title="Родительский сегмент">
+                    {parentSegment ? (
+                        <Box sx={{ ml: 3 }}>
+                            <Link href={`/segments/${parentSegment.id}`}>{parentSegment.title}</Link>
+                        </Box>
+                    ) : (
+                        <Typography sx={{ textIndent: 32 }}>Нет родительского сегмента.</Typography>
+                    )}
+                </ContentBox>
+                <ContentBox title="Роли">
                     <Stack direction="row" gap={3}>
                         {segment.roles.map(({ id, name }) => (
                             <LightenChip key={id} label={name} color="info" />
                         ))}
                     </Stack>
-                ) : (
-                    <Alert severity="info">Нет данных.</Alert>
-                )}
-            </ContentBox>
-            <Box sx={{ pb: 4 }}>
-                <Typography component="h2" variant="h5">
-                    Теги
-                </Typography>
-            </Box>
-            <ContentBox loading={isLoading} SkeletonProps={{ width: '100%' }} sx={{ pb: 4 }}>
-                {segment ? (
+                </ContentBox>
+                <ContentBox title="Теги">
                     <Stack direction="row" gap={3}>
                         {segment.tags.map((name) => (
                             <LightenChip key={name} label={name} color="secondary" />
                         ))}
                     </Stack>
-                ) : (
-                    <Alert severity="info">Нет данных.</Alert>
-                )}
-            </ContentBox>
+                </ContentBox>
+            </Stack>
         </SecondaryLayout>
     );
 };

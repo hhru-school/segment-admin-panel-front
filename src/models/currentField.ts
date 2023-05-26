@@ -71,7 +71,7 @@ const currentFieldSlice = createSlice({
 const selectCurrentField = (state: RootState): Question | null => state.currentField.item;
 const selectCurrentFieldError = (state: RootState): ApiError | null => state.currentField.error;
 const selectCurrentFieldLoadingStatus = (state: RootState): boolean => state.currentField.isLoading;
-const selectCurrentFieldTitle = (state: RootState): string => state.currentField.item?.title || '';
+const selectCurrentFieldTitle = (state: RootState): string | undefined => state.currentField.item?.title;
 
 const { reset } = currentFieldSlice.actions;
 

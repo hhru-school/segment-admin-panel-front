@@ -68,7 +68,7 @@ const currentSegmentSlice = createSlice({
 const selectCurrentSegment = (state: RootState): Segment | null => state.currentSegment.item;
 const selectCurrentSegmentError = (state: RootState): ApiError | null => state.currentSegment.error;
 const selectCurrentSegmentLoadingStatus = (state: RootState): boolean => state.currentSegment.isLoading;
-const selectCurrentSegmentTitle = (state: RootState): string => state.currentSegment.item?.title || '';
+const selectCurrentSegmentTitle = (state: RootState): string | undefined => state.currentSegment.item?.title;
 
 const { set, reset } = currentSegmentSlice.actions;
 

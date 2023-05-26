@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Box from '@mui/material/Box';
 
 import { isApiError } from 'api';
 import ContentBox from 'components/ContentBox';
@@ -35,14 +36,12 @@ const FieldPage: React.FC = () => {
     }, [fieldId, dispatch, navigate, setAlert]);
 
     return (
-        <SecondaryLayout title={title} loading={isLoading} ContainerProps={{ maxWidth: 'md' }}>
-            <ContentBox
-                loading={isLoading}
-                SkeletonProps={{ sx: { height: '128px', width: '100%', maxWidth: 'none' } }}
-                sx={{ pt: 4 }}
-            >
-                <FieldTree />
-            </ContentBox>
+        <SecondaryLayout title={title || 'Нет данных'} loading={isLoading}>
+            <Box sx={{ pt: 5 }}>
+                <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={170}>
+                    <FieldTree />
+                </ContentBox>
+            </Box>
         </SecondaryLayout>
     );
 };

@@ -71,20 +71,9 @@ const currentLayerSlice = createSlice({
 const selectCurrentLayer = (state: RootState): Layer | null => state.currentLayer.item;
 const selectCurrentLayerError = (state: RootState): ApiError | null => state.currentLayer.error;
 const selectCurrentLayerLoadingStatus = (state: RootState): boolean => state.currentLayer.isLoading;
-const selectCurrentLayerTitle = (state: RootState): string => {
-    const item = state.currentLayer.item;
-    if (item === null) {
-        return '';
-    }
-    return item.title;
-};
-const selectCurrentLayerParentLayers = (state: RootState): LayersList | null => {
-    const item = state.currentLayer.item;
-    if (item === null) {
-        return item;
-    }
-    return item.parentLayersList;
-};
+const selectCurrentLayerTitle = (state: RootState): string | undefined => state.currentLayer.item?.title;
+const selectCurrentLayerParentLayers = (state: RootState): LayersList | null =>
+    state.currentLayer.item?.parentLayersList || null;
 
 const { reset } = currentLayerSlice.actions;
 

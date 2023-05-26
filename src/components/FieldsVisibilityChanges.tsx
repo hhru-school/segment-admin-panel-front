@@ -29,7 +29,7 @@ const FieldsVisibilityChanges: React.FC = () => {
             <>
                 <Subtitle>Значения полей сегментов</Subtitle>
                 <Subtitle variant="h6" loading={isLoading} SkeletonProps={{ sx: { width: '100%' } }} />
-                <ContentBox loading={isLoading} SkeletonProps={{ sx: { width: '100%', height: 200 } }} />
+                <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={200} />
             </>
         );
     }

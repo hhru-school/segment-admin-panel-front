@@ -58,7 +58,7 @@ const FieldsPage: React.FC = () => {
                     </AddButton>
                 </Box>
             </Stack>
-            <ContentBox loading={isLoading} SkeletonProps={{ height: 48, width: '100%' }}>
+            <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={50}>
                 <FieldsTree />
             </ContentBox>
         </>

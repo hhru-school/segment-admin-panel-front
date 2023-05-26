@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
 
 import EntryPointsChanges from 'components/EntryPointsChanges';
 import FieldsChanges from 'components/FieldsChanges';
@@ -31,13 +32,13 @@ const LayerChangesPage: React.FC = () => {
     }, [error, setAlert]);
 
     return (
-        <>
+        <Stack sx={{ pt: 5 }} spacing={4}>
             <Title>Изменения в слое</Title>
             <SegmentsChanges />
             <EntryPointsChanges />
             <FieldsChanges />
             <FieldsVisibilityChanges />
-        </>
+        </Stack>
     );
 };
 

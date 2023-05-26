@@ -7,7 +7,6 @@ import { selectArchivedSegments, selectCreatedSegments, selectLayerChangesLoadin
 
 import ChangesListItem from 'components/ChangesListItem';
 import ContentBox from 'components/ContentBox';
-import Subtitle from 'components/Subtitle';
 
 const SegmentsChanges: React.FC = () => {
     const isLoading = useAppSelector(selectLayerChangesLoadingStatus);
@@ -16,35 +15,29 @@ const SegmentsChanges: React.FC = () => {
 
     if (!isLoading && createdSegments === null && archiveSegments === null) {
         return (
-            <>
-                <Subtitle>Сегменты</Subtitle>
-                <ContentBox>
-                    <Alert severity="info">Изменений нет.</Alert>
-                </ContentBox>
-            </>
+            <ContentBox title="Сегменты">
+                <Alert severity="info">Изменений нет.</Alert>
+            </ContentBox>
         );
     }
 
     return (
-        <>
-            <Subtitle>Сегменты</Subtitle>
-            <ContentBox loading={isLoading} SkeletonProps={{ height: 48, width: '100%' }}>
-                {createdSegments !== null && (
-                    <List disablePadding>
-                        {createdSegments.map((item) => (
-                            <ChangesListItem key={item.id} text={item.title} variant="created" />
-                        ))}
-                    </List>
-                )}
-                {archiveSegments !== null && (
-                    <List disablePadding>
-                        {archiveSegments.map((item) => (
-                            <ChangesListItem key={item.id} text={item.title} variant="archive" />
-                        ))}
-                    </List>
-                )}
-            </ContentBox>
-        </>
+        <ContentBox title="Сегменты" loading={isLoading} skeletonWidth="100%" skeletonHeight={48}>
+            {createdSegments !== null && (
+                <List disablePadding>
+                    {createdSegments.map((item) => (
+                        <ChangesListItem key={item.id} text={item.title} variant="created" />
+                    ))}
+                </List>
+            )}
+            {archiveSegments !== null && (
+                <List disablePadding>
+                    {archiveSegments.map((item) => (
+                        <ChangesListItem key={item.id} text={item.title} variant="archive" />
+                    ))}
+                </List>
+            )}
+        </ContentBox>
     );
 };
 
