@@ -11,7 +11,7 @@ export interface Segment {
     id: number;
     title: string;
     description: string;
-    parentSegmentId: number | null;
+    parentSegment: Pick<Segment, 'id' | 'title'> | null;
     createTime: string;
     roles: RolesList;
     tags: string[];

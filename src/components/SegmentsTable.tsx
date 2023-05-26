@@ -37,7 +37,7 @@ const columns: Column<Segment, 'actions'>[] = [
 const renderData: DataRender<Segment, 'actions'> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
-        case 'parentSegmentId':
+        case 'parentSegment':
         case 'description':
         case 'roles':
         case 'tags':
