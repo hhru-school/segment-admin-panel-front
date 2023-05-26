@@ -1,11 +1,15 @@
-import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
-const Main = styled('main')(({ theme }) => ({
-    padding: `0 ${theme.spacing(3)} ${theme.spacing(3)}`,
-    [theme.breakpoints.up('sm')]: {
-        padding: `0 ${theme.spacing(6)} ${theme.spacing(6)}`,
-    },
-    flexGrow: 1,
-}));
+interface MainProps {
+    children?: React.ReactNode;
+}
+
+const Main: React.FC<MainProps> = ({ children }) => {
+    return (
+        <Box component="main" sx={{ flexGrow: 1, px: { xs: 2, sm: 3 } }}>
+            {children}
+        </Box>
+    );
+};
 
 export default Main;

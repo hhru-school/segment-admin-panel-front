@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
 import Container, { ContainerProps } from '@mui/material/Container';
 import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import AppBar from 'components/AppBar';
@@ -9,7 +9,7 @@ import Main from 'components/Main';
 import ToolbarSpace from 'components/ToolbarSpace';
 import Wrapper from 'components/Wrapper';
 
-interface DetailsLayoutProps {
+interface SecondaryLayoutProps {
     children?: React.ReactNode;
     title?: React.ReactNode;
     loading?: boolean;
@@ -18,7 +18,7 @@ interface DetailsLayoutProps {
     ContainerProps?: ContainerProps;
 }
 
-const DetailsLayout: React.FC<DetailsLayoutProps> = ({
+const SecondaryLayout: React.FC<SecondaryLayoutProps> = ({
     children,
     title,
     loading,
@@ -29,16 +29,18 @@ const DetailsLayout: React.FC<DetailsLayoutProps> = ({
     return (
         <Wrapper>
             <AppBar>
-                <BackButton href={backHref} tooltipTitle={backTitle} />
-                <Box sx={{ ml: 3 }}>
-                    <Typography variant="h5" noWrap component="h1">
-                        {loading ? <Skeleton width={250} sx={{ bgcolor: 'grey.600' }} /> : title}
-                    </Typography>
-                </Box>
+                <Container disableGutters {...ContainerProps}>
+                    <Stack direction="row" alignItems="center" spacing={4}>
+                        <BackButton href={backHref} tooltipTitle={backTitle} />
+                        <Typography variant="h5" noWrap component="h1">
+                            {loading ? <Skeleton variant="rounded" width={300} sx={{ bgcolor: 'grey.600' }} /> : title}
+                        </Typography>
+                    </Stack>
+                </Container>
             </AppBar>
             <Main>
                 <ToolbarSpace />
-                <Container disableGutters {...ContainerProps}>
+                <Container disableGutters sx={{ pl: 8 }} {...ContainerProps}>
                     {children}
                 </Container>
             </Main>
@@ -46,4 +48,4 @@ const DetailsLayout: React.FC<DetailsLayoutProps> = ({
     );
 };
 
-export default DetailsLayout;
+export default SecondaryLayout;
