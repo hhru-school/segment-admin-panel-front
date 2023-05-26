@@ -7,8 +7,7 @@ export interface ApiError {
     message: string;
     code?: number;
 }
-const isApiError = (error: unknown): error is ApiError =>
-    isObject(error) && hasFields<ApiError>(error, ['message', 'code']);
+const isApiError = (error: unknown): error is ApiError => isObject(error) && hasFields<ApiError>(error, ['message']);
 
 const api = axios.create({
     baseURL: '/api',
