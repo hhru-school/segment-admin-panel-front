@@ -1,4 +1,4 @@
-import { FieldRenderProps } from 'react-final-form';
+import { FieldRenderProps, useField } from 'react-final-form';
 import { shallowEqual } from 'react-redux';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -9,8 +9,9 @@ import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { useAppSelector } from 'hooks/redux-hooks';
 import useFixedOptions, { Normalizer, Mapper } from 'hooks/useFixedOptions';
 import { selectRoles, selectRolesLoadingStatus, RolesList, Role } from 'models/roles';
+import { Segment } from 'models/segments';
 
-import { useParentFieldRoles } from 'components/AddingSegmentForm/ParentSegmentField';
+import { FieldName } from 'components/AddingSegmentForm';
 
 const normalizer: Normalizer<Role> = (role, fixedRolesMap) => {
     return !fixedRolesMap.get(role.id);
@@ -22,7 +23,11 @@ const RolesField: React.FC<FieldRenderProps<RolesList>> = ({ input, meta }) => {
     const roles = useAppSelector(selectRoles, shallowEqual);
     const { value, name, onBlur, onChange, onFocus } = input;
     const [isError, errorMessage] = extractFinalFormErrorState(meta);
-    const parentSegment = useParentFieldRoles();
+    const parentFieldProps = useField<Segment | null>(FieldName.ParentSegment, {
+        subscription: { value: true },
+        allowNull: true,
+    });
+    const parentSegment = parentFieldProps.input.value;
     const [fixedOptions, handleChange] = useFixedOptions(parentSegment?.roles || null, mapper, normalizer, onChange);
 
     return (
