@@ -2,7 +2,7 @@ import SecondaryLayout from 'layouts/SecondaryLayout';
 
 import UnderConstructionPage from 'pages/UnderConstructionPage';
 
-const CreateNewScreen: React.FC = () => {
+const CreateNewScreenPage: React.FC = () => {
     return (
         <SecondaryLayout title="Новый экран" backHref="/screens">
             <UnderConstructionPage pageName="Создание нового экрана" />
@@ -10,4 +10,4 @@ const CreateNewScreen: React.FC = () => {
     );
 };
 
-export default CreateNewScreen;
+export default CreateNewScreenPage;

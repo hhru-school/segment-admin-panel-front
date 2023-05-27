@@ -8,7 +8,7 @@ interface TreeItemGroupProps {
 }
 const StyledList = styled(List)({
     marginTop: '8px',
-    marginLeft: '32px',
+    marginLeft: '48px',
     padding: 0,
 });
 

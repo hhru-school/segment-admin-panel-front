@@ -6,7 +6,7 @@ interface TitleProps {
 
 const Title: React.FC<TitleProps> = ({ children }) => {
     return (
-        <Typography component="h2" variant="h4" sx={{ py: 3 }}>
+        <Typography component="h2" variant="h4">
             {children}
         </Typography>
     );

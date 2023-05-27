@@ -7,46 +7,41 @@ import TableContainer from '@mui/material/TableContainer';
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { LayersListItem, LayersList, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { Segment, SegmentsList, selectSegments, selectSegmentsLoadingStatus } from 'models/segments';
 
-import LayerStatusChip from 'components/LayerStatusChip';
 import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
 import TableEmptyRow from 'components/Table/TableEmptyRow';
 import TableHead, { Column } from 'components/Table/TableHead';
 
-const columns: Column<LayersListItem, 'actions'>[] = [
+const columns: Column<Segment, 'actions'>[] = [
+    {
+        key: 'title',
+        headerName: 'Наименование',
+        align: 'left',
+        width: '40%',
+    },
     {
         key: 'createTime',
         headerName: 'Создан',
         align: 'center',
-        width: '180px',
-    },
-    {
-        key: 'title',
-        headerName: 'Наименование',
-        align: 'center',
-    },
-    {
-        key: 'layerStatus',
-        headerName: 'Статус',
-        align: 'center',
-        width: '160px',
-    },
-    {
-        key: 'id',
-        headerName: 'ID',
-        align: 'center',
+        width: '30%',
     },
     {
         key: 'actions',
         headerName: '',
-        width: '130px',
+        align: 'right',
+        width: '30%',
     },
 ];
 
-const renderData: DataRender<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
+const renderData: DataRender<Segment, 'actions'> = (key, data): React.ReactNode => {
     switch (key) {
         case 'id':
+        case 'parentSegment':
+        case 'description':
+        case 'roles':
+        case 'tags':
+            return null;
         case 'title':
             return data[key];
         case 'createTime':
@@ -54,11 +49,9 @@ const renderData: DataRender<LayersListItem, 'actions'> = (key, data): React.Rea
                 dateStyle: 'short',
                 timeStyle: 'medium',
             });
-        case 'layerStatus':
-            return <LayerStatusChip status={data[key]} variant="outlined" />;
         case 'actions':
             return (
-                <Button href={`/layers/${data.id}/info`} size="small">
+                <Button href={`/segments/${data.id}`} size="small">
                     Подробнее
                 </Button>
             );
@@ -66,11 +59,7 @@ const renderData: DataRender<LayersListItem, 'actions'> = (key, data): React.Rea
     return exhaustiveCheck(key);
 };
 
-const renderBody = (
-    columns: Column<LayersListItem, 'actions'>[],
-    rows: LayersList,
-    isLoading: boolean
-): React.ReactNode => {
+const renderBody = (columns: Column<Segment, 'actions'>[], rows: SegmentsList, isLoading: boolean): React.ReactNode => {
     const columnsCount = columns.length;
 
     if (isLoading) {
@@ -86,7 +75,7 @@ const renderBody = (
     }
 
     if (isEmpty(rows)) {
-        return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
+        return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного сегмента." />;
     }
 
     return rows.map((row) => (
@@ -100,18 +89,18 @@ const renderBody = (
     ));
 };
 
-const LayersTable: React.FC = () => {
-    const isLoading = useAppSelector(selectLayersListLoadingStatus);
-    const layersList = useAppSelector(selectLayersList, shallowEqual);
+const SegmentsTable: React.FC = () => {
+    const isLoading = useAppSelector(selectSegmentsLoadingStatus);
+    const segments = useAppSelector(selectSegments, shallowEqual);
 
     return (
-        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
+        <TableContainer>
             <Table stickyHeader>
                 <TableHead columns={columns} />
-                <TableBody>{renderBody(columns, layersList, isLoading)}</TableBody>
+                <TableBody>{renderBody(columns, segments, isLoading)}</TableBody>
             </Table>
         </TableContainer>
     );
 };
 
-export default LayersTable;
+export default SegmentsTable;

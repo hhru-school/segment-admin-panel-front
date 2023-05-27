@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
-import AddButtonWrapper from 'components/AddButton/AddButtonWrapper';
 import LayersTable from 'components/LayersTable';
-import Title from 'components/Title';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import { fetchLayersList, selectLayersListError, selectLayersListLoadingStatus, reset } from 'models/layersList';
@@ -30,12 +31,16 @@ const LayersPage: React.FC = () => {
 
     return (
         <>
-            <Title>Слои</Title>
-            <AddButtonWrapper>
-                <AddButton href="/new/layer" disabled={isLoading}>
-                    Создать новый слой
-                </AddButton>
-            </AddButtonWrapper>
+            <Stack direction="row" justifyContent="space-between" gap={4} sx={{ pt: 5, pb: 4 }}>
+                <Typography component="h2" variant="h5">
+                    Слои
+                </Typography>
+                <Box sx={{ flexShrink: 0 }}>
+                    <AddButton href="/new/layer" disabled={isLoading}>
+                        Новый слой
+                    </AddButton>
+                </Box>
+            </Stack>
             <LayersTable />
         </>
     );

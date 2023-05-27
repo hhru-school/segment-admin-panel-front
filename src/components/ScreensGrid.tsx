@@ -1,11 +1,10 @@
 import { shallowEqual } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
 
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { ScreenType, selectScreensList, selectScreensLoadingStatus } from 'models/screens';
+import { ScreenType, selectScreensList } from 'models/screens';
 
 import Screen, { Variant } from 'components/Screen';
 
@@ -16,11 +15,6 @@ const variant = new Map<ScreenType, Variant>([
 
 const ScreensGrid: React.FC = () => {
     const screensList = useAppSelector(selectScreensList, shallowEqual);
-    const isLoading = useAppSelector(selectScreensLoadingStatus);
-
-    if (isLoading) {
-        return <Skeleton component="div" variant="rounded" width={200} height={280} />;
-    }
 
     if (isEmpty(screensList)) {
         return <Alert severity="info">Нет ни одного экрана.</Alert>;

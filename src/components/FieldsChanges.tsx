@@ -6,7 +6,6 @@ import { selectCreatedQuestion, selectArchivedQuestion, selectLayerChangesLoadin
 
 import ContentBox from 'components/ContentBox';
 import QuestionTree from 'components/QuestionTree';
-import Subtitle from 'components/Subtitle';
 
 const FieldsChanges: React.FC = () => {
     const isLoading = useAppSelector(selectLayerChangesLoadingStatus);
@@ -15,23 +14,17 @@ const FieldsChanges: React.FC = () => {
 
     if (!isLoading && createdQuestion === null && archiveQuestion === null) {
         return (
-            <>
-                <Subtitle>Поля</Subtitle>
-                <ContentBox>
-                    <Alert severity="info">Изменений нет.</Alert>
-                </ContentBox>
-            </>
+            <ContentBox title="Поля">
+                <Alert severity="info">Изменений нет.</Alert>
+            </ContentBox>
         );
     }
 
     return (
-        <>
-            <Subtitle>Поля</Subtitle>
-            <ContentBox loading={isLoading} SkeletonProps={{ height: 48, width: '100%' }}>
-                {createdQuestion !== null && <QuestionTree items={createdQuestion} variant="created" />}
-                {archiveQuestion !== null && <QuestionTree items={archiveQuestion} variant="archive" />}
-            </ContentBox>
-        </>
+        <ContentBox title="Поля" loading={isLoading} skeletonWidth="100%" skeletonHeight={48}>
+            {createdQuestion !== null && <QuestionTree items={createdQuestion} variant="created" />}
+            {archiveQuestion !== null && <QuestionTree items={archiveQuestion} variant="archive" />}
+        </ContentBox>
     );
 };
 

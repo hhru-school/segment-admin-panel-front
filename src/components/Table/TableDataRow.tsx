@@ -6,28 +6,30 @@ import { Column } from 'components/Table/TableHead';
 
 const DEFAULT_ROW_HEIGHT = 65;
 
-export interface DataConverter<T, K = unknown> {
-    (key: Column<T, K>['key'], data: T): React.ReactNode;
+export interface DataRender<T, K = unknown, A = () => void> {
+    (key: Column<T, K>['key'], data: T, actions?: A): React.ReactNode;
 }
 
-export interface TableDataRowProps<T, K = unknown> {
+export interface TableDataRowProps<T, K = unknown, A = () => void> {
     columns: Column<T, K>[];
     row: T;
-    dataConverter: DataConverter<T, K>;
+    dataRender: DataRender<T, K, A>;
+    action?: A;
     sx?: SxProps<Theme>;
 }
 
 const TableDataRow = <T extends object, K = unknown>({
     columns,
     row,
-    dataConverter,
+    dataRender,
+    action,
     sx,
 }: TableDataRowProps<T, K>): JSX.Element => {
     return (
         <TableRow sx={sx}>
             {columns.map(({ key, align, width }) => (
                 <TableCell key={key} align={align} sx={{ width }}>
-                    {dataConverter(key, row)}
+                    {dataRender(key, row, action)}
                 </TableCell>
             ))}
         </TableRow>

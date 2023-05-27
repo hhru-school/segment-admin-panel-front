@@ -1,24 +1,42 @@
 import Box from '@mui/material/Box';
-import Skeleton, { SkeletonProps } from '@mui/material/Skeleton';
-import { SxProps, Theme } from '@mui/material/styles';
+import Skeleton from '@mui/material/Skeleton';
+import Typography from '@mui/material/Typography';
 
 interface ContentBoxProps {
-    loading?: boolean;
+    title?: string;
     children?: React.ReactNode;
-    SkeletonProps?: Omit<SkeletonProps, 'children'>;
-    sx?: SxProps<Theme>;
+    loading?: boolean;
+    disableGutters?: boolean;
+    skeletonWidth?: string | number;
+    skeletonHeight?: string | number;
 }
 
-const ContentBox: React.FC<ContentBoxProps> = ({ children, loading, sx = {}, SkeletonProps }) => {
-    return (
-        <Box sx={{ pb: 3, ...sx }}>
-            {loading ? (
-                <Skeleton variant="rounded" {...SkeletonProps}>
+const ContentBox: React.FC<ContentBoxProps> = ({ title, children, loading, skeletonWidth, skeletonHeight }) => {
+    if (loading) {
+        return (
+            <Box>
+                {title && (
+                    <Skeleton variant="rounded" width={300}>
+                        <Typography component="h2" variant="h5" sx={{ mb: 4 }}>
+                            .
+                        </Typography>
+                    </Skeleton>
+                )}
+                <Skeleton variant="rounded" height={skeletonHeight} width={skeletonWidth}>
                     {children}
                 </Skeleton>
-            ) : (
-                children
+            </Box>
+        );
+    }
+
+    return (
+        <Box>
+            {title && (
+                <Typography component="h2" variant="h5" sx={{ mb: 4 }}>
+                    {title}
+                </Typography>
             )}
+            {children}
         </Box>
     );
 };

@@ -3,7 +3,8 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from 'App';
 import CreateNewFieldPage from 'pages/CreateNewFieldPage';
 import CreateNewLayerPage from 'pages/CreateNewLayerPage';
-import CreateNewScreen from 'pages/CreateNewScreen';
+import CreateNewScreenPage from 'pages/CreateNewScreenPage';
+import CreateNewSegmentPage from 'pages/CreateNewSegmentPage';
 import EntryPointPage from 'pages/EntryPointPage';
 import EntryPointsPage from 'pages/EntryPointsPage';
 import FieldGroupsPage from 'pages/FieldGroupsPage';
@@ -13,6 +14,8 @@ import HomePage from 'pages/HomePage';
 import InfoPage from 'pages/InfoPage';
 import LayerChangesPage from 'pages/LayerChangesPage';
 import LayerPage from 'pages/LayerPage';
+import LayerSegmentPage from 'pages/LayerSegmentPage';
+import LayerSegmentsPage from 'pages/LayerSegmentsPage';
 import LayersPage from 'pages/LayersPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import ScreensPage from 'pages/ScreensPage';
@@ -32,6 +35,7 @@ const router = createBrowserRouter([
                     { path: 'layers', element: <LayersPage /> },
                     { path: 'fields', element: <FieldsPage /> },
                     { path: 'screens', element: <ScreensPage /> },
+                    { path: 'segments', element: <SegmentsPage /> },
                 ],
             },
             {
@@ -43,8 +47,8 @@ const router = createBrowserRouter([
                     { path: 'changes', element: <LayerChangesPage /> },
                     {
                         path: 'segments',
-                        element: <SegmentsPage />,
-                        children: [{ path: ':segmentId', element: <SegmentPage /> }],
+                        element: <LayerSegmentsPage />,
+                        children: [{ path: ':segmentId', element: <LayerSegmentPage /> }],
                     },
                     { path: 'entry-points', element: <EntryPointsPage /> },
                     { path: 'entry-points/:entryPointId', element: <EntryPointPage /> },
@@ -52,9 +56,11 @@ const router = createBrowserRouter([
                 ],
             },
             { path: 'fields/:fieldId', element: <FieldPage /> },
+            { path: 'segments/:segmentId', element: <SegmentPage /> },
+            { path: 'segments/new', element: <CreateNewSegmentPage /> },
             { path: 'new/layer', element: <CreateNewLayerPage /> },
             { path: 'new/field', element: <CreateNewFieldPage /> },
-            { path: 'new/screen', element: <CreateNewScreen /> },
+            { path: 'new/screen', element: <CreateNewScreenPage /> },
         ],
     },
     { path: '/not-found', element: <NotFoundPage /> },

@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Программист, разработчик",
+    "description": "Разработчик программного обеспечения",
+    "roles": [{ "id": 96, "name": "Программист, разработчик" }],
+    "tags": ["Programmer", "Software", "IT"]
+  },
+  {
+    "id": 2,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Переводчик",
+    "description": "Переводчик",
+    "roles": [{ "id": 93, "name": "Переводчик" }],
+    "tags": ["Translator", "ForeignLanguages"]
+  },
+  {
+    "id": 3,
+    "parentSegment": { "id": 2, "title": "Переводчик" },
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Переводчик с китайского",
+    "description": "Переводчик, владеющмя китайским языком, унаследован от переводчика",
+    "roles": [{ "id": 93, "name": "Переводчик" }],
+    "tags": ["Translator", "Chinese"]
+  },
+  {
+    "id": 4,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Охранник",
+    "description": "Охранник",
+    "roles": [{ "id": 90, "name": "Охранник" }],
+    "tags": ["Security", "Safety", "Guard"]
+  },
+  {
+    "id": 5,
+    "parentSegment": { "id": 1, "title": "Программист, разработчик" },
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Java-разработчик",
+    "description": "Разработчик серверной части приложений на языке Java",
+    "roles": [{ "id": 96, "name": "Программист, разработчик" }],
+    "tags": ["Java", "Backend", "Programmer", "Software", "IT"]
+  },
+  {
+    "id": 6,
+    "parentSegment": { "id": 3, "title": "Переводчик с китайского" },
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Телохранитель",
+    "description": "Телохранитель, унаследован от охранника",
+    "roles": [{ "id": 90, "name": "Охранник" }],
+    "tags": ["Bodyguard", "Security", "PrivateProtection"]
+  },
+  {
+    "id": 7,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Водитель",
+    "description": "Водитель транспортного средства",
+    "roles": [{ "id": 21, "name": "Водитель" }],
+    "tags": ["Driver", "Car", "Road"]
+  },
+  {
+    "id": 8,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Бухгатлер",
+    "description": "Бухгатлер",
+    "roles": [
+      { "id": 3, "name": "SMM-менеджер, контент-менеджер" },
+      { "id": 18, "name": "Бухгалтер" }
+    ],
+    "tags": ["Finance", "Accounting", "Money", "Calculations"]
+  },
+  {
+    "id": 9,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Механик",
+    "description": "Специалист по сборке или ремонту различной техники",
+    "roles": [{ "id": 173, "name": "Механик" }],
+    "tags": ["Repair", "Mechanic", "Assembly"]
+  },
+  {
+    "id": 10,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Психолог",
+    "description": "Психолог",
+    "roles": [{ "id": 101, "name": "Психолог" }],
+    "tags": ["Psychologist", "Life", "Thoughts", "Help"]
+  },
+  {
+    "id": 11,
+    "parentSegment": null,
+    "createTime": "2023-02-12T02:02:00",
+    "title": "Технический директор (CTO)",
+    "description": "Технический директор (CTO)",
+    "roles": [
+      { "id": 11, "name": "Андеррайтер" },
+      { "id": 125, "name": "Технический директор (CTO)" }
+    ],
+    "tags": ["CTO", "Director", "Management"]
+  }
+]

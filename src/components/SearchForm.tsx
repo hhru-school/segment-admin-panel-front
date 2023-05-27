@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 
-import { useAppDispatch } from 'hooks/redux-hooks';
-import { fetchFields, setSearchString } from 'models/fields';
-
-interface FieldsSearchFormProps {
+interface SearchFormProps {
+    onSubmit?: (searchString: string) => void;
     disabled?: boolean;
 }
 
-const FieldsSearchForm: React.FC<FieldsSearchFormProps> = ({ disabled }) => {
-    const dispatch = useAppDispatch();
+const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, disabled }) => {
     const [searchString, setSetSearchString] = useState('');
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -20,23 +18,26 @@ const FieldsSearchForm: React.FC<FieldsSearchFormProps> = ({ disabled }) => {
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
-        void dispatch(fetchFields({ layerId: 7, searchString }));
-        dispatch(setSearchString(searchString));
+        onSubmit && onSubmit(searchString);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <TextField
+                value={searchString}
                 onChange={handleChange}
-                label="Поиск"
+                placeholder="Начните вводить наименование"
                 InputProps={{
-                    endAdornment: (
-                        <IconButton type="submit">
-                            <SearchIcon />
-                        </IconButton>
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <IconButton type="submit" size="small" edge="start">
+                                <SearchIcon fontSize="small" />
+                            </IconButton>
+                        </InputAdornment>
                     ),
                 }}
                 autoComplete="off"
+                size="small"
                 disabled={disabled}
                 fullWidth
             />
@@ -44,4 +45,4 @@ const FieldsSearchForm: React.FC<FieldsSearchFormProps> = ({ disabled }) => {
     );
 };
 
-export default FieldsSearchForm;
+export default SearchForm;

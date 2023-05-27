@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 
-import { TableDataRowProps, DataConverter } from 'components/Table/TableDataRow';
+import { TableDataRowProps, DataRender } from 'components/Table/TableDataRow';
 
 interface TableCollapsedDataRowProps<T, K = unknown> extends TableDataRowProps<T, K> {
     children?: React.ReactNode;
@@ -16,7 +16,7 @@ interface TableCollapsedDataRowProps<T, K = unknown> extends TableDataRowProps<T
 const TableCollapsedDataRow = <T extends object, K = unknown>({
     row,
     columns,
-    dataConverter,
+    dataRender,
     children,
 }: TableCollapsedDataRowProps<T, K>): JSX.Element => {
     const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ const TableCollapsedDataRow = <T extends object, K = unknown>({
                 </TableCell>
                 {columns.map(({ key, align, width }) => (
                     <TableCell key={key} align={align} sx={{ width }}>
-                        {dataConverter(key, row)}
+                        {dataRender(key, row)}
                     </TableCell>
                 ))}
             </TableRow>
@@ -51,4 +51,4 @@ const TableCollapsedDataRow = <T extends object, K = unknown>({
 };
 
 export default TableCollapsedDataRow;
-export type { DataConverter };
+export type { DataRender };

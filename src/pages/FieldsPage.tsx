@@ -1,22 +1,30 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
-import AddButtonWrapper from 'components/AddButton/AddButtonWrapper';
 import ContentBox from 'components/ContentBox';
-import FieldsSearchForm from 'components/FieldsSearchForm';
 import FieldsTree from 'components/FieldsTree';
-import Title from 'components/Title';
+import SearchForm from 'components/SearchForm';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { fetchFields, reset, selectFieldsLoadingStatus, selectFieldsError } from 'models/fields';
+import { fetchFields, reset, selectFieldsLoadingStatus, selectFieldsError, setSearchString } from 'models/fields';
 
 const FieldsPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const { setAlert } = useErrorAlert();
     const isLoading = useAppSelector(selectFieldsLoadingStatus);
     const error = useAppSelector(selectFieldsError, shallowEqual);
+
+    const handleSearch = useCallback(
+        (searchString: string) => {
+            void dispatch(fetchFields({ layerId: 7, searchString }));
+            dispatch(setSearchString(searchString));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         void dispatch(fetchFields({ layerId: 7, searchString: '' }));
@@ -33,16 +41,24 @@ const FieldsPage: React.FC = () => {
 
     return (
         <>
-            <Title>Поля</Title>
-            <AddButtonWrapper>
-                <AddButton href="/new/field" disabled={isLoading}>
-                    Добавить поле
-                </AddButton>
-            </AddButtonWrapper>
-            <Box sx={{ mb: 2 }}>
-                <FieldsSearchForm disabled={isLoading} />
-            </Box>
-            <ContentBox loading={isLoading} SkeletonProps={{ height: 48, width: '100%' }}>
+            <Stack direction="row" alignItems="center" gap={4} sx={{ pt: 5, pb: 4 }}>
+                <Box sx={{ flexBasis: 140 }}>
+                    <Typography component="h2" variant="h5">
+                        Поля
+                    </Typography>
+                </Box>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ maxWidth: 700, minWidth: 340 }}>
+                        <SearchForm onSubmit={handleSearch} disabled={isLoading} />
+                    </Box>
+                </Box>
+                <Box sx={{ flexShrink: 0 }}>
+                    <AddButton href="/new/field" disabled={isLoading}>
+                        Добавить поле
+                    </AddButton>
+                </Box>
+            </Stack>
+            <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={50}>
                 <FieldsTree />
             </ContentBox>
         </>

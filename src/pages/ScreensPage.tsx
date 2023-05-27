@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
+import ContentBox from 'components/ContentBox';
 import ScreensGrid from 'components/ScreensGrid';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
@@ -35,11 +36,11 @@ const ScreensPage: React.FC = () => {
 
     return (
         <>
-            <Stack direction="row" justifyContent="space-between" gap={2} sx={{ mt: 5, mb: 4 }}>
+            <Stack direction="row" justifyContent="space-between" gap={4} sx={{ pt: 5, pb: 4 }}>
                 <Typography component="h2" variant="h5">
                     Экраны
                 </Typography>
-                <Box sx={{ width: 'max-content' }}>
+                <Box sx={{ flexShrink: 0 }}>
                     <AddButton href="/new/screen" disabled={isLoading}>
                         Новый экран
                     </AddButton>
@@ -68,7 +69,9 @@ const ScreensPage: React.FC = () => {
                     disabled={isLoading}
                 />
             </Box>
-            <ScreensGrid />
+            <ContentBox loading={isLoading} skeletonWidth={200} skeletonHeight={280}>
+                <ScreensGrid />
+            </ContentBox>
         </>
     );
 };

@@ -25,7 +25,7 @@ const LayerPage: React.FC = () => {
             .unwrap()
             .catch((error) => {
                 if (isApiError(error)) {
-                    if (error.code === 404) {
+                    if (error?.code === 404) {
                         navigate('/not-found', { replace: true });
                     } else {
                         setAlert(error.message);
@@ -50,7 +50,7 @@ const LayerPage: React.FC = () => {
                 { href: 'entry-points', primaryText: 'Точки входа', icon: <EntryPointIcon /> },
                 { href: 'field-groups', primaryText: 'Группы полей', icon: <GroupFieldsIcon /> },
             ]}
-            title={title}
+            title={title || 'Нет данных'}
             loading={isLoading}
         >
             <Outlet />
