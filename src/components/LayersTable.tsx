@@ -1,116 +1,85 @@
 import { shallowEqual } from 'react-redux';
-import Button from '@mui/material/Button';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
+import Link from '@mui/material/Link';
 
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { LayersListItem, LayersList, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { LayersListItem, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
 
+import DataTable, { Columns } from 'components/DataTable';
 import LayerStatusChip from 'components/LayerStatusChip';
-import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
-import TableEmptyRow from 'components/Table/TableEmptyRow';
-import TableHead, { Column } from 'components/Table/TableHead';
 
-const columns: Column<LayersListItem, 'actions'>[] = [
-    {
-        key: 'createTime',
-        headerName: 'Создан',
-        align: 'center',
-        width: '180px',
-    },
+const columns: Columns<LayersListItem, 'details'> = [
     {
         key: 'title',
+        field: 'title',
         headerName: 'Наименование',
-        align: 'center',
+        align: 'left',
+        sx: { width: 350 },
     },
     {
-        key: 'layerStatus',
-        headerName: 'Статус',
+        key: 'createTime',
+        field: 'createTime',
+        headerName: 'Создан',
         align: 'center',
-        width: '160px',
-    },
-    {
-        key: 'id',
-        headerName: 'ID',
-        align: 'center',
-    },
-    {
-        key: 'actions',
-        headerName: '',
-        width: '130px',
-    },
-];
-
-const renderData: DataRender<LayersListItem, 'actions'> = (key, data): React.ReactNode => {
-    switch (key) {
-        case 'id':
-        case 'title':
-            return data[key];
-        case 'createTime':
-            return new Date(data[key]).toLocaleString('ru', {
+        sx: { width: 200 },
+        valueGetter: (layer) => {
+            if (layer === undefined) {
+                return layer;
+            }
+            return new Date(layer.createTime).toLocaleString('ru', {
                 dateStyle: 'short',
                 timeStyle: 'medium',
             });
-        case 'layerStatus':
-            return <LayerStatusChip status={data[key]} variant="outlined" />;
-        case 'actions':
+        },
+    },
+    {
+        key: 'layerStatus',
+        field: 'layerStatus',
+        headerName: 'Статус',
+        align: 'center',
+        sx: { width: 300 },
+        valueGetter: (layer) => {
+            if (layer === undefined) {
+                return layer;
+            }
+            return <LayerStatusChip status={layer.layerStatus} variant="outlined" />;
+        },
+    },
+    {
+        key: 'id',
+        field: 'id',
+        headerName: 'ID',
+        align: 'center',
+        sx: { width: 100 },
+    },
+    {
+        key: 'details',
+        headerName: '',
+        align: 'right',
+        sx: { width: 160 },
+        valueGetter: (layer) => {
+            if (layer === undefined) {
+                return layer;
+            }
             return (
-                <Button href={`/layers/${data.id}/info`} size="small">
+                <Link href={`/layers/${layer.id}/info`} underline="hover">
                     Подробнее
-                </Button>
+                </Link>
             );
-    }
-    return exhaustiveCheck(key);
-};
-
-const renderBody = (
-    columns: Column<LayersListItem, 'actions'>[],
-    rows: LayersList,
-    isLoading: boolean
-): React.ReactNode => {
-    const columnsCount = columns.length;
-
-    if (isLoading) {
-        return (
-            <>
-                {Array(7)
-                    .fill(0)
-                    .map((_, index) => (
-                        <TableEmptyRow key={index} columnsCount={columnsCount} loading={isLoading} />
-                    ))}
-            </>
-        );
-    }
-
-    if (isEmpty(rows)) {
-        return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного слоя." />;
-    }
-
-    return rows.map((row) => (
-        <TableDataRow
-            key={row.id}
-            columns={columns}
-            row={row}
-            dataRender={renderData}
-            sx={{ height: DEFAULT_ROW_HEIGHT }}
-        />
-    ));
-};
+        },
+    },
+];
 
 const LayersTable: React.FC = () => {
     const isLoading = useAppSelector(selectLayersListLoadingStatus);
-    const layersList = useAppSelector(selectLayersList, shallowEqual);
+    const layers = useAppSelector(selectLayersList, shallowEqual);
 
     return (
-        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 9 }}>
-            <Table stickyHeader>
-                <TableHead columns={columns} />
-                <TableBody>{renderBody(columns, layersList, isLoading)}</TableBody>
-            </Table>
-        </TableContainer>
+        <DataTable<LayersListItem, 'details'>
+            columns={columns}
+            rows={layers}
+            emptyMessage="Нет ни одного слоя."
+            loading={isLoading}
+        />
     );
 };
 
