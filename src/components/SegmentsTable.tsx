@@ -1,105 +1,80 @@
 import { shallowEqual } from 'react-redux';
-import Button from '@mui/material/Button';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
+import Link from '@mui/material/Link';
 
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { Segment, SegmentsList, selectSegments, selectSegmentsLoadingStatus } from 'models/segments';
+import { Segment, selectSegments, selectSegmentsLoadingStatus, selectSegmentsSearchString } from 'models/segments';
 
-import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
-import TableEmptyRow from 'components/Table/TableEmptyRow';
-import TableHead, { Column } from 'components/Table/TableHead';
+import DataTable, { Columns } from 'components/DataTable';
+import SearchView from 'components/SearchView';
 
-const columns: Column<Segment, 'actions'>[] = [
+const columns: Columns<Segment, 'details'> = [
     {
         key: 'title',
+        field: 'title',
         headerName: 'Наименование',
         align: 'left',
-        width: '40%',
+        sx: { width: 100 },
+        valueGetter: (segment, searchString = '') => {
+            if (segment === undefined) {
+                return segment;
+            }
+            return !isEmpty(searchString) ? (
+                <SearchView subString={searchString} variant="body2">
+                    {segment.title}
+                </SearchView>
+            ) : (
+                segment.title
+            );
+        },
     },
     {
         key: 'createTime',
+        field: 'createTime',
         headerName: 'Создан',
         align: 'center',
-        width: '30%',
-    },
-    {
-        key: 'actions',
-        headerName: '',
-        align: 'right',
-        width: '30%',
-    },
-];
-
-const renderData: DataRender<Segment, 'actions'> = (key, data): React.ReactNode => {
-    switch (key) {
-        case 'id':
-        case 'parentSegment':
-        case 'description':
-        case 'roles':
-        case 'tags':
-            return null;
-        case 'title':
-            return data[key];
-        case 'createTime':
-            return new Date(data[key]).toLocaleString('ru', {
+        sx: { width: 100 },
+        valueGetter: (segment) => {
+            if (segment === undefined) {
+                return segment;
+            }
+            return new Date(segment.createTime).toLocaleString('ru', {
                 dateStyle: 'short',
                 timeStyle: 'medium',
             });
-        case 'actions':
+        },
+    },
+    {
+        key: 'details',
+        align: 'right',
+        sx: { width: 100 },
+        valueGetter: (segment) => {
+            if (segment === undefined) {
+                return segment;
+            }
             return (
-                <Button href={`/segments/${data.id}`} size="small">
+                <Link href={`/segments/${segment.id}`} underline="hover">
                     Подробнее
-                </Button>
+                </Link>
             );
-    }
-    return exhaustiveCheck(key);
-};
-
-const renderBody = (columns: Column<Segment, 'actions'>[], rows: SegmentsList, isLoading: boolean): React.ReactNode => {
-    const columnsCount = columns.length;
-
-    if (isLoading) {
-        return (
-            <>
-                {Array(7)
-                    .fill(0)
-                    .map((_, index) => (
-                        <TableEmptyRow key={index} columnsCount={columnsCount} loading={isLoading} />
-                    ))}
-            </>
-        );
-    }
-
-    if (isEmpty(rows)) {
-        return <TableEmptyRow columnsCount={columnsCount} text="Нет ни одного сегмента." />;
-    }
-
-    return rows.map((row) => (
-        <TableDataRow
-            key={row.id}
-            columns={columns}
-            row={row}
-            dataRender={renderData}
-            sx={{ height: DEFAULT_ROW_HEIGHT }}
-        />
-    ));
-};
+        },
+    },
+];
 
 const SegmentsTable: React.FC = () => {
     const isLoading = useAppSelector(selectSegmentsLoadingStatus);
     const segments = useAppSelector(selectSegments, shallowEqual);
+    const searchString = useAppSelector(selectSegmentsSearchString);
 
     return (
-        <TableContainer>
-            <Table stickyHeader>
-                <TableHead columns={columns} />
-                <TableBody>{renderBody(columns, segments, isLoading)}</TableBody>
-            </Table>
-        </TableContainer>
+        <DataTable<Segment, 'details'>
+            columns={columns}
+            rows={segments}
+            searchString={searchString}
+            emptyMessage="Нет ни одного сегмента."
+            searchEmptyMessage="Не найдено ни одного сегмента."
+            loading={isLoading}
+        />
     );
 };
 
