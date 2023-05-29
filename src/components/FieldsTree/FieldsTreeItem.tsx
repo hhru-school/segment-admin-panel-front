@@ -25,7 +25,11 @@ const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) 
                 key={uniqueKey}
                 renderLabel={(expand, toggleExpand) => (
                     <TreeItemLabel collapsible={!isEmpty(nextNodeList)} expand={expand} toggleExpand={toggleExpand}>
-                        {node.searchedObject ? <SearchView string={node.title} subString={searchString} /> : node.title}
+                        {node.searchedObject ? (
+                            <SearchView subString={searchString}>{field.title}</SearchView>
+                        ) : (
+                            node.title
+                        )}
                     </TreeItemLabel>
                 )}
                 expanded={!isFound}
@@ -48,7 +52,11 @@ const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) 
                     expand={expand}
                     toggleExpand={toggleExpand}
                 >
-                    {field.searchedObject ? <SearchView string={field.title} subString={searchString} /> : field.title}
+                    {field.searchedObject ? (
+                        <SearchView subString={searchString}>{field.title}</SearchView>
+                    ) : (
+                        field.title
+                    )}
                 </TreeItemLabel>
             )}
             expanded={!isFound}
