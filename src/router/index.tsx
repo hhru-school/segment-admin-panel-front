@@ -31,7 +31,6 @@ const router = createBrowserRouter([
                 path: '',
                 element: <HomePage />,
                 children: [
-                    { path: '', element: <Navigate to="/layers" replace /> },
                     { path: 'layers', element: <LayersPage /> },
                     { path: 'fields', element: <FieldsPage /> },
                     { path: 'screens', element: <ScreensPage /> },
@@ -42,7 +41,6 @@ const router = createBrowserRouter([
                 path: 'layers/:layerId',
                 element: <LayerPage />,
                 children: [
-                    { path: '', element: <Navigate to="info" replace /> },
                     { path: 'info', element: <InfoPage /> },
                     { path: 'changes', element: <LayerChangesPage /> },
                     {
@@ -64,7 +62,7 @@ const router = createBrowserRouter([
         ],
     },
     { path: '/not-found', element: <NotFoundPage /> },
-    { path: '*', element: <Navigate to="not-found" replace /> },
+    { path: '*', element: <Navigate to="/not-found" replace /> },
 ]);
 
 export default router;
