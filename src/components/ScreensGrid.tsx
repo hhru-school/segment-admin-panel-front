@@ -21,9 +21,14 @@ const ScreensGrid: React.FC = () => {
     }
 
     return (
-        <Grid container spacing={{ xs: 2, sm: 4 }} justifyContent={{ xs: 'center', sm: 'flex-start' }}>
+        <Grid
+            container
+            rowSpacing={{ xs: 2, sm: 4 }}
+            columnSpacing={8}
+            justifyContent={{ xs: 'center', sm: 'flex-start' }}
+        >
             {screensList.map(({ id, title, type, fields, appVersions, filtered }) => (
-                <Grid key={id} item xs="auto">
+                <Grid key={id} item xs={12} sm={6} md={4} lg={3}>
                     <Screen
                         title={title}
                         fields={fields}
