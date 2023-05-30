@@ -5,11 +5,11 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import { FORM_ERROR, SubmissionErrors } from 'final-form';
 
-import { isApiError } from 'api';
+import api, { apiErrorHandler, isApiError } from 'api';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import isEmpty from 'helpers/isEmpty';
-import sleep from 'helpers/sleep';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import { RolesList, fetchRoles, reset as resetRoles, selectRolesLoadingStatus } from 'models/roles';
@@ -42,6 +42,8 @@ interface RequestBody {
     tags: string[];
 }
 
+const INITIAL_VALUES: Values = { title: '', parentSegment: null, description: '', roles: [], tags: [] };
+
 const validator = (values: Values): Errors => {
     const errors: Errors = {};
     if (!values.title) {
@@ -61,6 +63,17 @@ const convertToRequestBody = ({ title, description, parentSegment, roles, tags }
     tags,
 });
 
+const submitErrorHandler = (error: unknown): string => {
+    const DEFAULT_BAD_REQUEST_MESSAGE = 'Не удалось добавить сегмент. Проверьте введенные данные и повторите попытку.';
+    const apiError = apiErrorHandler(error);
+
+    if (apiError?.code === 400) {
+        return apiError?.data?.message || DEFAULT_BAD_REQUEST_MESSAGE;
+    }
+
+    return apiError.message;
+};
+
 const AddingSegmentForm: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -72,11 +85,15 @@ const AddingSegmentForm: React.FC = () => {
         navigate('/segments');
     };
 
-    const onSubmit = async (values: Values) => {
-        await sleep(2000);
-        // eslint-disable-next-line no-console
-        console.log(convertToRequestBody(values));
-        navigate('/segments');
+    const onSubmit = async (values: Values): Promise<SubmissionErrors | void> => {
+        try {
+            await api.post<Segment>('/segments', convertToRequestBody(values));
+        } catch (error) {
+            const message = submitErrorHandler(error);
+            setAlert(message);
+            return { [FORM_ERROR]: message };
+        }
+        return navigate('/segments');
     };
 
     useEffect(() => {
@@ -94,9 +111,9 @@ const AddingSegmentForm: React.FC = () => {
     return (
         <Form<Values>
             onSubmit={onSubmit}
-            initialValues={{ title: '', parentSegment: null, description: '', roles: [], tags: [] }}
+            initialValues={INITIAL_VALUES}
             validate={validator}
-            subscription={{ submitting: true, pristine: true, submitSucceeded: true }}
+            subscription={{ submitting: true, pristine: true, submitSucceeded: true, submitError: true }}
             render={({ handleSubmit, submitting, submitSucceeded }) => (
                 <form id="adding-segment-from" autoComplete="off" onSubmit={handleSubmit}>
                     <Field<string> name={FieldName.Title}>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,13 +9,27 @@ import SearchForm from 'components/SearchForm';
 import SegmentsTable from 'components/SegmentsTable';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { fetchSegments, reset, selectSegmentsLoadingStatus, selectSegmentsError } from 'models/segments';
+import {
+    fetchSegments,
+    reset,
+    selectSegmentsLoadingStatus,
+    selectSegmentsError,
+    setSearchString,
+} from 'models/segments';
 
 const SegmentsPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const { setAlert } = useErrorAlert();
     const isLoading = useAppSelector(selectSegmentsLoadingStatus);
     const error = useAppSelector(selectSegmentsError, shallowEqual);
+
+    const handleSearch = useCallback(
+        (searchString: string) => {
+            void dispatch(fetchSegments(searchString));
+            dispatch(setSearchString(searchString));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         void dispatch(fetchSegments());
@@ -40,7 +54,7 @@ const SegmentsPage: React.FC = () => {
                 </Box>
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{ maxWidth: 700, minWidth: 340 }}>
-                        <SearchForm disabled={isLoading} />
+                        <SearchForm disabled={isLoading} onSubmit={handleSearch} />
                     </Box>
                 </Box>
                 <Box sx={{ flexShrink: 0 }}>

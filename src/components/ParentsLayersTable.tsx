@@ -1,87 +1,64 @@
 import { shallowEqual } from 'react-redux';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
 
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectCurrentLayerParentLayers } from 'models/currentLayer';
-import { LayersListItem, LayersList } from 'models/layersList';
+import { LayersListItem } from 'models/layersList';
 
+import DataTable, { Columns } from 'components/DataTable';
 import LayerStatusChip from 'components/LayerStatusChip';
-import TableDataRow, { DataRender, DEFAULT_ROW_HEIGHT } from 'components/Table/TableDataRow';
-import TableEmptyRow from 'components/Table/TableEmptyRow';
-import TableHead, { Column } from 'components/Table/TableHead';
 
-const columns: Column<LayersListItem>[] = [
-    {
-        key: 'createTime',
-        headerName: 'Создан',
-        align: 'center',
-        width: '180px',
-    },
+const columns: Columns<LayersListItem> = [
     {
         key: 'title',
+        field: 'title',
         headerName: 'Наименование',
-        align: 'center',
+        align: 'left',
+        sx: { width: 350 },
     },
     {
-        key: 'layerStatus',
-        headerName: 'Статус',
+        key: 'createTime',
+        field: 'createTime',
+        headerName: 'Создан',
         align: 'center',
-        width: '160px',
-    },
-    {
-        key: 'id',
-        headerName: 'ID',
-        align: 'center',
-    },
-];
-
-const renderData: DataRender<LayersListItem> = (key, data): React.ReactNode => {
-    switch (key) {
-        case 'id':
-        case 'title':
-            return data[key];
-        case 'createTime':
-            return new Date(data[key]).toLocaleString('ru', {
+        sx: { width: 200 },
+        valueGetter: (layer) => {
+            if (layer === undefined) {
+                return layer;
+            }
+            return new Date(layer.createTime).toLocaleString('ru', {
                 dateStyle: 'short',
                 timeStyle: 'medium',
             });
-        case 'layerStatus':
-            return <LayerStatusChip status={data[key]} variant="outlined" />;
-    }
-    return exhaustiveCheck(key);
-};
+        },
+    },
+    {
+        key: 'layerStatus',
+        field: 'layerStatus',
+        headerName: 'Статус',
+        align: 'center',
+        sx: { width: 300 },
+        valueGetter: (layer) => {
+            if (layer === undefined) {
+                return layer;
+            }
+            return <LayerStatusChip status={layer.layerStatus} variant="outlined" />;
+        },
+    },
+    {
+        key: 'id',
+        field: 'id',
+        headerName: 'ID',
+        align: 'center',
+        sx: { width: 100 },
+    },
+];
 
-const renderBody = (columns: Column<LayersListItem>[], rows: LayersList | null): React.ReactNode => {
-    if (rows === null || isEmpty(rows)) {
-        return <TableEmptyRow columnsCount={columns.length} text="Родительского слоя нет." />;
-    }
-
-    return rows.map((row) => (
-        <TableDataRow
-            key={row.id}
-            columns={columns}
-            row={row}
-            dataRender={renderData}
-            sx={{ height: DEFAULT_ROW_HEIGHT }}
-        />
-    ));
-};
-
-const LayersTable: React.FC = () => {
-    const items = useAppSelector(selectCurrentLayerParentLayers, shallowEqual);
+const ParentsLayersTable: React.FC = () => {
+    const parentLayers = useAppSelector(selectCurrentLayerParentLayers, shallowEqual);
 
     return (
-        <TableContainer sx={{ maxHeight: DEFAULT_ROW_HEIGHT * 4 }}>
-            <Table stickyHeader>
-                <TableHead columns={columns} />
-                <TableBody>{renderBody(columns, items)}</TableBody>
-            </Table>
-        </TableContainer>
+        <DataTable<LayersListItem> columns={columns} rows={parentLayers || []} emptyMessage="Родительского слоя нет." />
     );
 };
 
-export default LayersTable;
+export default ParentsLayersTable;

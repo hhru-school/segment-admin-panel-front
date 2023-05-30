@@ -1,11 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-import { ApiError, apiErrorHandler } from 'api';
-import sleep from 'helpers/sleep';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
-import { Segment, SegmentsList } from 'models/segments';
+import { Segment } from 'models/segments';
 
 interface CurrentSegmentState {
     item: Segment | null;
@@ -16,16 +15,15 @@ interface CurrentSegmentState {
 const fetchSegment = createAsyncThunk<Segment, number, { rejectValue: ApiError }>(
     'currentSegment/fetchSegment',
     async (id, thunkApi) => {
-        let response: AxiosResponse<SegmentsList>;
+        let response: AxiosResponse<Segment>;
 
         try {
-            await sleep(2000);
-            response = await axios.get<SegmentsList>('/mocks/segments.json');
+            response = await api.get<Segment>(`/segments/${id}`);
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
 
-        return response.data.find((segment) => segment.id === id) as Segment;
+        return response.data;
     }
 );
 

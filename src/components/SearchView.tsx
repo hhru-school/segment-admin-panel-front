@@ -1,21 +1,21 @@
-import Typography from '@mui/material/Typography';
+import Typography, { TypographyProps } from '@mui/material/Typography';
 
-interface SearchViewProps {
-    string: string;
+interface SearchViewProps extends Omit<TypographyProps, 'children'> {
+    children: string;
     subString: string;
 }
 
-const SearchView: React.FC<SearchViewProps> = ({ string, subString }) => {
-    const firstIndex = string.search(new RegExp(subString, 'i'));
-    const lastIndex = firstIndex + subString.length;
+const SearchView: React.FC<SearchViewProps> = ({ children, subString, ...rest }) => {
+    const firstIndex = children.search(new RegExp(subString, 'i'));
+    const lastIndex = firstIndex + subString?.length;
 
     return (
-        <Typography component="span">
-            {string.slice(0, firstIndex)}
+        <Typography component="span" {...rest}>
+            {children.slice(0, firstIndex)}
             <Typography component="span" sx={{ fontWeight: 600, color: 'info.main' }}>
-                {string.slice(firstIndex, lastIndex)}
+                {children.slice(firstIndex, lastIndex)}
             </Typography>
-            {string.slice(lastIndex)}
+            {children.slice(lastIndex)}
         </Typography>
     );
 };

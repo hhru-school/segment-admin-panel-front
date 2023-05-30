@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
-import { ApiError, apiErrorHandler } from 'api';
-import sleep from 'helpers/sleep';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
 export interface Role {
@@ -23,8 +22,7 @@ const fetchRoles = createAsyncThunk<RolesList, undefined, { rejectValue: ApiErro
         let response: AxiosResponse<RolesList>;
 
         try {
-            await sleep(2000);
-            response = await axios.get<RolesList>('/mocks/roles.json');
+            response = await api.get<RolesList>('/roles');
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }

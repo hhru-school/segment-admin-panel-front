@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Outlet, useParams, useNavigate, useMatch } from 'react-router-dom';
 import SegmentsIcon from '@mui/icons-material/DonutSmallOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
 import LayerIcon from '@mui/icons-material/LibraryAddOutlined';
@@ -15,27 +15,32 @@ import { fetchLayer, selectCurrentLayerTitle, selectCurrentLayerLoadingStatus, r
 const LayerPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const redirect = useMatch('/layers/:layerId');
     const { layerId, entryPointId } = useParams();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const title = useAppSelector(selectCurrentLayerTitle);
     const { setAlert } = useErrorAlert();
 
     useEffect(() => {
-        void dispatch(fetchLayer(Number(layerId)))
-            .unwrap()
-            .catch((error) => {
-                if (isApiError(error)) {
-                    if (error?.code === 404) {
-                        navigate('/not-found', { replace: true });
-                    } else {
-                        setAlert(error.message);
+        if (redirect) {
+            navigate(`${redirect.pathnameBase}/info`, { replace: true });
+        } else {
+            void dispatch(fetchLayer(Number(layerId)))
+                .unwrap()
+                .catch((error) => {
+                    if (isApiError(error)) {
+                        if (error?.code === 404) {
+                            navigate('/not-found', { replace: true });
+                        } else {
+                            setAlert(error.message);
+                        }
                     }
-                }
-            });
+                });
+        }
         return () => {
             dispatch(reset());
         };
-    }, [layerId, dispatch, navigate, setAlert]);
+    }, [layerId, redirect, dispatch, navigate, setAlert]);
 
     if (entryPointId !== undefined) {
         return <Outlet />;
