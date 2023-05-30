@@ -118,13 +118,13 @@ const AddingSegmentForm: React.FC = () => {
                 <form id="adding-segment-from" autoComplete="off" onSubmit={handleSubmit}>
                     <Field<string> name={FieldName.Title}>
                         {({ input, meta }) => {
-                            const [isError, errorMessage, submitError] = extractFinalFormErrorState(meta);
+                            const [isError, errorMessage] = extractFinalFormErrorState(meta);
                             return (
                                 <TextField
                                     {...input}
                                     label="Наименование *"
                                     error={isError}
-                                    helperText={isError && (errorMessage || submitError)}
+                                    helperText={isError && errorMessage}
                                     margin="normal"
                                     disabled={submitting}
                                     fullWidth
