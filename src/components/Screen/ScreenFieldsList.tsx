@@ -1,7 +1,7 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { styled } from '@mui/material/styles';
+import { styled, lighten } from '@mui/material/styles';
 
 import { FieldsList } from 'models/screens';
 
@@ -14,17 +14,22 @@ interface ScreenFieldsListProps {
 
 const StyledList = styled(List, { shouldForwardProp: (prop) => prop !== 'variant' })<
     Pick<ScreenFieldsListProps, 'variant'>
->(({ variant = Variant.STATIC }) => ({
+>(({ theme, variant = Variant.STATIC }) => ({
     backgroundClip: 'content-box',
-    ...(variant === Variant.STATIC && { backgroundColor: '#fff2f2' }),
-    ...(variant === Variant.DYNAMIC && { backgroundColor: '#e8f1fb' }),
+    ...(variant === Variant.STATIC && { backgroundColor: lighten(theme.palette.secondary.light, 0.9) }),
+    ...(variant === Variant.DYNAMIC && { backgroundColor: lighten(theme.palette.primary.light, 0.9) }),
 }));
 
 const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 'variant' })<
     Pick<ScreenFieldsListProps, 'variant'>
->(({ variant = Variant.STATIC }) => ({
-    ...(variant === Variant.STATIC && { '&:nth-of-type(even)': { backgroundColor: '#ffe6e6' } }),
-    ...(variant === Variant.DYNAMIC && { '&:nth-of-type(odd)': { backgroundColor: '#d1e4f6' } }),
+>(({ theme, variant = Variant.STATIC }) => ({
+    hyphens: 'auto',
+    ...(variant === Variant.STATIC && {
+        '&:nth-of-type(even)': { backgroundColor: lighten(theme.palette.secondary.light, 0.8) },
+    }),
+    ...(variant === Variant.DYNAMIC && {
+        '&:nth-of-type(odd)': { backgroundColor: lighten(theme.palette.primary.light, 0.8) },
+    }),
 }));
 
 const ScreenFieldsList: React.FC<ScreenFieldsListProps> = ({ fields, variant }) => {

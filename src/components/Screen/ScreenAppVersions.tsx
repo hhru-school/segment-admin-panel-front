@@ -4,18 +4,25 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
-import { VersionsList } from 'models/screens';
+import { VersionsList, Platform } from 'models/screens';
 
 interface ScreenAppVersionsProps {
     versions: VersionsList;
     filtered?: boolean;
 }
 
-const StyledList = styled(List)({
+const StyledList = styled(List)(({ theme }) => ({
     padding: '4px 0',
+    minHeight: 68,
     borderRadius: '4px',
-    backgroundColor: '#dee3e9',
-});
+    backgroundColor: theme.palette.grey[100],
+}));
+
+const platformName = new Map<Platform, string>([
+    ['WEB', 'Web'],
+    ['ANDROID', 'Android'],
+    ['IOS', 'iOS'],
+]);
 
 const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions }) => {
     return (
@@ -23,8 +30,8 @@ const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions }) => {
             {versions.map(({ id, platform, version }) => (
                 <ListItem key={id} sx={{ py: 0 }}>
                     <Stack direction="row" justifyContent="space-between" sx={{ width: '100%' }}>
-                        <Typography variant="body2">{platform}</Typography>
-                        <Typography variant="body2">{version}</Typography>
+                        <Typography variant="body2">{platformName.get(platform)}</Typography>
+                        {platform !== 'WEB' && <Typography variant="body2">{version}</Typography>}
                     </Stack>
                 </ListItem>
             ))}
