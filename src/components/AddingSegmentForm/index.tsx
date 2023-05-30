@@ -63,6 +63,17 @@ const convertToRequestBody = ({ title, description, parentSegment, roles, tags }
     tags,
 });
 
+const submitErrorHandler = (error: unknown): string => {
+    const DEFAULT_BAD_REQUEST_MESSAGE = 'Не удалось добавить сегмент. Проверьте введенные данные и повторите попытку.';
+    const apiError = apiErrorHandler(error);
+
+    if (apiError?.code === 400) {
+        return apiError?.data?.message || DEFAULT_BAD_REQUEST_MESSAGE;
+    }
+
+    return apiError.message;
+};
+
 const AddingSegmentForm: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -74,24 +85,15 @@ const AddingSegmentForm: React.FC = () => {
         navigate('/segments');
     };
 
-    const onSubmit = async (values: Values): Promise<SubmissionErrors> => {
+    const onSubmit = async (values: Values): Promise<SubmissionErrors | void> => {
         try {
             await api.post<Segment>('/segments', convertToRequestBody(values));
         } catch (error) {
-            const apiError = apiErrorHandler(error);
-
-            if (apiError?.code === 400) {
-                setAlert('Некорректные данные. Проверьте введенные данные и повторите попытку.');
-                return {
-                    title: 'Пожалуйста проверьте введенные данные. Наименование не может состоять только из пробельных символов.',
-                };
-            }
-
-            setAlert(apiError.message);
-            return { [FORM_ERROR]: 'Не удалось отправить форму.' };
+            const message = submitErrorHandler(error);
+            setAlert(message);
+            return { [FORM_ERROR]: message };
         }
-        navigate('/segments');
-        return undefined;
+        return navigate('/segments');
     };
 
     useEffect(() => {
