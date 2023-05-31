@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 
-import { ApiError, apiErrorHandler } from 'api';
+import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 
 export interface Field {
@@ -9,196 +10,42 @@ export interface Field {
 }
 export type FieldsList = Field[];
 
+const PLATFORMS = ['ANDROID', 'IOS', 'WEB'] as const;
+export type Platform = (typeof PLATFORMS)[number];
 export interface Version {
     id: number;
-    platform: string;
-    version?: string;
+    platform: Platform;
+    version: string;
 }
 export type VersionsList = Version[];
 
 const SCREEN_TYPES = ['STATIC', 'DYNAMIC'] as const;
+const SCREEN_STATES = ['ACTIVE', 'ARCHIVED'] as const;
 export type ScreenType = (typeof SCREEN_TYPES)[number];
+type ScreenState = (typeof SCREEN_STATES)[number];
 export interface Screen {
     id: number;
     title: string;
+    description: string;
     type: ScreenType;
+    state: ScreenState;
     fields: FieldsList;
     appVersions: VersionsList;
     filtered?: boolean;
 }
 export type ScreensList = Screen[];
 
-// Удалить когда будет ручка
-const MOCK_SCREENS: ScreensList = [
-    {
-        id: 1,
-        title: 'main_1_45',
-        type: 'STATIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 2, title: 'Фамилия' },
-            { id: 3, title: 'Гражданство' },
-            { id: 4, title: 'Разрешение на работу' },
-        ],
-        appVersions: [
-            { id: 1, platform: 'iOS', version: '3.7+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 2,
-        title: 'experience_24',
-        type: 'DYNAMIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-        ],
-        appVersions: [
-            { id: 1, platform: 'iOS', version: '3.7+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 3,
-        title: 'main_1_46',
-        type: 'STATIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 2, title: 'Фамилия' },
-            { id: 3, title: 'Гражданство' },
-            { id: 6, title: 'Город' },
-        ],
-        appVersions: [
-            { id: 4, platform: 'iOS', version: '3.8+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 4,
-        title: 'main_3_3',
-        type: 'DYNAMIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 5,
-        title: 'main_3_3',
-        type: 'DYNAMIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 6,
-        title: 'main_3_3',
-        type: 'STATIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 7,
-        title: 'main_3_3',
-        type: 'STATIC',
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 8,
-        title: 'main_3_3',
-        type: 'DYNAMIC',
-        filtered: true,
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 9,
-        title: 'main_3_3',
-        type: 'DYNAMIC',
-        filtered: true,
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-    {
-        id: 10,
-        title: 'main_3_3',
-        type: 'STATIC',
-        filtered: true,
-        fields: [
-            { id: 1, title: 'Имя' },
-            { id: 5, title: 'Опыт работы' },
-            { id: 7, title: 'Портфолио' },
-        ],
-        appVersions: [
-            { id: 5, platform: 'iOS', version: '3.9+' },
-            { id: 2, platform: 'Android', version: '1.4+' },
-            { id: 3, platform: 'Web' },
-        ],
-    },
-];
-
 const fetchScreens = createAsyncThunk<ScreensList, undefined, { rejectValue: ApiError }>(
     'screens/fetchScreens',
     async (_, thunkApi) => {
-        let response: ScreensList;
+        let response: AxiosResponse<ScreensList>;
         try {
-            response = await new Promise((resolve) => {
-                setTimeout(() => resolve(MOCK_SCREENS), 3000);
-            });
+            response = await api.get('/screens');
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
 
-        return response;
+        return response.data;
     }
 );
 

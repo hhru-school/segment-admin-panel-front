@@ -69,7 +69,7 @@ const ScreensPage: React.FC = () => {
                     disabled={isLoading}
                 />
             </Box>
-            <ContentBox loading={isLoading} skeletonWidth={200} skeletonHeight={280}>
+            <ContentBox loading={isLoading} skeletonWidth={252} skeletonHeight={320}>
                 <ScreensGrid />
             </ContentBox>
         </>

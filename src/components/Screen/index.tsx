@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import { lighten, styled } from '@mui/material/styles';
 
 import { FieldsList, VersionsList } from 'models/screens';
 
@@ -24,20 +24,35 @@ const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'varian
     Pick<ScreenProps, 'variant' | 'filtered'>
 >(({ theme, variant = Variant.STATIC, filtered }) => ({
     height: '100%',
-    minHeight: '280px',
-    width: '200px',
+    minHeight: '320px',
     padding: '16px 8px 8px',
     borderRadius: '4px',
-    ...(variant === Variant.STATIC && { backgroundColor: '#ffd1d1' }),
-    ...(variant === Variant.DYNAMIC && { backgroundColor: '#75ade4' }),
-    ...(filtered && { color: theme.palette.text.disabled, backgroundColor: '#cccccc', filter: 'grayscale(1)' }),
+    ...(variant === Variant.STATIC && { backgroundColor: lighten(theme.palette.secondary.light, 0.5) }),
+    ...(variant === Variant.DYNAMIC && { backgroundColor: lighten(theme.palette.primary.light, 0.5) }),
+    ...(filtered && {
+        color: theme.palette.text.disabled,
+        backgroundColor: theme.palette.grey[300],
+        filter: 'grayscale(1)',
+    }),
 }));
 
 const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, filtered }) => {
     return (
         <ScreenCard variant={variant} filtered={filtered}>
-            <Typography sx={{ fontWeight: '700', textAlign: 'center' }}>{title}</Typography>
-            <Stack justifyContent="space-between" flexGrow={1}>
+            <Typography
+                component="h3"
+                sx={{
+                    height: 41,
+                    overflowWrap: 'break-word',
+                    overflowY: 'auto',
+                    fontWeight: 700,
+                    textAlign: 'center',
+                }}
+                variant="body2"
+            >
+                {title}
+            </Typography>
+            <Stack justifyContent="space-between" flexGrow={1} spacing={2}>
                 <ScreenFieldsList variant={variant} fields={fields} />
                 <ScreenAppVersions versions={appVersions} />
             </Stack>
