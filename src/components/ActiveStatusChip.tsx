@@ -8,7 +8,7 @@ interface ActiveStatusChipProps extends Omit<ChipProps, 'label' | 'color'> {
 
 const ActiveStatusChip: React.FC<ActiveStatusChipProps> = ({ type, ...rest }) => {
     if (type === 'DISABLED') {
-        return <Chip label="Не активный" {...rest} />;
+        return <Chip label="Неактивный" {...rest} />;
     }
     return null;
 };
