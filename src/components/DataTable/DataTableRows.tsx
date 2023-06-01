@@ -45,6 +45,23 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
         setOpen(!open);
     };
 
+    const dataCells: JSX.Element[] = columns.map(({ headerName, valueGetter, field, ...rest }) => {
+        if (header) {
+            return <TableCell {...rest}>{headerName}</TableCell>;
+        }
+
+        if (valueGetter !== undefined) {
+            return <TableCell {...rest}>{valueGetter(data, searchString)}</TableCell>;
+        }
+
+        if (field && isObject(data) && hasFields(data, [field])) {
+            const value = data[field];
+            return <TableCell {...rest}>{(typeof value === 'string' || typeof value === 'number') && value}</TableCell>;
+        }
+
+        return <TableCell {...rest} />;
+    });
+
     if (collapsed) {
         return (
             <>
@@ -64,26 +81,7 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
                             </IconButton>
                         </TableCell>
                     )}
-                    {columns.map(({ headerName, valueGetter, field, ...rest }) => {
-                        if (header) {
-                            return <TableCell {...rest}>{headerName}</TableCell>;
-                        }
-
-                        if (valueGetter !== undefined) {
-                            return <TableCell {...rest}>{valueGetter(data, searchString)}</TableCell>;
-                        }
-
-                        if (field && isObject(data) && hasFields(data, [field])) {
-                            const value = data[field];
-                            return (
-                                <TableCell {...rest}>
-                                    {(typeof value === 'string' || typeof value === 'number') && value}
-                                </TableCell>
-                            );
-                        }
-
-                        return <TableCell {...rest} />;
-                    })}
+                    {dataCells}
                 </TableRow>
                 <TableRow>
                     <TableCell sx={{ width: '1%', py: 0, pr: 0 }} />
@@ -97,30 +95,7 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
         );
     }
 
-    return (
-        <TableRow sx={{ height: 65 }}>
-            {columns.map(({ headerName, valueGetter, field, ...rest }) => {
-                if (header) {
-                    return <TableCell {...rest}>{headerName}</TableCell>;
-                }
-
-                if (valueGetter !== undefined) {
-                    return <TableCell {...rest}>{valueGetter(data, searchString)}</TableCell>;
-                }
-
-                if (field && isObject(data) && hasFields(data, [field])) {
-                    const value = data[field];
-                    return (
-                        <TableCell {...rest}>
-                            {(typeof value === 'string' || typeof value === 'number') && value}
-                        </TableCell>
-                    );
-                }
-
-                return <TableCell {...rest} />;
-            })}
-        </TableRow>
-    );
+    return <TableRow sx={{ height: 65 }}>{dataCells}</TableRow>;
 };
 
 export default DataTableRows;
