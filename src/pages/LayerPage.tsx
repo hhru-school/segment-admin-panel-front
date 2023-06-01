@@ -2,9 +2,6 @@ import { useEffect } from 'react';
 import { Outlet, useParams, useNavigate, useMatch } from 'react-router-dom';
 import SegmentsIcon from '@mui/icons-material/DonutSmallOutlined';
 import InfoIcon from '@mui/icons-material/InfoOutlined';
-import LayerIcon from '@mui/icons-material/LibraryAddOutlined';
-import EntryPointIcon from '@mui/icons-material/OpenInNewOutlined';
-import GroupFieldsIcon from '@mui/icons-material/QuizOutlined';
 
 import { isApiError } from 'api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
@@ -16,7 +13,7 @@ const LayerPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const redirect = useMatch('/layers/:layerId');
-    const { layerId, entryPointId } = useParams();
+    const { layerId, segmentId } = useParams();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const title = useAppSelector(selectCurrentLayerTitle);
     const { setAlert } = useErrorAlert();
@@ -42,7 +39,7 @@ const LayerPage: React.FC = () => {
         };
     }, [layerId, redirect, dispatch, navigate, setAlert]);
 
-    if (entryPointId !== undefined) {
+    if (segmentId !== undefined) {
         return <Outlet />;
     }
 
@@ -50,10 +47,7 @@ const LayerPage: React.FC = () => {
         <LayerLayout
             drawerOptions={[
                 { href: 'info', primaryText: 'Основная информация', icon: <InfoIcon /> },
-                { href: 'changes', primaryText: 'Изменения в слое', icon: <LayerIcon /> },
                 { href: 'segments', primaryText: 'Сегменты', icon: <SegmentsIcon /> },
-                { href: 'entry-points', primaryText: 'Точки входа', icon: <EntryPointIcon /> },
-                { href: 'field-groups', primaryText: 'Группы полей', icon: <GroupFieldsIcon /> },
             ]}
             title={title || 'Нет данных'}
             loading={isLoading}

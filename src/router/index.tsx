@@ -5,14 +5,10 @@ import CreateNewFieldPage from 'pages/CreateNewFieldPage';
 import CreateNewLayerPage from 'pages/CreateNewLayerPage';
 import CreateNewScreenPage from 'pages/CreateNewScreenPage';
 import CreateNewSegmentPage from 'pages/CreateNewSegmentPage';
-import EntryPointPage from 'pages/EntryPointPage';
-import EntryPointsPage from 'pages/EntryPointsPage';
-import FieldGroupsPage from 'pages/FieldGroupsPage';
 import FieldPage from 'pages/FieldPage';
 import FieldsPage from 'pages/FieldsPage';
 import HomePage from 'pages/HomePage';
 import InfoPage from 'pages/InfoPage';
-import LayerChangesPage from 'pages/LayerChangesPage';
 import LayerPage from 'pages/LayerPage';
 import LayerSegmentPage from 'pages/LayerSegmentPage';
 import LayerSegmentsPage from 'pages/LayerSegmentsPage';
@@ -42,17 +38,11 @@ const router = createBrowserRouter([
                 element: <LayerPage />,
                 children: [
                     { path: 'info', element: <InfoPage /> },
-                    { path: 'changes', element: <LayerChangesPage /> },
-                    {
-                        path: 'segments',
-                        element: <LayerSegmentsPage />,
-                        children: [{ path: ':segmentId', element: <LayerSegmentPage /> }],
-                    },
-                    { path: 'entry-points', element: <EntryPointsPage /> },
-                    { path: 'entry-points/:entryPointId', element: <EntryPointPage /> },
-                    { path: 'field-groups', element: <FieldGroupsPage /> },
+                    { path: 'segments', element: <LayerSegmentsPage /> },
+                    { path: 'segments/:segmentId', element: <LayerSegmentPage /> },
                 ],
             },
+
             { path: 'fields/:fieldId', element: <FieldPage /> },
             { path: 'segments/:segmentId', element: <SegmentPage /> },
             { path: 'segments/new', element: <CreateNewSegmentPage /> },
