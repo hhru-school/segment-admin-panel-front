@@ -17,7 +17,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({ title, children, loading, skele
             <Box>
                 {title && (
                     <Skeleton variant="rounded" width={300}>
-                        <Typography component="h2" variant="h5" sx={{ mb: 4 }}>
+                        <Typography component="h2" variant="h6" sx={{ mb: 4 }}>
                             .
                         </Typography>
                     </Skeleton>
@@ -32,7 +32,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({ title, children, loading, skele
     return (
         <Box>
             {title && (
-                <Typography component="h2" variant="h5" sx={{ mb: 4 }}>
+                <Typography component="h2" variant="h6" sx={{ mb: 4 }}>
                     {title}
                 </Typography>
             )}
