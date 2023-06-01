@@ -21,7 +21,7 @@ const LayerInfoPage: React.FC = () => {
                     Основная информация
                 </Typography>
                 <ContentBox loading={isLoading}>
-                    <LayerStatusChip status="STABLE" />
+                    <LayerStatusChip />
                 </ContentBox>
                 <ContentBox title="Описание" loading={isLoading} skeletonWidth="100%">
                     <Typography>.</Typography>

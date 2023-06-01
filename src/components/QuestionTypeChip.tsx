@@ -1,5 +1,4 @@
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { QuestionType } from 'types/field';
+import { QuestionType, QuestionTypes } from 'types/field';
 
 import LightenChip, { LightenChipProps } from 'components/LightenChip';
 
@@ -9,14 +8,13 @@ interface QuestionTypeChipProps extends Pick<LightenChipProps, 'size'> {
 
 const QuestionTypeChip: React.FC<QuestionTypeChipProps> = ({ type, size }) => {
     switch (type) {
-        case 'SINGLE_CHOICE':
+        case QuestionTypes.SingleChoice:
             return <LightenChip label="Один ответ" color="info" size={size} />;
-        case 'MULTI_SELECT':
+        case QuestionTypes.MultiSelect:
             return <LightenChip label="Несколько ответов" color="info" size={size} />;
-        case 'NONE':
+        default:
             return null;
     }
-    return exhaustiveCheck(type);
 };
 
 export default QuestionTypeChip;

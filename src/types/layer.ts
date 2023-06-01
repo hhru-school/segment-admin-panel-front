@@ -1,9 +1,13 @@
 import { ChangeState, ActiveState } from 'types/common';
 import { Segment } from 'types/segment';
 
-const LAYERS_STATUSES = ['ARCHIVED', 'EXPERIMENTAL', 'STABLE'] as const;
+export const enum LayerStatuses {
+    Archived = 'ARCHIVED',
+    Experimental = 'EXPERIMENTAL',
+    Stable = 'STABLE',
+}
 
-export type LayerStatus = (typeof LAYERS_STATUSES)[number];
+export type LayerStatus = `${LayerStatuses}`;
 export type LayersListItem = Pick<Layer, 'id' | 'title' | 'createTime' | 'layerStatus'>;
 export type LayersList = LayersListItem[];
 export type LayerSegmentsList = LayerSegmentsListItem[];

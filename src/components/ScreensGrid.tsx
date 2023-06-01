@@ -5,14 +5,8 @@ import Grid from '@mui/material/Grid';
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectScreensList } from 'models/screens';
-import { ScreenType } from 'types/screen';
 
-import Screen, { Variant } from 'components/Screen';
-
-const variant = new Map<ScreenType, Variant>([
-    ['STATIC', Variant.STATIC],
-    ['DYNAMIC', Variant.DYNAMIC],
-]);
+import Screen from 'components/Screen';
 
 const ScreensGrid: React.FC = () => {
     const screensList = useAppSelector(selectScreensList, shallowEqual);
@@ -34,7 +28,7 @@ const ScreensGrid: React.FC = () => {
                         title={title}
                         fields={fields}
                         appVersions={appVersions}
-                        variant={variant.get(type)}
+                        variant={type}
                         filtered={filtered}
                     />
                 </Grid>

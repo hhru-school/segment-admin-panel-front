@@ -3,23 +3,23 @@ import StableIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import ExperimentalIcon from '@mui/icons-material/ScienceOutlined';
 import Chip, { ChipProps } from '@mui/material/Chip';
 
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { LayerStatus } from 'types/layer';
+import { LayerStatus, LayerStatuses } from 'types/layer';
 
 interface LayerStatusChipProps extends Pick<ChipProps, 'variant'> {
-    status: LayerStatus;
+    status?: LayerStatus;
 }
 
-const LayerStatusChip: React.FC<LayerStatusChipProps> = ({ status, variant }) => {
+const LayerStatusChip: React.FC<LayerStatusChipProps> = ({ status = LayerStatuses.Stable, variant }) => {
     switch (status) {
-        case 'ARCHIVED':
+        case LayerStatuses.Archived:
             return <Chip icon={<ArchivedIcon />} label="Архивный" variant={variant} />;
-        case 'EXPERIMENTAL':
+        case LayerStatuses.Experimental:
             return <Chip icon={<ExperimentalIcon />} label="Пробный" variant={variant} color="warning" />;
-        case 'STABLE':
+        case LayerStatuses.Stable:
             return <Chip icon={<StableIcon />} label="Базовый" variant={variant} color="success" />;
+        default:
+            return null;
     }
-    return exhaustiveCheck(status);
 };
 
 export default LayerStatusChip;

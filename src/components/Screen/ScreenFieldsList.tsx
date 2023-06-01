@@ -4,30 +4,29 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled, lighten } from '@mui/material/styles';
 
 import { FieldsList } from 'types/field';
-
-import { Variant } from 'components/Screen';
+import { ScreenType, ScreenTypes } from 'types/screen';
 
 interface ScreenFieldsListProps {
     fields: FieldsList;
-    variant?: `${Variant}`;
+    variant?: ScreenType;
 }
 
 const StyledList = styled(List, { shouldForwardProp: (prop) => prop !== 'variant' })<
     Pick<ScreenFieldsListProps, 'variant'>
->(({ theme, variant = Variant.STATIC }) => ({
+>(({ theme, variant = ScreenTypes.Static }) => ({
     backgroundClip: 'content-box',
-    ...(variant === Variant.STATIC && { backgroundColor: lighten(theme.palette.secondary.light, 0.9) }),
-    ...(variant === Variant.DYNAMIC && { backgroundColor: lighten(theme.palette.primary.light, 0.9) }),
+    ...(variant === ScreenTypes.Static && { backgroundColor: lighten(theme.palette.secondary.light, 0.9) }),
+    ...(variant === ScreenTypes.Dynamic && { backgroundColor: lighten(theme.palette.primary.light, 0.9) }),
 }));
 
 const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 'variant' })<
     Pick<ScreenFieldsListProps, 'variant'>
->(({ theme, variant = Variant.STATIC }) => ({
+>(({ theme, variant = ScreenTypes.Static }) => ({
     hyphens: 'auto',
-    ...(variant === Variant.STATIC && {
+    ...(variant === ScreenTypes.Static && {
         '&:nth-of-type(even)': { backgroundColor: lighten(theme.palette.secondary.light, 0.8) },
     }),
-    ...(variant === Variant.DYNAMIC && {
+    ...(variant === ScreenTypes.Dynamic && {
         '&:nth-of-type(odd)': { backgroundColor: lighten(theme.palette.primary.light, 0.8) },
     }),
 }));

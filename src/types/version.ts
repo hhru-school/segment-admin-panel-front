@@ -1,6 +1,10 @@
-const PLATFORMS = ['ANDROID', 'IOS', 'WEB'] as const;
+export const enum Platforms {
+    Android = 'ANDROID',
+    IOs = 'IOS',
+    Web = 'WEB',
+}
 
-export type Platform = (typeof PLATFORMS)[number];
+export type Platform = `${Platforms}`;
 export type VersionsList = Version[];
 
 export interface Version {

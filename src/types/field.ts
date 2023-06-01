@@ -1,11 +1,19 @@
 import hasFields from 'helpers/hasFields';
 import isObject from 'helpers/isObject';
 
-const ANSWER_TYPES = ['POSITIVE', 'NEGATIVE', 'NEUTRAL'] as const;
-const QUESTION_TYPES = ['SINGLE_CHOICE', 'MULTI_SELECT', 'NONE'] as const;
+export const enum AnswerTypes {
+    Positive = 'POSITIVE',
+    Negative = 'NEGATIVE',
+    Neutral = 'NEUTRAL',
+}
+export const enum QuestionTypes {
+    SingleChoice = 'SINGLE_CHOICE',
+    MultiSelect = 'MULTI_SELECT',
+    None = 'NONE',
+}
 
-export type AnswerType = (typeof ANSWER_TYPES)[number];
-export type QuestionType = (typeof QUESTION_TYPES)[number];
+export type AnswerType = `${AnswerTypes}`;
+export type QuestionType = `${QuestionTypes}`;
 export type AnswerList = Answer[];
 export type FieldsList = Field[];
 export type QuestionList = Question[];

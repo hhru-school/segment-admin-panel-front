@@ -1,5 +1,12 @@
-const CHANGE_STATES = ['NOT_CHANGED', 'CHANGED', 'NEW'] as const;
-const ACTIVE_STATES = ['ACTIVE', 'DISABLED'] as const;
+export const enum ChangeStates {
+    NotChanged = 'NOT_CHANGED',
+    Changed = 'CHANGED',
+    New = 'NEW',
+}
+export const enum ActiveStates {
+    Active = 'ACTIVE',
+    Disabled = 'DISABLED',
+}
 
-export type ChangeState = (typeof CHANGE_STATES)[number];
-export type ActiveState = (typeof ACTIVE_STATES)[number];
+export type ChangeState = `${ChangeStates}`;
+export type ActiveState = `${ActiveStates}`;
