@@ -76,7 +76,7 @@ const SegmentPage: React.FC = () => {
     }
 
     return (
-        <SecondaryLayout title={segment.title} backHref="..">
+        <SecondaryLayout title={segment.title} backHref="/segments">
             <Stack sx={{ pt: 5 }} spacing={4}>
                 <ContentBox title="Описание">
                     <Typography sx={{ textIndent: 32 }}>{segment.description}</Typography>
