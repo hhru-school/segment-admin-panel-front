@@ -8,7 +8,7 @@ import CreateNewSegmentPage from 'pages/CreateNewSegmentPage';
 import FieldPage from 'pages/FieldPage';
 import FieldsPage from 'pages/FieldsPage';
 import HomePage from 'pages/HomePage';
-import InfoPage from 'pages/InfoPage';
+import LayerInfoPage from 'pages/LayerInfoPage';
 import LayerPage from 'pages/LayerPage';
 import LayerSegmentPage from 'pages/LayerSegmentPage';
 import LayerSegmentsPage from 'pages/LayerSegmentsPage';
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
                 path: 'layers/:layerId',
                 element: <LayerPage />,
                 children: [
-                    { path: 'info', element: <InfoPage /> },
+                    { path: 'info', element: <LayerInfoPage /> },
                     { path: 'segments', element: <LayerSegmentsPage /> },
                     { path: 'segments/:segmentId', element: <LayerSegmentPage /> },
                 ],

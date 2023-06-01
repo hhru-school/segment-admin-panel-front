@@ -7,18 +7,19 @@ import Typography from '@mui/material/Typography';
 import ContentBox from 'components/ContentBox';
 import LayerStatusChip from 'components/LayerStatusChip';
 import ParentsLayersTable from 'components/ParentsLayersTable';
-import Title from 'components/Title';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectCurrentLayer, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
 
-const InfoPage: React.FC = () => {
+const LayerInfoPage: React.FC = () => {
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const layer = useAppSelector(selectCurrentLayer, shallowEqual);
 
     if (isLoading) {
         return (
             <Stack sx={{ pt: 5 }} spacing={4}>
-                <Title>Основная информация</Title>
+                <Typography component="h2" variant="h5">
+                    Основная информация
+                </Typography>
                 <ContentBox loading={isLoading}>
                     <LayerStatusChip status="STABLE" />
                 </ContentBox>
@@ -36,7 +37,9 @@ const InfoPage: React.FC = () => {
     if (layer === null) {
         return (
             <Stack sx={{ pt: 5 }} spacing={4}>
-                <Title>Основная информация</Title>
+                <Typography component="h2" variant="h5">
+                    Основная информация
+                </Typography>
                 <Alert severity="warning">
                     Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к администратору.
                 </Alert>
@@ -46,7 +49,9 @@ const InfoPage: React.FC = () => {
 
     return (
         <Stack sx={{ pt: 5 }} spacing={4}>
-            <Title>Основная информация</Title>
+            <Typography component="h2" variant="h5">
+                Основная информация
+            </Typography>
             <Box sx={{ alignSelf: 'flex-start' }}>
                 <LayerStatusChip status={layer.layerStatus} />
             </Box>
@@ -68,4 +73,4 @@ const InfoPage: React.FC = () => {
     );
 };
 
-export default InfoPage;
+export default LayerInfoPage;
