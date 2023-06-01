@@ -46,7 +46,7 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
         <Wrapper>
             <AppBar>
                 <Stack direction="row" spacing={1}>
-                    <BackButton href="/" tooltipTitle="На главную" />
+                    <BackButton href="/layers" tooltipTitle="На главную" />
                     {isSmallWindow && <DrawerButton onClick={handleDrawerToggle} />}
                 </Stack>
                 <Box sx={{ ml: 3 }}>

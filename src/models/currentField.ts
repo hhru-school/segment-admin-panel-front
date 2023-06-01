@@ -3,8 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-import { Question } from 'models/fields';
+import { Question } from 'types/field';
 
 interface FetchFieldParams {
     layerId: number;

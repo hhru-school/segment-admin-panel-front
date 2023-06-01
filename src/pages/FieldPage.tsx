@@ -36,7 +36,7 @@ const FieldPage: React.FC = () => {
     }, [fieldId, dispatch, navigate, setAlert]);
 
     return (
-        <SecondaryLayout title={title || 'Нет данных'} loading={isLoading}>
+        <SecondaryLayout title={title || 'Нет данных'} loading={isLoading} backHref="/fields">
             <Box sx={{ pt: 5 }}>
                 <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={170}>
                     <FieldTree />

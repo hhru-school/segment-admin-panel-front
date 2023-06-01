@@ -8,8 +8,9 @@ import LightenChip from 'components/LightenChip';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { useAppSelector } from 'hooks/redux-hooks';
 import useFixedOptions, { Normalizer, Mapper } from 'hooks/useFixedOptions';
-import { selectRoles, selectRolesLoadingStatus, RolesList, Role } from 'models/roles';
-import { Segment } from 'models/segments';
+import { selectRoles, selectRolesLoadingStatus } from 'models/roles';
+import { Role, RolesList } from 'types/role';
+import { Segment } from 'types/segment';
 
 import { FieldName } from 'components/AddingSegmentForm';
 

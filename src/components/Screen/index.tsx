@@ -2,33 +2,30 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { lighten, styled } from '@mui/material/styles';
 
-import { FieldsList, VersionsList } from 'models/screens';
+import { FieldsList } from 'types/field';
+import { ScreenType, ScreenTypes } from 'types/screen';
+import { VersionsList } from 'types/version';
 
 import ScreenAppVersions from 'components/Screen/ScreenAppVersions';
 import ScreenFieldsList from 'components/Screen/ScreenFieldsList';
-
-export const enum Variant {
-    STATIC = 'static',
-    DYNAMIC = 'dynamic',
-}
 
 export interface ScreenProps {
     title: string;
     fields: FieldsList;
     appVersions: VersionsList;
-    variant?: `${Variant}`;
+    variant?: ScreenType;
     filtered?: boolean;
 }
 
 const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'filtered' })<
     Pick<ScreenProps, 'variant' | 'filtered'>
->(({ theme, variant = Variant.STATIC, filtered }) => ({
+>(({ theme, variant = ScreenTypes.Static, filtered }) => ({
     height: '100%',
     minHeight: '320px',
     padding: '16px 8px 8px',
     borderRadius: '4px',
-    ...(variant === Variant.STATIC && { backgroundColor: lighten(theme.palette.secondary.light, 0.5) }),
-    ...(variant === Variant.DYNAMIC && { backgroundColor: lighten(theme.palette.primary.light, 0.5) }),
+    ...(variant === ScreenTypes.Static && { backgroundColor: lighten(theme.palette.secondary.light, 0.5) }),
+    ...(variant === ScreenTypes.Dynamic && { backgroundColor: lighten(theme.palette.primary.light, 0.5) }),
     ...(filtered && {
         color: theme.palette.text.disabled,
         backgroundColor: theme.palette.grey[300],

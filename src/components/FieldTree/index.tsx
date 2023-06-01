@@ -4,12 +4,12 @@ import List from '@mui/material/List';
 import TreeItem from 'components/Tree/TreeItem';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectCurrentField } from 'models/currentField';
-import { Answer, Question, isQuestion } from 'models/fields';
+import { Answer, Question, isQuestion } from 'types/field';
 
 import FieldTreeLabel from 'components/FieldTree/FieldTreeLabel';
 
 const render = (node: Question | Answer): JSX.Element => {
-    const nextNodeList = isQuestion(node) ? node.answerDtoList : node.openQuestonDtoList;
+    const nextNodeList = isQuestion(node) ? node.answerDtoList : node.openQuestionDtoList;
 
     return (
         <TreeItem

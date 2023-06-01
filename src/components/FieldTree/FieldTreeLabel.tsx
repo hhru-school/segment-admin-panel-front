@@ -7,7 +7,7 @@ import Card from 'components/Card';
 import LightenChip from 'components/LightenChip';
 import QuestionTypeChip from 'components/QuestionTypeChip';
 import isEmpty from 'helpers/isEmpty';
-import { Answer, Question, isQuestion } from 'models/fields';
+import { Answer, Question, isQuestion } from 'types/field';
 
 interface FieldTreeLabelProps {
     node: Question | Answer;
@@ -68,7 +68,7 @@ const FieldTreeLabel: React.FC<FieldTreeLabelProps> = ({ node, expand, toggleExp
                     {node.answerDefault && <LightenChip label="По умолчанию" color="info" size="small" />}
                     {node.skipAtResult && <LightenChip label="Скрыть вопрос если выбран" color="info" size="small" />}
                 </Stack>
-                {!isEmpty(node.openQuestonDtoList) && (
+                {!isEmpty(node.openQuestionDtoList) && (
                     <ExpandButton onClick={toggleExpand}>{expand ? 'Свернуть' : 'Развернуть'}</ExpandButton>
                 )}
             </Stack>

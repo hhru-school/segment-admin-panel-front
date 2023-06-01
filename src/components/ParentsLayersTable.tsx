@@ -2,7 +2,7 @@ import { shallowEqual } from 'react-redux';
 
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectCurrentLayerParentLayers } from 'models/currentLayer';
-import { LayersListItem } from 'models/layersList';
+import { LayersListItem } from 'types/layer';
 
 import DataTable, { Columns } from 'components/DataTable';
 import LayerStatusChip from 'components/LayerStatusChip';

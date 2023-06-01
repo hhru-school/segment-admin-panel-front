@@ -3,37 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-export interface Field {
-    id: number;
-    title: string;
-}
-export type FieldsList = Field[];
-
-const PLATFORMS = ['ANDROID', 'IOS', 'WEB'] as const;
-export type Platform = (typeof PLATFORMS)[number];
-export interface Version {
-    id: number;
-    platform: Platform;
-    version: string;
-}
-export type VersionsList = Version[];
-
-const SCREEN_TYPES = ['STATIC', 'DYNAMIC'] as const;
-const SCREEN_STATES = ['ACTIVE', 'ARCHIVED'] as const;
-export type ScreenType = (typeof SCREEN_TYPES)[number];
-type ScreenState = (typeof SCREEN_STATES)[number];
-export interface Screen {
-    id: number;
-    title: string;
-    description: string;
-    type: ScreenType;
-    state: ScreenState;
-    fields: FieldsList;
-    appVersions: VersionsList;
-    filtered?: boolean;
-}
-export type ScreensList = Screen[];
+import { ScreensList } from 'types/screen';
 
 const fetchScreens = createAsyncThunk<ScreensList, undefined, { rejectValue: ApiError }>(
     'screens/fetchScreens',

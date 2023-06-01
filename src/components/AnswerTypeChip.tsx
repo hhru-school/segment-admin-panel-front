@@ -1,5 +1,4 @@
-import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { AnswerType } from 'models/fields';
+import { AnswerType, AnswerTypes } from 'types/field';
 
 import LightenChip, { LightenChipProps } from 'components/LightenChip';
 
@@ -9,14 +8,15 @@ interface AnswerTypeChipProps extends Pick<LightenChipProps, 'size'> {
 
 const AnswerTypeChip: React.FC<AnswerTypeChipProps> = ({ type, size }) => {
     switch (type) {
-        case 'POSITIVE':
+        case AnswerTypes.Positive:
             return <LightenChip label="Положительный" color="success" size={size} />;
-        case 'NEGATIVE':
+        case AnswerTypes.Negative:
             return <LightenChip label="Отрицательный" color="error" size={size} />;
-        case 'NEUTRAL':
+        case AnswerTypes.Neutral:
             return <LightenChip label="Нейтральный" size={size} />;
+        default:
+            return null;
     }
-    return exhaustiveCheck(type);
 };
 
 export default AnswerTypeChip;

@@ -3,19 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-import { RolesList } from 'models/roles';
-
-export interface Segment {
-    id: number;
-    title: string;
-    description: string;
-    parentSegment: Pick<Segment, 'id' | 'title'> | null;
-    createTime: string;
-    roles: RolesList;
-    tags: string[];
-}
-export type SegmentsList = Segment[];
+import { SegmentsList } from 'types/segment';
 
 interface SegmentsState {
     items: SegmentsList;

@@ -5,7 +5,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
 import { useAppSelector } from 'hooks/redux-hooks';
-import { Segment, selectSegmentsLoadingStatus, selectSegments } from 'models/segments';
+import { selectSegmentsLoadingStatus, selectSegments } from 'models/segments';
+import { Segment } from 'types/segment';
 
 const ParentSegmentField: React.FC<FieldRenderProps<Segment | null>> = ({ input, meta }) => {
     const isLoading = useAppSelector(selectSegmentsLoadingStatus);

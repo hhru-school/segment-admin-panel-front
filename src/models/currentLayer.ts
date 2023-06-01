@@ -3,17 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-import { LayersList, LayerStatus } from 'models/layersList';
-
-export interface Layer {
-    id: number;
-    title: string;
-    description: string;
-    createTime: string;
-    layerStatus: LayerStatus;
-    parentLayersList: LayersList;
-}
+import { Layer, LayersList } from 'types/layer';
 
 interface CurrentLayerState {
     item: Layer | null;
@@ -74,6 +64,7 @@ const selectCurrentLayerLoadingStatus = (state: RootState): boolean => state.cur
 const selectCurrentLayerTitle = (state: RootState): string | undefined => state.currentLayer.item?.title;
 const selectCurrentLayerParentLayers = (state: RootState): LayersList | null =>
     state.currentLayer.item?.parentLayersList || null;
+const selectCurrentLayerId = (state: RootState): number | null => state.currentLayer.item?.id || null;
 
 const { reset } = currentLayerSlice.actions;
 
@@ -82,6 +73,7 @@ export {
     reset,
     fetchLayer,
     selectCurrentLayer,
+    selectCurrentLayerId,
     selectCurrentLayerTitle,
     selectCurrentLayerError,
     selectCurrentLayerLoadingStatus,

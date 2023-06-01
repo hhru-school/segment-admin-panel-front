@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import LightenChip from 'components/LightenChip';
 import isEmpty from 'helpers/isEmpty';
 import useFixedOptions, { Normalizer, Mapper } from 'hooks/useFixedOptions';
-import { Segment } from 'models/segments';
+import { Segment } from 'types/segment';
 
 import { FieldName } from 'components/AddingSegmentForm';
 

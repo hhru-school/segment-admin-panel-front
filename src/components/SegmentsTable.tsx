@@ -3,7 +3,8 @@ import Link from '@mui/material/Link';
 
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { Segment, selectSegments, selectSegmentsLoadingStatus, selectSegmentsSearchString } from 'models/segments';
+import { selectSegments, selectSegmentsLoadingStatus, selectSegmentsSearchString } from 'models/segments';
+import { Segment } from 'types/segment';
 
 import DataTable, { Columns } from 'components/DataTable';
 import SearchView from 'components/SearchView';

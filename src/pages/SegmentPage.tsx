@@ -76,7 +76,7 @@ const SegmentPage: React.FC = () => {
     }
 
     return (
-        <SecondaryLayout title={segment.title} backHref="..">
+        <SecondaryLayout title={segment.title} backHref="/segments">
             <Stack sx={{ pt: 5 }} spacing={4}>
                 <ContentBox title="Описание">
                     <Typography sx={{ textIndent: 32 }}>{segment.description}</Typography>
@@ -91,14 +91,14 @@ const SegmentPage: React.FC = () => {
                     )}
                 </ContentBox>
                 <ContentBox title="Роли">
-                    <Stack direction="row" gap={3}>
+                    <Stack direction="row" spacing={3} flexWrap="wrap">
                         {segment.roles.map(({ id, name }) => (
-                            <LightenChip key={id} label={name} color="info" />
+                            <LightenChip key={id} label={name} color="primary" />
                         ))}
                     </Stack>
                 </ContentBox>
                 <ContentBox title="Теги">
-                    <Stack direction="row" gap={3}>
+                    <Stack direction="row" spacing={3} flexWrap="wrap">
                         {segment.tags.map((name) => (
                             <LightenChip key={name} label={name} color="secondary" />
                         ))}
