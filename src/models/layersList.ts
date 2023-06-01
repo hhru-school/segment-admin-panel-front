@@ -3,19 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-const LAYERS_STATUSES = ['ARCHIVED', 'EXPERIMENTAL', 'STABLE'] as const;
-
-export type LayerStatus = (typeof LAYERS_STATUSES)[number];
-
-export interface LayersListItem {
-    id: number;
-    title: string;
-    createTime: string;
-    layerStatus: LayerStatus;
-}
-
-export type LayersList = LayersListItem[];
+import { LayersList } from 'types/layer';
 
 interface LayersListState {
     items: LayersList;

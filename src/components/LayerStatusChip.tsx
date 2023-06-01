@@ -4,7 +4,7 @@ import ExperimentalIcon from '@mui/icons-material/ScienceOutlined';
 import Chip, { ChipProps } from '@mui/material/Chip';
 
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { LayerStatus } from 'models/layersList';
+import { LayerStatus } from 'types/layer';
 
 interface LayerStatusChipProps extends Pick<ChipProps, 'variant'> {
     status: LayerStatus;

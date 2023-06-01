@@ -3,12 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-export interface Role {
-    id: number;
-    name: string;
-}
-export type RolesList = Role[];
+import { RolesList } from 'types/role';
 
 interface RolesState {
     items: RolesList;

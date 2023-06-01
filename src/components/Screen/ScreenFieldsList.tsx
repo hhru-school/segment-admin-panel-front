@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, lighten } from '@mui/material/styles';
 
-import { FieldsList } from 'models/screens';
+import { FieldsList } from 'types/field';
 
 import { Variant } from 'components/Screen';
 

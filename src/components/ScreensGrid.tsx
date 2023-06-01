@@ -4,7 +4,8 @@ import Grid from '@mui/material/Grid';
 
 import isEmpty from 'helpers/isEmpty';
 import { useAppSelector } from 'hooks/redux-hooks';
-import { ScreenType, selectScreensList } from 'models/screens';
+import { selectScreensList } from 'models/screens';
+import { ScreenType } from 'types/screen';
 
 import Screen, { Variant } from 'components/Screen';
 

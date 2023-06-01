@@ -3,8 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-
-import { Segment } from 'models/segments';
+import { Segment } from 'types/segment';
 
 interface CurrentSegmentState {
     item: Segment | null;
@@ -29,7 +28,7 @@ const fetchSegment = createAsyncThunk<Segment, number, { rejectValue: ApiError }
 
 const initialState: CurrentSegmentState = {
     item: null,
-    isLoading: false,
+    isLoading: true,
     error: null,
 };
 

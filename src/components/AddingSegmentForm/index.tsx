@@ -12,8 +12,10 @@ import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import isEmpty from 'helpers/isEmpty';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { RolesList, fetchRoles, reset as resetRoles, selectRolesLoadingStatus } from 'models/roles';
-import { Segment, fetchSegments, reset as resetSegments, selectSegmentsLoadingStatus } from 'models/segments';
+import { fetchRoles, reset as resetRoles, selectRolesLoadingStatus } from 'models/roles';
+import { fetchSegments, reset as resetSegments, selectSegmentsLoadingStatus } from 'models/segments';
+import { RolesList } from 'types/role';
+import { Segment } from 'types/segment';
 
 import ParentSegmentField from 'components/AddingSegmentForm/ParentSegmentField';
 import RolesField from 'components/AddingSegmentForm/RolesField';

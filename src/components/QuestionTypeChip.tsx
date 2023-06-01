@@ -1,5 +1,5 @@
 import exhaustiveCheck from 'helpers/exhaustiveCheck';
-import { QuestionType } from 'models/fields';
+import { QuestionType } from 'types/field';
 
 import LightenChip, { LightenChipProps } from 'components/LightenChip';
 

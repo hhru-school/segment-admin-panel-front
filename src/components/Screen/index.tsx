@@ -2,7 +2,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { lighten, styled } from '@mui/material/styles';
 
-import { FieldsList, VersionsList } from 'models/screens';
+import { FieldsList } from 'types/field';
+import { VersionsList } from 'types/version';
 
 import ScreenAppVersions from 'components/Screen/ScreenAppVersions';
 import ScreenFieldsList from 'components/Screen/ScreenFieldsList';

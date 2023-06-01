@@ -2,7 +2,8 @@ import { shallowEqual } from 'react-redux';
 import Link from '@mui/material/Link';
 
 import { useAppSelector } from 'hooks/redux-hooks';
-import { LayersListItem, selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
+import { LayersListItem } from 'types/layer';
 
 import DataTable, { Columns } from 'components/DataTable';
 import LayerStatusChip from 'components/LayerStatusChip';

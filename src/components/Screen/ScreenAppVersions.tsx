@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
-import { VersionsList, Platform } from 'models/screens';
+import { VersionsList, Platform } from 'types/version';
 
 interface ScreenAppVersionsProps {
     versions: VersionsList;

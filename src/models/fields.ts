@@ -2,38 +2,8 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
-import hasFields from 'helpers/hasFields';
-import isObject from 'helpers/isObject';
 import { RootState } from 'store';
-
-const QUESTION_TYPES = ['SINGLE_CHOICE', 'MULTI_SELECT', 'NONE'] as const;
-export type QuestionType = (typeof QUESTION_TYPES)[number];
-export interface Question {
-    id: number;
-    title: string;
-    description: string;
-    type: QuestionType;
-    searchedObject: boolean;
-    answerDtoList: AnswerList;
-}
-export type QuestionList = Question[];
-const isQuestion = (node: unknown): node is Question => {
-    return isObject(node) && hasFields<Question>(node, ['answerDtoList']);
-};
-
-const ANSWER_TYPES = ['POSITIVE', 'NEGATIVE', 'NEUTRAL'] as const;
-export type AnswerType = (typeof ANSWER_TYPES)[number];
-export interface Answer {
-    id: number;
-    title: string;
-    positiveTitle: string;
-    answerType: AnswerType;
-    answerDefault: boolean;
-    skipAtResult: boolean;
-    searchedObject: boolean;
-    openQuestonDtoList: QuestionList;
-}
-export type AnswerList = Answer[];
+import { QuestionList } from 'types/field';
 
 interface FetchFieldsParams {
     layerId: number;
@@ -115,7 +85,6 @@ export {
     reset,
     setSearchString,
     fetchFields,
-    isQuestion,
     selectFieldsList,
     selectFieldsError,
     selectFieldsLoadingStatus,
