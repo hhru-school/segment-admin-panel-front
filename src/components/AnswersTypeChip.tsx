@@ -1,20 +1,20 @@
-import { QuestionType, QuestionTypes } from 'types/field';
+import { AnswersType, AnswersTypes } from 'types/field';
 
 import LightenChip, { LightenChipProps } from 'components/LightenChip';
 
-interface QuestionTypeChipProps extends Pick<LightenChipProps, 'size'> {
-    type: QuestionType;
+interface AnswersTypeChipProps extends Pick<LightenChipProps, 'size'> {
+    type: AnswersType;
 }
 
-const QuestionTypeChip: React.FC<QuestionTypeChipProps> = ({ type, size }) => {
+const AnswersTypeChip: React.FC<AnswersTypeChipProps> = ({ type, size }) => {
     switch (type) {
-        case QuestionTypes.SingleChoice:
+        case AnswersTypes.SingleChoice:
             return <LightenChip label="Один ответ" color="info" size={size} />;
-        case QuestionTypes.MultiSelect:
+        case AnswersTypes.MultiSelect:
             return <LightenChip label="Несколько ответов" color="info" size={size} />;
         default:
             return null;
     }
 };
 
-export default QuestionTypeChip;
+export default AnswersTypeChip;
