@@ -9,7 +9,7 @@ import { Answer, Question, isQuestion } from 'types/field';
 import FieldTreeLabel from 'components/FieldTree/FieldTreeLabel';
 
 const render = (node: Question | Answer): JSX.Element => {
-    const nextNodeList = isQuestion(node) ? node.answerDtoList : node.openQuestionDtoList;
+    const nextNodeList = isQuestion(node) ? node.possibleAnswersList : node.openQuestionList;
 
     return (
         <TreeItem
@@ -18,6 +18,7 @@ const render = (node: Question | Answer): JSX.Element => {
                 <FieldTreeLabel node={node} expand={expand} toggleExpand={toggleExpand} />
             )}
             expanded
+            margin="16px"
         >
             {nextNodeList.map(render)}
         </TreeItem>
