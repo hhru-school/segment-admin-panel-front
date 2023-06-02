@@ -20,14 +20,14 @@ const FieldsPage: React.FC = () => {
 
     const handleSearch = useCallback(
         (searchString: string) => {
-            void dispatch(fetchFields({ layerId: 7, searchString }));
+            void dispatch(fetchFields(searchString));
             dispatch(setSearchString(searchString));
         },
         [dispatch]
     );
 
     useEffect(() => {
-        void dispatch(fetchFields({ layerId: 7, searchString: '' }));
+        void dispatch(fetchFields());
         return () => {
             dispatch(reset());
         };
@@ -58,7 +58,7 @@ const FieldsPage: React.FC = () => {
                     </AddButton>
                 </Box>
             </Stack>
-            <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={50}>
+            <ContentBox loading={isLoading} skeletonWidth="100%" skeletonHeight={55}>
                 <FieldsTree />
             </ContentBox>
         </>
