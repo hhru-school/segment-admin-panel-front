@@ -5,20 +5,14 @@ import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 import { QuestionList } from 'types/field';
 
-interface FetchFieldsParams {
-    layerId: number;
-    searchString: string;
-}
-
-const fetchFields = createAsyncThunk<QuestionList, FetchFieldsParams, { rejectValue: ApiError }>(
+const fetchFields = createAsyncThunk<QuestionList, string | undefined, { rejectValue: ApiError }>(
     'fields/fetchFields',
-    async ({ layerId, searchString }, thunkApi) => {
+    async (searchQuery, thunkApi) => {
         let response: AxiosResponse<QuestionList>;
         try {
             response = await api.get<QuestionList>(`/questions`, {
                 params: {
-                    layerId,
-                    searchString,
+                    searchQuery,
                 },
             });
         } catch (error) {
