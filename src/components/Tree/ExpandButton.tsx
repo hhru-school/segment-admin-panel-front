@@ -8,7 +8,7 @@ interface ExpandButtonProps extends IconButtonProps {
 
 const ExpandButton: React.FC<ExpandButtonProps> = ({ onClick, color, expand = false }) => {
     return (
-        <IconButton onClick={onClick} size="small" color={color}>
+        <IconButton onClick={onClick} size="small" color={color} edge="start">
             {expand ? <ExpandMoreIcon fontSize="small" /> : <ChevronRightIcon fontSize="small" />}
         </IconButton>
     );

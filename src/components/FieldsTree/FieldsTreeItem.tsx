@@ -1,4 +1,5 @@
-import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 import SearchView from 'components/SearchView';
 import TreeItem from 'components/Tree/TreeItem';
@@ -11,57 +12,76 @@ interface FieldsTreeItemProps {
     searchString: string;
 }
 
-const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) => {
-    let uniqueKey: string | number = field.id;
-    let isFound = isEmpty(searchString) || field.searchedObject;
+const renderTitle = (node: Question | Answer, searchString: string): React.ReactNode => {
+    return node.searchedObject ? (
+        <SearchView subString={searchString}>{node.title}</SearchView>
+    ) : (
+        <Typography>{node.title}</Typography>
+    );
+};
 
-    const render = (node: Question | Answer): JSX.Element => {
-        isFound = isFound || node.searchedObject;
-        uniqueKey = `${uniqueKey}-${node.id}`;
-        const nextNodeList = isQuestion(node) ? node.answerDtoList : node.openQuestionDtoList;
+const getItems = (
+    nodeList: Array<Question | Answer>,
+    key: string | number,
+    searchString: string
+): [React.ReactNode, boolean] => {
+    const getItem = (node: Question | Answer, key: string | number): [React.ReactNode, boolean] => {
+        const uniqueKey = `${key}-${node.id}`;
+        const nextNodeList = isQuestion(node) ? node.possibleAnswersList : node.openQuestionList;
 
-        return (
+        const [nextItems, isExpand] = getItems(nextNodeList, uniqueKey, searchString);
+
+        return [
             <TreeItem
                 key={uniqueKey}
                 renderLabel={(expand, toggleExpand) => (
                     <TreeItemLabel collapsible={!isEmpty(nextNodeList)} expand={expand} toggleExpand={toggleExpand}>
-                        {node.searchedObject ? (
-                            <SearchView subString={searchString}>{field.title}</SearchView>
-                        ) : (
-                            node.title
-                        )}
+                        {renderTitle(node, searchString)}
                     </TreeItemLabel>
                 )}
-                expanded={!isFound}
+                expanded={isExpand}
             >
-                {nextNodeList.map(render)}
-            </TreeItem>
-        );
+                {nextItems}
+            </TreeItem>,
+            isExpand || node.searchedObject,
+        ];
     };
+
+    return nodeList.reduce<[React.ReactNode[], boolean]>(
+        (acc, node) => {
+            const [item, isExpand] = getItem(node, key);
+            acc[0].push(item);
+            acc[1] = acc[1] || isExpand;
+            return acc;
+        },
+        [[], false]
+    );
+};
+
+const FieldsTreeItem: React.FC<FieldsTreeItemProps> = ({ field, searchString }) => {
+    const [items, isExpand] = getItems(field.possibleAnswersList, field.id, searchString);
+    const isCollapsible = !isEmpty(field.possibleAnswersList);
 
     return (
         <TreeItem
             renderLabel={(expand, toggleExpand) => (
                 <TreeItemLabel
                     actionButton={
-                        <Button href={field.id.toString()} size="small">
+                        <Link href={`/fields/${field.id}`} underline="hover" variant="body2">
                             Подробнее
-                        </Button>
+                        </Link>
                     }
-                    collapsible={!isEmpty(field.answerDtoList)}
+                    collapsible={isCollapsible}
+                    padding={isCollapsible ? 'normal' : 'fitted'}
                     expand={expand}
                     toggleExpand={toggleExpand}
                 >
-                    {field.searchedObject ? (
-                        <SearchView subString={searchString}>{field.title}</SearchView>
-                    ) : (
-                        field.title
-                    )}
+                    {renderTitle(field, searchString)}
                 </TreeItemLabel>
             )}
-            expanded={!isFound}
+            expanded={isExpand}
         >
-            {field.answerDtoList.map(render)}
+            {items}
         </TreeItem>
     );
 };

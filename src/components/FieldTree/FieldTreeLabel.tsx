@@ -3,11 +3,11 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 import AnswerTypeChip from 'components/AnswerTypeChip';
+import AnswersTypeChip from 'components/AnswersTypeChip';
 import Card from 'components/Card';
 import LightenChip from 'components/LightenChip';
-import QuestionTypeChip from 'components/QuestionTypeChip';
 import isEmpty from 'helpers/isEmpty';
-import { Answer, Question, isQuestion } from 'types/field';
+import { Answer, Question, isQuestion, FieldTypes } from 'types/field';
 
 interface FieldTreeLabelProps {
     node: Question | Answer;
@@ -45,9 +45,12 @@ const FieldTreeLabel: React.FC<FieldTreeLabelProps> = ({ node, expand, toggleExp
                 <Typography sx={{ mb: 1, color: 'text.secondary' }}>{node.description}</Typography>
                 <Stack direction="row" spacing={2} alignItems="flex-end" sx={{ pt: 2, pb: 1 }}>
                     <Stack direction="row" spacing={1} flexGrow={1}>
-                        <QuestionTypeChip type={node.type} size="small" />
+                        <AnswersTypeChip type={node.answersType} size="small" />
+                        {node.type === FieldTypes.ResumeField && (
+                            <LightenChip label="Стандартное поле" color="info" size="small" />
+                        )}
                     </Stack>
-                    {!isEmpty(node.answerDtoList) && (
+                    {!isEmpty(node.possibleAnswersList) && (
                         <ExpandButton onClick={toggleExpand}>{expand ? 'Свернуть' : 'Развернуть'}</ExpandButton>
                     )}
                 </Stack>
@@ -65,10 +68,10 @@ const FieldTreeLabel: React.FC<FieldTreeLabelProps> = ({ node, expand, toggleExp
             <Stack direction="row" spacing={2} alignItems="flex-end" sx={{ pt: 2, pb: 1 }}>
                 <Stack direction="row" spacing={1} flexGrow={1}>
                     <AnswerTypeChip type={node.answerType} size="small" />
-                    {node.answerDefault && <LightenChip label="По умолчанию" color="info" size="small" />}
+                    {node.defaultAnswer && <LightenChip label="По умолчанию" color="info" size="small" />}
                     {node.skipAtResult && <LightenChip label="Скрыть вопрос если выбран" color="info" size="small" />}
                 </Stack>
-                {!isEmpty(node.openQuestionDtoList) && (
+                {!isEmpty(node.openQuestionList) && (
                     <ExpandButton onClick={toggleExpand}>{expand ? 'Свернуть' : 'Развернуть'}</ExpandButton>
                 )}
             </Stack>

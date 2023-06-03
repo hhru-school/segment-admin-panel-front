@@ -19,7 +19,7 @@ const FieldPage: React.FC = () => {
     const title = useAppSelector(selectCurrentFieldTitle);
 
     useEffect(() => {
-        void dispatch(fetchField({ layerId: 7, questionId: Number(fieldId) }))
+        void dispatch(fetchField(Number(fieldId)))
             .unwrap()
             .catch((error) => {
                 if (isApiError(error)) {

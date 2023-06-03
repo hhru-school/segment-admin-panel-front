@@ -6,14 +6,19 @@ export const enum AnswerTypes {
     Negative = 'NEGATIVE',
     Neutral = 'NEUTRAL',
 }
-export const enum QuestionTypes {
+export const enum AnswersTypes {
     SingleChoice = 'SINGLE_CHOICE',
     MultiSelect = 'MULTI_SELECT',
     None = 'NONE',
 }
+export const enum FieldTypes {
+    Question = 'QUESTION',
+    ResumeField = 'RESUME_FIELD',
+}
 
 export type AnswerType = `${AnswerTypes}`;
-export type QuestionType = `${QuestionTypes}`;
+export type AnswersType = `${AnswersTypes}`;
+export type FieldType = `${FieldTypes}`;
 export type AnswerList = Answer[];
 export type FieldsList = Field[];
 export type QuestionList = Question[];
@@ -21,22 +26,25 @@ export type QuestionList = Question[];
 export interface Field {
     id: number;
     title: string;
+    type: FieldType;
 }
 export interface Question extends Field {
     description: string;
-    type: QuestionType;
+    answersType: AnswersType;
     searchedObject: boolean;
-    answerDtoList: AnswerList;
+    possibleAnswersList: AnswerList;
 }
-export interface Answer extends Field {
+export interface Answer {
+    id: number;
+    title: string;
     positiveTitle: string;
     answerType: AnswerType;
-    answerDefault: boolean;
+    defaultAnswer: boolean;
     skipAtResult: boolean;
     searchedObject: boolean;
-    openQuestionDtoList: QuestionList;
+    openQuestionList: QuestionList;
 }
 
 export const isQuestion = (node: unknown): node is Question => {
-    return isObject(node) && hasFields<Question>(node, ['answerDtoList']);
+    return isObject(node) && hasFields<Question>(node, ['possibleAnswersList']);
 };

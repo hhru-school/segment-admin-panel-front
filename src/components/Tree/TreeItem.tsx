@@ -10,16 +10,19 @@ export interface RenderLabel {
 export interface TreeItemProps {
     renderLabel: RenderLabel;
     children?: React.ReactNode;
+    margin?: string;
     expanded?: boolean;
 }
 
-const StyledLi = styled('li')({
-    '&:not(:last-child)': {
-        marginBottom: '8px',
-    },
-});
+const StyledLi = styled('li', { shouldForwardProp: (prop) => prop !== 'margin' })<Pick<TreeItemProps, 'margin'>>(
+    ({ margin }) => ({
+        '&:not(:last-child)': {
+            marginBottom: margin,
+        },
+    })
+);
 
-const TreeItem: React.FC<TreeItemProps> = ({ renderLabel, children, expanded = false }) => {
+const TreeItem: React.FC<TreeItemProps> = ({ renderLabel, children, expanded = false, margin }) => {
     const hasChildren = React.Children.count(children) > 0;
     const [expand, setExpand] = useState(expanded);
 
@@ -28,9 +31,13 @@ const TreeItem: React.FC<TreeItemProps> = ({ renderLabel, children, expanded = f
     }, [expand, setExpand]);
 
     return (
-        <StyledLi>
+        <StyledLi margin={margin}>
             {renderLabel(expand, handleToggleExpand)}
-            {hasChildren && <TreeItemGroup expand={expand}>{children}</TreeItemGroup>}
+            {hasChildren && (
+                <TreeItemGroup expand={expand} margin={margin}>
+                    {children}
+                </TreeItemGroup>
+            )}
         </StyledLi>
     );
 };
