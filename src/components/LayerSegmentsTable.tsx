@@ -31,7 +31,7 @@ const columns: Columns<LayerSegmentsListItem, 'details' | 'status'> = [
                 return listItem;
             }
 
-            const disabled = isDisabled(listItem);
+            const disabled = isDisabled(listItem.activeState);
 
             if (!isEmpty(searchString)) {
                 return (
@@ -59,8 +59,8 @@ const columns: Columns<LayerSegmentsListItem, 'details' | 'status'> = [
             if (listItem === undefined) {
                 return listItem;
             }
-            if (isDisabled(listItem)) {
-                return <ActiveStatusChip type={listItem.activeState} disabled />;
+            if (isDisabled(listItem.activeState)) {
+                return <ActiveStatusChip type={listItem.activeState} />;
             }
             return <ChangeStatusChip type={listItem.changeState} variant="outlined" />;
         },
@@ -72,7 +72,7 @@ const columns: Columns<LayerSegmentsListItem, 'details' | 'status'> = [
         align: 'center',
         sx: { width: 100 },
         valueGetter: (listItem) => {
-            if (listItem && isDisabled(listItem)) {
+            if (listItem && isDisabled(listItem.activeState)) {
                 return (
                     <Typography variant="body2" sx={{ color: 'text.disabled' }}>
                         {listItem.id}
@@ -90,7 +90,7 @@ const columns: Columns<LayerSegmentsListItem, 'details' | 'status'> = [
             if (listItem === undefined) {
                 return listItem;
             }
-            if (isDisabled(listItem)) {
+            if (isDisabled(listItem.activeState)) {
                 return (
                     <Typography variant="body2" sx={{ color: 'text.disabled' }}>
                         Подробнее
@@ -107,7 +107,7 @@ const columns: Columns<LayerSegmentsListItem, 'details' | 'status'> = [
 ];
 
 const collapsedDataRender = (item: LayerSegmentsListItem): React.ReactNode => {
-    const disabled = isDisabled(item);
+    const disabled = isDisabled(item.activeState);
 
     return (
         <Stack spacing={2} sx={{ color: disabled ? 'text.disabled' : 'inherit' }}>
