@@ -43,7 +43,7 @@ const SegmentPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <SecondaryLayout backHref=".." loading={isLoading}>
+            <SecondaryLayout backHref="/segments" loading={isLoading}>
                 <Stack sx={{ pt: 5 }} spacing={4}>
                     <ContentBox title="Описание" loading={isLoading} skeletonWidth="100%">
                         <Typography>.</Typography>
@@ -64,7 +64,7 @@ const SegmentPage: React.FC = () => {
 
     if (segment === null) {
         return (
-            <SecondaryLayout title="Нет данных" backHref="..">
+            <SecondaryLayout title="Нет данных" backHref="/segments">
                 <Box sx={{ pt: 5 }}>
                     <Alert severity="warning">
                         Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к
