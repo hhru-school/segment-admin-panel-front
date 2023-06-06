@@ -11,7 +11,7 @@ import {
     selectCurrentLayerSegmentsLoadingStatus,
     selectCurrentLayerSegmentsSearchString,
 } from 'models/currentLayerSegments';
-import { LayerSegmentsListItem } from 'types/layer';
+import { LayerSegmentsListItem } from 'types/segment';
 
 import ActiveStatusChip from 'components/ActiveStatusChip';
 import ChangeStatusChip from 'components/ChangeStatusChip';
