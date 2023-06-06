@@ -28,6 +28,7 @@ export interface DataTableRowProps<T extends object, K extends AdditionalKey = u
     searchString?: string;
     header?: boolean;
     collapsed?: boolean;
+    small?: boolean;
     collapsedDataRender?: (row: T) => React.ReactNode;
 }
 
@@ -37,9 +38,11 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
     searchString,
     header,
     collapsed,
+    small,
     collapsedDataRender,
 }: DataTableRowProps<T, K>): JSX.Element => {
     const [open, setOpen] = useState(false);
+    const height = small ? 50 : 65;
 
     const handleToggleOpen = () => {
         setOpen(!open);
@@ -65,7 +68,7 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
     if (collapsed) {
         return (
             <>
-                <TableRow sx={{ height: 65, '& > th,td': { borderBottom: 'unset' } }}>
+                <TableRow sx={{ height, '& > th,td': { borderBottom: 'unset' } }}>
                     {header ? (
                         <TableCell sx={{ width: '1%', pr: 0 }}>
                             <Box sx={{ width: 30 }} />
@@ -95,7 +98,7 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
         );
     }
 
-    return <TableRow sx={{ height: 65 }}>{dataCells}</TableRow>;
+    return <TableRow sx={{ height }}>{dataCells}</TableRow>;
 };
 
 export default DataTableRows;
