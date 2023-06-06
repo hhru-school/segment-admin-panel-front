@@ -4,7 +4,7 @@ import Chip, { ChipProps } from '@mui/material/Chip';
 
 import { ChangeState, ChangeStates } from 'types/common';
 
-interface ChangeStatusChipProps extends Omit<ChipProps, 'label' | 'color' | 'icon'> {
+interface ChangeStatusChipProps extends Omit<ChipProps, 'color' | 'icon'> {
     type: ChangeState;
 }
 
