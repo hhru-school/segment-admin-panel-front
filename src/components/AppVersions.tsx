@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 
 import { VersionsList, Platform, Platforms } from 'types/version';
 
-interface ScreenAppVersionsProps {
+interface AppVersionsProps {
     versions: VersionsList;
     filtered?: boolean;
 }
@@ -24,7 +24,7 @@ const platformName = new Map<Platform, string>([
     [Platforms.IOs, 'iOS'],
 ]);
 
-const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions }) => {
+const AppVersions: React.FC<AppVersionsProps> = ({ versions }) => {
     return (
         <StyledList>
             {versions.map(({ id, platform, version }) => (
@@ -39,4 +39,4 @@ const ScreenAppVersions: React.FC<ScreenAppVersionsProps> = ({ versions }) => {
     );
 };
 
-export default ScreenAppVersions;
+export default AppVersions;

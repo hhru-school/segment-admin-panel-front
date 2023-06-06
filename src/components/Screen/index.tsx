@@ -2,11 +2,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { lighten, styled } from '@mui/material/styles';
 
+import AppVersions from 'components/AppVersions';
 import { FieldsList } from 'types/field';
 import { ScreenType, ScreenTypes } from 'types/screen';
 import { VersionsList } from 'types/version';
 
-import ScreenAppVersions from 'components/Screen/ScreenAppVersions';
 import ScreenFieldsList from 'components/Screen/ScreenFieldsList';
 
 export interface ScreenProps {
@@ -51,7 +51,7 @@ const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, fi
             </Typography>
             <Stack justifyContent="space-between" flexGrow={1} spacing={2}>
                 <ScreenFieldsList variant={variant} fields={fields} />
-                <ScreenAppVersions versions={appVersions} />
+                <AppVersions versions={appVersions} />
             </Stack>
         </ScreenCard>
     );
