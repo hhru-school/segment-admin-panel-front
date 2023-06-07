@@ -44,20 +44,18 @@ const SegmentPage: React.FC = () => {
     if (isLoading) {
         return (
             <SecondaryLayout backHref="/segments" loading={isLoading}>
-                <Stack sx={{ pt: 5 }} spacing={4}>
-                    <ContentBox title="Описание" loading={isLoading} skeletonWidth="100%">
-                        <Typography>.</Typography>
-                    </ContentBox>
-                    <ContentBox title="Родительский сегмент" loading={isLoading} skeletonWidth="100%">
-                        <Typography>.</Typography>
-                    </ContentBox>
-                    <ContentBox title="Роли" loading={isLoading} skeletonWidth="100%">
-                        <LightenChip />
-                    </ContentBox>
-                    <ContentBox title="Теги" loading={isLoading} skeletonWidth="100%">
-                        <LightenChip />
-                    </ContentBox>
-                </Stack>
+                <ContentBox title="Описание" loading={isLoading} skeletonWidth="100%">
+                    <Typography>.</Typography>
+                </ContentBox>
+                <ContentBox title="Родительский сегмент" loading={isLoading} skeletonWidth="100%">
+                    <Typography>.</Typography>
+                </ContentBox>
+                <ContentBox title="Роли" loading={isLoading} skeletonWidth="100%">
+                    <LightenChip />
+                </ContentBox>
+                <ContentBox title="Теги" loading={isLoading} skeletonWidth="100%">
+                    <LightenChip />
+                </ContentBox>
             </SecondaryLayout>
         );
     }
@@ -77,34 +75,32 @@ const SegmentPage: React.FC = () => {
 
     return (
         <SecondaryLayout title={segment.title} backHref="/segments">
-            <Stack sx={{ pt: 5 }} spacing={4}>
-                <ContentBox title="Описание">
-                    <Typography sx={{ textIndent: 32 }}>{segment.description}</Typography>
-                </ContentBox>
-                <ContentBox title="Родительский сегмент">
-                    {parentSegment ? (
-                        <Box sx={{ ml: 3 }}>
-                            <Link href={`/segments/${parentSegment.id}`}>{parentSegment.title}</Link>
-                        </Box>
-                    ) : (
-                        <Typography sx={{ textIndent: 32 }}>Нет родительского сегмента.</Typography>
-                    )}
-                </ContentBox>
-                <ContentBox title="Роли">
-                    <Stack direction="row" spacing={3} flexWrap="wrap">
-                        {segment.roles.map(({ id, name }) => (
-                            <LightenChip key={id} label={name} color="primary" />
-                        ))}
-                    </Stack>
-                </ContentBox>
-                <ContentBox title="Теги">
-                    <Stack direction="row" spacing={3} flexWrap="wrap">
-                        {segment.tags.map((name) => (
-                            <LightenChip key={name} label={name} color="secondary" />
-                        ))}
-                    </Stack>
-                </ContentBox>
-            </Stack>
+            <ContentBox title="Описание">
+                <Typography sx={{ textIndent: 32 }}>{segment.description}</Typography>
+            </ContentBox>
+            <ContentBox title="Родительский сегмент">
+                {parentSegment ? (
+                    <Box sx={{ ml: 3 }}>
+                        <Link href={`/segments/${parentSegment.id}`}>{parentSegment.title}</Link>
+                    </Box>
+                ) : (
+                    <Typography sx={{ textIndent: 32 }}>Нет родительского сегмента.</Typography>
+                )}
+            </ContentBox>
+            <ContentBox title="Роли">
+                <Stack direction="row" spacing={3} flexWrap="wrap">
+                    {segment.roles.map(({ id, name }) => (
+                        <LightenChip key={id} label={name} color="primary" />
+                    ))}
+                </Stack>
+            </ContentBox>
+            <ContentBox title="Теги">
+                <Stack direction="row" spacing={3} flexWrap="wrap">
+                    {segment.tags.map((name) => (
+                        <LightenChip key={name} label={name} color="secondary" />
+                    ))}
+                </Stack>
+            </ContentBox>
         </SecondaryLayout>
     );
 };

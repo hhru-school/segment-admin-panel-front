@@ -42,9 +42,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 </Container>
             </AppBar>
             <Main>
+                <ToolbarSpace />
                 <Container disableGutters>
-                    <ToolbarSpace />
-                    {children}
+                    <Stack spacing={4}>{children}</Stack>
                 </Container>
             </Main>
         </Wrapper>

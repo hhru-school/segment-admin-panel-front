@@ -1,7 +1,6 @@
 import { shallowEqual } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import ContentBox from 'components/ContentBox';
@@ -16,7 +15,7 @@ const LayerInfoPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Stack sx={{ pt: 5 }} spacing={4}>
+            <>
                 <Typography component="h2" variant="h5">
                     Основная информация
                 </Typography>
@@ -30,25 +29,25 @@ const LayerInfoPage: React.FC = () => {
                     <Typography>.</Typography>
                 </ContentBox>
                 <ContentBox title="Родительский слой" loading={isLoading} skeletonWidth="100%" skeletonHeight={114} />
-            </Stack>
+            </>
         );
     }
 
     if (layer === null) {
         return (
-            <Stack sx={{ pt: 5 }} spacing={4}>
+            <>
                 <Typography component="h2" variant="h5">
                     Основная информация
                 </Typography>
                 <Alert severity="warning">
                     Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к администратору.
                 </Alert>
-            </Stack>
+            </>
         );
     }
 
     return (
-        <Stack sx={{ pt: 5 }} spacing={4}>
+        <>
             <Typography component="h2" variant="h5">
                 Основная информация
             </Typography>
@@ -69,7 +68,7 @@ const LayerInfoPage: React.FC = () => {
             <ContentBox title="Родительский слой">
                 <ParentsLayersTable />
             </ContentBox>
-        </Stack>
+        </>
     );
 };
 

@@ -60,7 +60,7 @@ const LayerSegmentsPage: React.FC = () => {
     if (!layerIsLoading && layerId === null) {
         return (
             <>
-                <Stack direction="row" alignItems="center" gap={4} sx={{ pt: 5, pb: 4 }}>
+                <Stack direction="row" alignItems="center" spacing={4}>
                     <Box sx={{ flexBasis: 140 }}>
                         <Typography component="h2" variant="h5">
                             Сегменты
@@ -81,7 +81,7 @@ const LayerSegmentsPage: React.FC = () => {
 
     return (
         <>
-            <Stack direction="row" alignItems="center" gap={4} sx={{ pt: 5, pb: 4 }}>
+            <Stack direction="row" alignItems="center" spacing={4}>
                 <Box sx={{ flexBasis: 140 }}>
                     <Typography component="h2" variant="h5">
                         Сегменты

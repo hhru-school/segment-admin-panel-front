@@ -41,7 +41,7 @@ const SecondaryLayout: React.FC<SecondaryLayoutProps> = ({
             <Main>
                 <ToolbarSpace />
                 <Container disableGutters sx={{ pl: 8 }} {...ContainerProps}>
-                    {children}
+                    <Stack spacing={4}>{children}</Stack>
                 </Container>
             </Main>
         </Wrapper>

@@ -76,7 +76,9 @@ const LayerLayout: React.FC<LayerLayoutProps> = ({ children, title, drawerOption
             </Drawer>
             <Main>
                 <ToolbarSpace />
-                <Container disableGutters>{children}</Container>
+                <Container disableGutters>
+                    <Stack spacing={4}>{children}</Stack>
+                </Container>
             </Main>
         </Wrapper>
     );
