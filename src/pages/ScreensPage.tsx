@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
@@ -36,7 +32,7 @@ const ScreensPage: React.FC = () => {
 
     return (
         <>
-            <Stack direction="row" justifyContent="space-between" gap={4} sx={{ pt: 5, pb: 4 }}>
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
                 <Typography component="h2" variant="h5">
                     Экраны
                 </Typography>
@@ -46,29 +42,6 @@ const ScreensPage: React.FC = () => {
                     </AddButton>
                 </Box>
             </Stack>
-            <Box sx={{ maxWidth: 400, pb: 4 }}>
-                <Autocomplete
-                    options={['Все']}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Версия приложения"
-                            InputProps={{
-                                ...params.InputProps,
-                                startAdornment: (
-                                    <>
-                                        <InputAdornment position="start">
-                                            <FilterAltIcon />
-                                        </InputAdornment>
-                                        {params.InputProps.startAdornment}
-                                    </>
-                                ),
-                            }}
-                        />
-                    )}
-                    disabled={isLoading}
-                />
-            </Box>
             <ContentBox loading={isLoading} skeletonWidth={252} skeletonHeight={320}>
                 <ScreensGrid />
             </ContentBox>

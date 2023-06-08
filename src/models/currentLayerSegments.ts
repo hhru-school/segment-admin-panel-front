@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-import { LayerSegments, LayerSegmentsList } from 'types/layer';
+import { LayerSegments, LayerSegmentsList } from 'types/segment';
 
 interface CurrentLayerSegmentsState {
     item: LayerSegments | null;

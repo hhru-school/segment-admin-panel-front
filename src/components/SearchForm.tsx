@@ -30,7 +30,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, disabled }) => {
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <IconButton type="submit" size="small" edge="start">
+                            <IconButton type="submit" size="small" edge="start" disabled={disabled}>
                                 <SearchIcon fontSize="small" />
                             </IconButton>
                         </InputAdornment>

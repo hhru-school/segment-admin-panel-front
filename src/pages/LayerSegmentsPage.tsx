@@ -1,37 +1,36 @@
 import { useCallback, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
-import { Outlet, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { isApiError } from 'api';
 import LayerSegmentsTable from 'components/LayerSegmentsTable';
 import SearchForm from 'components/SearchForm';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { selectCurrentLayerId, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
 import {
     fetchLayerSegments,
     reset,
     setSearchString,
-    selectCurrentLayerSegmentsError,
     selectCurrentLayerSegmentsLoadingStatus,
+    selectCurrentLayerSegments,
 } from 'models/currentLayerSegments';
 
 const LayerSegmentsPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { setAlert } = useErrorAlert();
-    const { segmentId } = useParams();
-    const layerId = useAppSelector(selectCurrentLayerId);
-    const layerIsLoading = useAppSelector(selectCurrentLayerLoadingStatus);
+    const { layerId } = useParams();
+    const segments = useAppSelector(selectCurrentLayerSegments, shallowEqual);
     const isLoading = useAppSelector(selectCurrentLayerSegmentsLoadingStatus);
-    const error = useAppSelector(selectCurrentLayerSegmentsError, shallowEqual);
 
     const handleSearch = useCallback(
         (searchQuery: string) => {
             if (layerId !== null) {
-                void dispatch(fetchLayerSegments({ layerId, searchQuery }));
+                void dispatch(fetchLayerSegments({ layerId: Number(layerId), searchQuery }));
                 dispatch(setSearchString(searchQuery || ''));
             }
         },
@@ -39,28 +38,26 @@ const LayerSegmentsPage: React.FC = () => {
     );
 
     useEffect(() => {
-        if (layerId !== null) {
-            void dispatch(fetchLayerSegments({ layerId }));
-        }
+        void dispatch(fetchLayerSegments({ layerId: Number(layerId) }))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error)) {
+                    if (error?.code === 404) {
+                        navigate('/not-found', { replace: true });
+                    } else {
+                        setAlert(error.message);
+                    }
+                }
+            });
         return () => {
             dispatch(reset());
         };
-    }, [layerId, dispatch]);
+    }, [layerId, dispatch, navigate, setAlert]);
 
-    useEffect(() => {
-        if (error !== null) {
-            setAlert(error.message);
-        }
-    }, [error, setAlert]);
-
-    if (segmentId !== undefined) {
-        return <Outlet />;
-    }
-
-    if (!layerIsLoading && layerId === null) {
+    if (!isLoading && segments === null) {
         return (
             <>
-                <Stack direction="row" alignItems="center" gap={4} sx={{ pt: 5, pb: 4 }}>
+                <Stack direction="row" alignItems="center" spacing={4}>
                     <Box sx={{ flexBasis: 140 }}>
                         <Typography component="h2" variant="h5">
                             Сегменты
@@ -81,7 +78,7 @@ const LayerSegmentsPage: React.FC = () => {
 
     return (
         <>
-            <Stack direction="row" alignItems="center" gap={4} sx={{ pt: 5, pb: 4 }}>
+            <Stack direction="row" alignItems="center" spacing={4}>
                 <Box sx={{ flexBasis: 140 }}>
                     <Typography component="h2" variant="h5">
                         Сегменты
@@ -89,7 +86,7 @@ const LayerSegmentsPage: React.FC = () => {
                 </Box>
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{ maxWidth: 700, minWidth: 340 }}>
-                        <SearchForm disabled={isLoading || layerIsLoading} onSubmit={handleSearch} />
+                        <SearchForm disabled={isLoading} onSubmit={handleSearch} />
                     </Box>
                 </Box>
             </Stack>

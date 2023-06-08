@@ -31,7 +31,7 @@ const LayersPage: React.FC = () => {
 
     return (
         <>
-            <Stack direction="row" justifyContent="space-between" gap={4} sx={{ pt: 5, pb: 4 }}>
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
                 <Typography component="h2" variant="h5">
                     Слои
                 </Typography>

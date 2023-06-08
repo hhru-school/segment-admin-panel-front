@@ -1,22 +1,46 @@
+import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { isApiError } from 'api';
 import ContentBox from 'components/ContentBox';
 import LayerStatusChip from 'components/LayerStatusChip';
 import ParentsLayersTable from 'components/ParentsLayersTable';
-import { useAppSelector } from 'hooks/redux-hooks';
-import { selectCurrentLayer, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
+import useErrorAlert from 'hooks/useErrorAlert';
+import { fetchLayer, reset, selectCurrentLayer, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
 
 const LayerInfoPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { layerId } = useParams();
+    const { setAlert } = useErrorAlert();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const layer = useAppSelector(selectCurrentLayer, shallowEqual);
 
+    useEffect(() => {
+        void dispatch(fetchLayer(Number(layerId)))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error)) {
+                    if (error?.code === 404) {
+                        navigate('/not-found', { replace: true });
+                    } else {
+                        setAlert(error.message);
+                    }
+                }
+            });
+        return () => {
+            dispatch(reset());
+        };
+    }, [layerId, dispatch, navigate, setAlert]);
+
     if (isLoading) {
         return (
-            <Stack sx={{ pt: 5 }} spacing={4}>
+            <>
                 <Typography component="h2" variant="h5">
                     Основная информация
                 </Typography>
@@ -30,25 +54,25 @@ const LayerInfoPage: React.FC = () => {
                     <Typography>.</Typography>
                 </ContentBox>
                 <ContentBox title="Родительский слой" loading={isLoading} skeletonWidth="100%" skeletonHeight={114} />
-            </Stack>
+            </>
         );
     }
 
     if (layer === null) {
         return (
-            <Stack sx={{ pt: 5 }} spacing={4}>
+            <>
                 <Typography component="h2" variant="h5">
                     Основная информация
                 </Typography>
                 <Alert severity="warning">
                     Нет данных! Проверьте подключение к интернету и повторите попытку или обратитесь к администратору.
                 </Alert>
-            </Stack>
+            </>
         );
     }
 
     return (
-        <Stack sx={{ pt: 5 }} spacing={4}>
+        <>
             <Typography component="h2" variant="h5">
                 Основная информация
             </Typography>
@@ -69,7 +93,7 @@ const LayerInfoPage: React.FC = () => {
             <ContentBox title="Родительский слой">
                 <ParentsLayersTable />
             </ContentBox>
-        </Stack>
+        </>
     );
 };
 

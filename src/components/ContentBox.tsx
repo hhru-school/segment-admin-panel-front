@@ -6,18 +6,25 @@ interface ContentBoxProps {
     title?: string;
     children?: React.ReactNode;
     loading?: boolean;
-    disableGutters?: boolean;
+    smallGutters?: boolean;
     skeletonWidth?: string | number;
     skeletonHeight?: string | number;
 }
 
-const ContentBox: React.FC<ContentBoxProps> = ({ title, children, loading, skeletonWidth, skeletonHeight }) => {
+const ContentBox: React.FC<ContentBoxProps> = ({
+    title,
+    children,
+    loading,
+    skeletonWidth,
+    skeletonHeight,
+    smallGutters,
+}) => {
     if (loading) {
         return (
             <Box>
                 {title && (
                     <Skeleton variant="rounded" width={300}>
-                        <Typography component="h2" variant="h6" sx={{ mb: 4 }}>
+                        <Typography component="h2" variant="h6" sx={{ mb: smallGutters ? 2 : 4 }}>
                             .
                         </Typography>
                     </Skeleton>
@@ -32,7 +39,7 @@ const ContentBox: React.FC<ContentBoxProps> = ({ title, children, loading, skele
     return (
         <Box>
             {title && (
-                <Typography component="h2" variant="h6" sx={{ mb: 4 }}>
+                <Typography component="h2" variant="h6" sx={{ mb: smallGutters ? 2 : 4 }}>
                     {title}
                 </Typography>
             )}
