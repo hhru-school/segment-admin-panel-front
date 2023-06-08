@@ -13,7 +13,6 @@ import LightenChip from 'components/LightenChip';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import SecondaryLayout from 'layouts/SecondaryLayout';
-import { selectCurrentLayerId, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
 import {
     fetchLayerSegment,
     selectCurrentLayerSegment,
@@ -25,33 +24,29 @@ const LayerSegmentsPage: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { setAlert } = useErrorAlert();
-    const { segmentId } = useParams();
-    const layerIsLoading = useAppSelector(selectCurrentLayerLoadingStatus);
-    const layerId = useAppSelector(selectCurrentLayerId);
-    const segmentIsLoading = useAppSelector(selectCurrentLayerSegmentLoadingStatus);
+    const { layerId, segmentId } = useParams();
+    const isLoading = useAppSelector(selectCurrentLayerSegmentLoadingStatus);
     const segment = useAppSelector(selectCurrentLayerSegment, shallowEqual);
-    const backHref = layerId ? `/layers/${layerId}/segments` : `/layers`;
+    const backHref = layerId ? `/layers/${layerId}/segments` : undefined;
 
     useEffect(() => {
-        if (layerId !== null) {
-            void dispatch(fetchLayerSegment({ layerId, segmentId: Number(segmentId) }))
-                .unwrap()
-                .catch((error) => {
-                    if (isApiError(error)) {
-                        if (error?.code === 404) {
-                            navigate('/not-found', { replace: true });
-                        } else {
-                            setAlert(error.message);
-                        }
+        void dispatch(fetchLayerSegment({ layerId: Number(layerId), segmentId: Number(segmentId) }))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error)) {
+                    if (error?.code === 404) {
+                        navigate('/not-found', { replace: true });
+                    } else {
+                        setAlert(error.message);
                     }
-                });
-        }
+                }
+            });
         return () => {
             dispatch(reset());
         };
     }, [layerId, segmentId, dispatch, navigate, setAlert]);
 
-    if (layerIsLoading || segmentIsLoading) {
+    if (isLoading) {
         return (
             <SecondaryLayout backHref={backHref} loading>
                 <ContentBox title="Описание" loading skeletonWidth="100%">
@@ -69,7 +64,7 @@ const LayerSegmentsPage: React.FC = () => {
         );
     }
 
-    if (layerId === null || segment === null) {
+    if (segment === null) {
         return (
             <SecondaryLayout title="Нет данных" backHref={backHref}>
                 <Alert severity="warning">

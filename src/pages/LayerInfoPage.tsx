@@ -1,17 +1,42 @@
+import { useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import { isApiError } from 'api';
 import ContentBox from 'components/ContentBox';
 import LayerStatusChip from 'components/LayerStatusChip';
 import ParentsLayersTable from 'components/ParentsLayersTable';
-import { useAppSelector } from 'hooks/redux-hooks';
-import { selectCurrentLayer, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
+import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
+import useErrorAlert from 'hooks/useErrorAlert';
+import { fetchLayer, reset, selectCurrentLayer, selectCurrentLayerLoadingStatus } from 'models/currentLayer';
 
 const LayerInfoPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const { layerId } = useParams();
+    const { setAlert } = useErrorAlert();
     const isLoading = useAppSelector(selectCurrentLayerLoadingStatus);
     const layer = useAppSelector(selectCurrentLayer, shallowEqual);
+
+    useEffect(() => {
+        void dispatch(fetchLayer(Number(layerId)))
+            .unwrap()
+            .catch((error) => {
+                if (isApiError(error)) {
+                    if (error?.code === 404) {
+                        navigate('/not-found', { replace: true });
+                    } else {
+                        setAlert(error.message);
+                    }
+                }
+            });
+        return () => {
+            dispatch(reset());
+        };
+    }, [layerId, dispatch, navigate, setAlert]);
 
     if (isLoading) {
         return (
