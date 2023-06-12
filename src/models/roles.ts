@@ -28,7 +28,7 @@ const fetchRoles = createAsyncThunk<RolesList, undefined, { rejectValue: ApiErro
 
 const initialState: RolesState = {
     items: [],
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

@@ -28,7 +28,7 @@ const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: A
 
 const initialState: LayersListState = {
     items: [],
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

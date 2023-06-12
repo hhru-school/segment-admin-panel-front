@@ -33,7 +33,7 @@ interface FieldsState {
 const initialState: FieldsState = {
     items: [],
     searchString: '',
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

@@ -39,7 +39,7 @@ const fetchLayerSegments = createAsyncThunk<LayerSegments, FetchLayerSegmentsPar
 const initialState: CurrentLayerSegmentsState = {
     item: null,
     searchString: '',
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

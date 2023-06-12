@@ -11,7 +11,7 @@ const selectLayerTitle = (state: RootState): string | null => {
     return state.currentLayer.item?.title || state.currentLayerSegments.item?.title || null;
 };
 const selectLayerLoadingStatus = (state: RootState): boolean => {
-    return state.currentLayer.isLoading && state.currentLayerSegments.isLoading;
+    return state.currentLayer.isLoading || state.currentLayerSegments.isLoading;
 };
 
 const LayerPage: React.FC = () => {

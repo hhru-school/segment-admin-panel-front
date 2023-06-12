@@ -27,7 +27,7 @@ interface ScreensState {
 
 const initialState: ScreensState = {
     items: [],
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 
