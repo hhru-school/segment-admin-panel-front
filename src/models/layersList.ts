@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-import { LayersList } from 'types/layer';
+import { LayersList, LayerStates } from 'types/layer';
 
 interface LayersListState {
     items: LayersList;
@@ -11,13 +11,18 @@ interface LayersListState {
     error: ApiError | null;
 }
 
-const fetchLayersList = createAsyncThunk<LayersList, undefined, { rejectValue: ApiError }>(
+const fetchLayersList = createAsyncThunk<LayersList, LayerStates[] | undefined, { rejectValue: ApiError }>(
     'layersList/fetchLayersList',
-    async (_, thunkApi) => {
+    async (filters, thunkApi) => {
         let response: AxiosResponse<LayersList>;
 
         try {
-            response = await api.get<LayersList>('/layers');
+            if (filters) {
+                const params = new URLSearchParams(filters.map((state) => ['state', state]));
+                response = await api.get<LayersList>('/layers/list', { params });
+            } else {
+                response = await api.get<LayersList>('/layers');
+            }
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }
