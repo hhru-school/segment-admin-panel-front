@@ -21,7 +21,7 @@ const columns: Columns<LayersListItem> = [
         headerName: 'Создан',
         align: 'center',
         sx: { width: 200 },
-        valueGetter: (layer) => {
+        valueGetter: (layer?: LayersListItem): React.ReactNode => {
             if (layer === undefined) {
                 return layer;
             }
@@ -37,7 +37,7 @@ const columns: Columns<LayersListItem> = [
         headerName: 'Статус',
         align: 'center',
         sx: { width: 300 },
-        valueGetter: (layer) => {
+        valueGetter: (layer?: LayersListItem): React.ReactNode => {
             if (layer === undefined) {
                 return layer;
             }
@@ -56,9 +56,8 @@ const columns: Columns<LayersListItem> = [
 const ParentsLayersTable: React.FC = () => {
     const parentLayers = useAppSelector(selectCurrentLayerParentLayers, shallowEqual);
 
-    return (
-        <DataTable<LayersListItem> columns={columns} rows={parentLayers || []} emptyMessage="Родительского слоя нет." />
-    );
+    return <DataTable<LayersListItem> columns={columns} rows={parentLayers} emptyMessage="Родительского слоя нет." />;
 };
 
 export default ParentsLayersTable;
+export { columns };
