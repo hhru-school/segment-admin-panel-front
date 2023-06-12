@@ -18,17 +18,17 @@ interface Column<T extends object, K extends AdditionalKey = undefined> extends 
     key: K extends string ? ExtractKey<T> | K : ExtractKey<T>;
     field?: keyof T;
     headerName?: string;
-    valueGetter?: (data?: T, searchString?: string) => React.ReactNode;
+    valueGetter?: (data: T, searchString?: string) => React.ReactNode;
 }
 export type Columns<T extends object, K extends string | undefined = undefined> = Column<T, K>[];
 
 export interface DataTableRowProps<T extends object, K extends AdditionalKey = undefined> {
     columns: Columns<T, K>;
+    height: number | string;
     data?: T;
     searchString?: string;
     header?: boolean;
     collapsed?: boolean;
-    small?: boolean;
     collapsedDataRender?: (row: T) => React.ReactNode;
 }
 
@@ -38,11 +38,10 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
     searchString,
     header,
     collapsed,
-    small,
+    height = 65,
     collapsedDataRender,
 }: DataTableRowProps<T, K>): JSX.Element => {
     const [open, setOpen] = useState(false);
-    const height = small ? 50 : 65;
 
     const handleToggleOpen = () => {
         setOpen(!open);
@@ -53,7 +52,7 @@ const DataTableRows = <T extends object, K extends AdditionalKey = undefined>({
             return <TableCell {...rest}>{headerName}</TableCell>;
         }
 
-        if (valueGetter !== undefined) {
+        if (valueGetter !== undefined && data !== undefined) {
             return <TableCell {...rest}>{valueGetter(data, searchString)}</TableCell>;
         }
 

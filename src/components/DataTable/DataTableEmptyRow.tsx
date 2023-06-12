@@ -3,13 +3,11 @@ import TableRow from '@mui/material/TableRow';
 
 interface DataTableEmptyRowProps {
     columnsCount: number;
+    height: number | string;
     children?: React.ReactNode;
-    small?: boolean;
 }
 
-const DataTableEmptyRow: React.FC<DataTableEmptyRowProps> = ({ columnsCount, children, small }) => {
-    const height = small ? 50 : 65;
-
+const DataTableEmptyRow: React.FC<DataTableEmptyRowProps> = ({ columnsCount, children, height = 65 }) => {
     return (
         <TableRow sx={{ height }}>
             <TableCell colSpan={columnsCount} align="center" padding="none">
