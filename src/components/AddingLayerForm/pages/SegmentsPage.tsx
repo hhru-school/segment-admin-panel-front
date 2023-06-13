@@ -3,15 +3,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
+import { FieldName, PageName } from 'components/AddingLayerForm';
+import LayerSegmentsField from 'components/AddingLayerForm/fields/LayerSegmentsField';
+import useInitSegmentsField from 'components/AddingLayerForm/fields/LayerSegmentsField/useInitSegmentsField';
 import FormActions from 'components/FormActions';
 import { useWizard } from 'components/Wizard';
 import { SegmentsFieldValue } from 'types/segment';
 
-import { FieldName, PageName } from 'components/AddingLayerForm';
-import LayerSegmentsField from 'components/AddingLayerForm/LayerSegmentsField';
-import useInitSegmentsField from 'components/AddingLayerForm/LayerSegmentsField/useInitSegmentsField';
-
-const LayerSegmentsPage: React.FC = () => {
+const SegmentsPage: React.FC = () => {
     const { setPageHandler } = useWizard();
     const { submitting, submitSucceeded } = useFormState();
     const loading = useInitSegmentsField();
@@ -49,4 +48,4 @@ const LayerSegmentsPage: React.FC = () => {
     );
 };
 
-export default LayerSegmentsPage;
+export default SegmentsPage;

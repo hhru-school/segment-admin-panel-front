@@ -14,8 +14,8 @@ import { FormError } from 'types/common';
 import { LayerStates, LayersListItem } from 'types/layer';
 import { SegmentsFieldValue } from 'types/segment';
 
-import LayerInfoPage from 'components/AddingLayerForm/LayerInfoPage';
-import LayerSegmentsPage from 'components/AddingLayerForm/LayerSegmentsPage';
+import LayerInfoPage from 'components/AddingLayerForm/pages/InfoPage';
+import LayerSegmentsPage from 'components/AddingLayerForm/pages/SegmentsPage';
 
 export const enum PageName {
     Info = 'Info',

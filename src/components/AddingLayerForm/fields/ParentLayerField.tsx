@@ -5,14 +5,13 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
+import { FieldName } from 'components/AddingLayerForm';
 import DataTable from 'components/DataTable';
 import { columns } from 'components/ParentsLayersTable';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { useAppSelector } from 'hooks/redux-hooks';
 import { selectLayersList, selectLayersListLoadingStatus } from 'models/layersList';
 import { LayersList, LayersListItem } from 'types/layer';
-
-import { FieldName } from 'components/AddingLayerForm';
 
 const getParentLayers = (value: LayersListItem | null, layers: LayersList): LayersList => {
     if (value === null) {

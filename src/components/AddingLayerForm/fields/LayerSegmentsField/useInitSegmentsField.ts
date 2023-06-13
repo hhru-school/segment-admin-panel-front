@@ -22,13 +22,14 @@ const useInitSegmentsFieldValue = (): boolean => {
     const {
         input: { value: layer },
     } = useField<LayersListItem | null>(FieldName.ParentLayer, { subscription: { value: true }, allowNull: true });
-    const [loading, setLoading] = useState(!value);
+    const isNeedLoad = value === null && layer !== null;
+    const [loading, setLoading] = useState(isNeedLoad);
     const navigate = useNavigate();
     const { setAlert } = useErrorAlert();
     const form = useForm();
 
     useEffect(() => {
-        if (layer?.id && !value) {
+        if (isNeedLoad) {
             api.get<LayerSegments>(`/layers/${layer.id}/segments`)
                 .then(({ data: { segments } }) => {
                     form.change(FieldName.Segments, getInitialValue(segments));
@@ -46,7 +47,7 @@ const useInitSegmentsFieldValue = (): boolean => {
                     setLoading(false);
                 });
         }
-    }, [layer?.id, value, form, navigate, setAlert]);
+    }, [isNeedLoad, layer, form, navigate, setAlert]);
 
     return loading;
 };

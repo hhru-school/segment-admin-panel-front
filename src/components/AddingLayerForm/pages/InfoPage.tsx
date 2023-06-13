@@ -2,15 +2,14 @@ import { Field, useFormState } from 'react-final-form';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import { FieldName, PageName } from 'components/AddingLayerForm';
+import ParentLayerField from 'components/AddingLayerForm/fields/ParentLayerField';
 import FormActions from 'components/FormActions';
 import { useWizard } from 'components/Wizard';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { LayersListItem } from 'types/layer';
 
-import { FieldName, PageName } from 'components/AddingLayerForm';
-import ParentLayerField from 'components/AddingLayerForm/ParentLayerField';
-
-const LayerInfoPage: React.FC = () => {
+const InfoPage: React.FC = () => {
     const { setPageHandler } = useWizard();
     const state = useFormState();
 
@@ -66,4 +65,4 @@ const LayerInfoPage: React.FC = () => {
     );
 };
 
-export default LayerInfoPage;
+export default InfoPage;

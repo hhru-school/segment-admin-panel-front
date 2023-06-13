@@ -14,11 +14,15 @@ type ExtractKey<T extends object> = Extract<keyof T, string | number>;
 
 export type AdditionalKey = string | undefined;
 
+export interface ValueGetter<T> {
+    (data: T, searchString?: string): React.ReactNode;
+}
+
 interface Column<T extends object, K extends AdditionalKey = undefined> extends Pick<TableCellProps, 'align' | 'sx'> {
     key: K extends string ? ExtractKey<T> | K : ExtractKey<T>;
     field?: keyof T;
     headerName?: string;
-    valueGetter?: (data: T, searchString?: string) => React.ReactNode;
+    valueGetter?: ValueGetter<T>;
 }
 export type Columns<T extends object, K extends string | undefined = undefined> = Column<T, K>[];
 
