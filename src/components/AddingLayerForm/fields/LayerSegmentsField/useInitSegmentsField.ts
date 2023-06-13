@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useField, useForm } from 'react-final-form';
-import { useNavigate } from 'react-router-dom';
 
 import api, { apiErrorHandler } from 'api';
 import { FieldName } from 'components/AddingLayerForm';
@@ -24,7 +23,6 @@ const useInitSegmentsFieldValue = (): boolean => {
     } = useField<LayersListItem | null>(FieldName.ParentLayer, { subscription: { value: true }, allowNull: true });
     const isNeedLoad = value === null && layer !== null;
     const [loading, setLoading] = useState(isNeedLoad);
-    const navigate = useNavigate();
     const { setAlert } = useErrorAlert();
     const form = useForm();
 
@@ -38,7 +36,7 @@ const useInitSegmentsFieldValue = (): boolean => {
                     const apiError = apiErrorHandler(error);
 
                     if (apiError?.code === 404) {
-                        navigate('/not-found', { replace: true });
+                        setAlert(`Не удалось найти слой с ID=${layer.id}. Обратитесь к администратору.`);
                     } else {
                         setAlert(apiError.message);
                     }
@@ -47,7 +45,7 @@ const useInitSegmentsFieldValue = (): boolean => {
                     setLoading(false);
                 });
         }
-    }, [isNeedLoad, layer, form, navigate, setAlert]);
+    }, [isNeedLoad, layer, form, setAlert]);
 
     return loading;
 };
