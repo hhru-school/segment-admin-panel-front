@@ -15,6 +15,7 @@ interface DataTableProps<T extends object, K extends AdditionalKey = undefined>
         Pick<TableProps, 'size'> {
     columns: Columns<T, K>;
     rows: T[];
+    maxDisplayRows?: number;
     searchString?: string;
     emptyMessage?: string;
     searchEmptyMessage?: string;
@@ -26,6 +27,7 @@ interface DataTableProps<T extends object, K extends AdditionalKey = undefined>
 const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined>({
     columns,
     rows,
+    maxDisplayRows,
     collapsedDataRender,
     searchString = '',
     searchEmptyMessage,
@@ -36,20 +38,21 @@ const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined
     disableDivider,
 }: DataTableProps<T, K>): JSX.Element => {
     const isCollapsed = collapsedDataRender !== undefined;
-    const isSmall = size === 'small';
     const sx = disableDivider ? { '& th,td': { borderBottom: 'unset' } } : undefined;
+    const rowHeight = size === 'small' ? 50 : 65;
+    const maxHeight = maxDisplayRows && maxDisplayRows > 0 ? (maxDisplayRows + 1) * rowHeight : undefined;
 
     if (loading) {
         return (
-            <TableContainer>
+            <TableContainer sx={{ maxHeight }}>
                 <Table size={size} sx={sx} stickyHeader>
                     <TableHead>
-                        <DataTableRows columns={columns} collapsed={isCollapsed} header small={isSmall} />
+                        <DataTableRows columns={columns} collapsed={isCollapsed} header height={rowHeight} />
                     </TableHead>
                     <TableBody>
                         <DataTableEmptyRow
                             columnsCount={isCollapsed ? columns.length + 1 : columns.length}
-                            small={isSmall}
+                            height={rowHeight}
                         >
                             <Skeleton variant="rectangular" height={skeletonHeight} />
                         </DataTableEmptyRow>
@@ -61,16 +64,16 @@ const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined
 
     if (isEmpty(rows)) {
         return (
-            <TableContainer>
+            <TableContainer sx={{ maxHeight }}>
                 <Table size={size} sx={sx} stickyHeader>
                     <TableHead>
-                        <DataTableRows columns={columns} collapsed={isCollapsed} header small={isSmall} />
+                        <DataTableRows columns={columns} collapsed={isCollapsed} header height={rowHeight} />
                     </TableHead>
                     <TableBody>
                         {isEmpty(searchString) ? (
                             <DataTableEmptyRow
                                 columnsCount={isCollapsed ? columns.length + 1 : columns.length}
-                                small={isSmall}
+                                height={rowHeight}
                             >
                                 <Alert severity="info" sx={{ justifyContent: 'center', my: 1 }}>
                                     {emptyMessage || 'Ничего нет.'}
@@ -79,7 +82,7 @@ const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined
                         ) : (
                             <DataTableEmptyRow
                                 columnsCount={isCollapsed ? columns.length + 1 : columns.length}
-                                small={isSmall}
+                                height={rowHeight}
                             >
                                 <Alert severity="info" sx={{ justifyContent: 'center', my: 1 }}>
                                     {searchEmptyMessage || 'Ничего не найдено.'}
@@ -93,10 +96,10 @@ const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined
     }
 
     return (
-        <TableContainer>
+        <TableContainer sx={{ maxHeight }}>
             <Table size={size} sx={sx} stickyHeader>
                 <TableHead>
-                    <DataTableRows columns={columns} collapsed={isCollapsed} header small={isSmall} />
+                    <DataTableRows columns={columns} collapsed={isCollapsed} header height={rowHeight} />
                 </TableHead>
                 <TableBody>
                     {rows.map((data) => (
@@ -107,7 +110,7 @@ const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined
                             searchString={searchString}
                             collapsed={isCollapsed}
                             collapsedDataRender={collapsedDataRender}
-                            small={isSmall}
+                            height={rowHeight}
                         />
                     ))}
                 </TableBody>

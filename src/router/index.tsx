@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import App from 'App';
+import AddingLayerForm from 'components/AddingLayerForm';
 import CreateNewFieldPage from 'pages/CreateNewFieldPage';
-import CreateNewLayerPage from 'pages/CreateNewLayerPage';
 import CreateNewScreenPage from 'pages/CreateNewScreenPage';
 import CreateNewSegmentPage from 'pages/CreateNewSegmentPage';
 import FieldPage from 'pages/FieldPage';
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             { path: 'fields/:fieldId', element: <FieldPage /> },
             { path: 'segments/:segmentId', element: <SegmentPage /> },
             { path: 'segments/new', element: <CreateNewSegmentPage /> },
-            { path: 'new/layer', element: <CreateNewLayerPage /> },
+            { path: 'new/layer', element: <AddingLayerForm /> },
             { path: 'new/field', element: <CreateNewFieldPage /> },
             { path: 'new/screen', element: <CreateNewScreenPage /> },
         ],

@@ -28,7 +28,7 @@ const fetchSegment = createAsyncThunk<Segment, number, { rejectValue: ApiError }
 
 const initialState: CurrentSegmentState = {
     item: null,
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

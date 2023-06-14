@@ -29,6 +29,13 @@ export interface LayerSegment extends Pick<Segment, 'title' | 'description' | 'r
     fields: SegmentFieldList;
     entryPoints: SegmentEntryPointList;
 }
+export interface SegmentsFieldItem extends Omit<Segment, 'description' | 'parentSegment' | 'createTime'> {
+    activeState: ActiveState;
+    isNew?: boolean;
+}
+export interface SegmentsFieldValue {
+    [key: string]: SegmentsFieldItem;
+}
 
 export type SegmentsList = Segment[];
 export type LayerSegmentsList = LayerSegmentsListItem[];

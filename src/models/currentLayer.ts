@@ -28,7 +28,7 @@ const fetchLayer = createAsyncThunk<Layer, number, { rejectValue: ApiError }>(
 
 const initialState: CurrentLayerState = {
     item: null,
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 
@@ -62,8 +62,9 @@ const selectCurrentLayer = (state: RootState): Layer | null => state.currentLaye
 const selectCurrentLayerError = (state: RootState): ApiError | null => state.currentLayer.error;
 const selectCurrentLayerLoadingStatus = (state: RootState): boolean => state.currentLayer.isLoading;
 const selectCurrentLayerTitle = (state: RootState): string | undefined => state.currentLayer.item?.title;
-const selectCurrentLayerParentLayers = (state: RootState): LayersList | null =>
-    state.currentLayer.item?.parentLayersList || null;
+const selectCurrentLayerParentLayers = (state: RootState): LayersList => {
+    return state.currentLayer.item?.parentLayersList || [];
+};
 const selectCurrentLayerId = (state: RootState): number | null => state.currentLayer.item?.id || null;
 
 const { reset } = currentLayerSlice.actions;

@@ -3,11 +3,11 @@ import { Form, Field } from 'react-final-form';
 import { useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { FORM_ERROR, SubmissionErrors } from 'final-form';
 
 import api, { apiErrorHandler, isApiError } from 'api';
+import FormActions from 'components/FormActions';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import isEmpty from 'helpers/isEmpty';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
@@ -152,7 +152,7 @@ const AddingSegmentForm: React.FC = () => {
                     </Field>
                     <Field<RolesList> name={FieldName.Roles}>{(props) => <RolesField {...props} />}</Field>
                     <Field<string[]> name={FieldName.Tags}>{(props) => <TagsField {...props} />}</Field>
-                    <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{ mt: 2, color: 'action.active' }}>
+                    <FormActions>
                         <Button
                             onClick={handleCancel}
                             variant="outlined"
@@ -167,13 +167,12 @@ const AddingSegmentForm: React.FC = () => {
                             type="submit"
                             variant="contained"
                             sx={{ width: 112 }}
-                            disableElevation
                             disabled={rolesIsLoading || segmentsIsLoading || submitSucceeded}
                             loading={submitting}
                         >
                             Добавить
                         </LoadingButton>
-                    </Stack>
+                    </FormActions>
                 </form>
             )}
         />

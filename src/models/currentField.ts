@@ -27,7 +27,7 @@ interface CurrentFieldState {
 
 const initialState: CurrentFieldState = {
     item: null,
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

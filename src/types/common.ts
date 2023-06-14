@@ -10,3 +10,5 @@ export const enum ActiveStates {
 
 export type ChangeState = `${ChangeStates}`;
 export type ActiveState = `${ActiveStates}`;
+
+export type FormError<V> = Partial<Record<keyof V, string>>;

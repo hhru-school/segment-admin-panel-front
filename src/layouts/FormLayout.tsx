@@ -1,5 +1,4 @@
 import Container, { ContainerProps } from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import AppBar from 'components/AppBar';
@@ -26,7 +25,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, title, ContainerProps
             <Main>
                 <ToolbarSpace />
                 <Container disableGutters {...ContainerProps}>
-                    <Stack spacing={4}>{children}</Stack>
+                    {children}
                 </Container>
             </Main>
         </Wrapper>

@@ -38,7 +38,7 @@ const fetchSegments = createAsyncThunk<SegmentsList, string | undefined, { rejec
 const initialState: SegmentsState = {
     items: [],
     searchString: '',
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

@@ -35,7 +35,7 @@ const fetchLayerSegment = createAsyncThunk<LayerSegment, FetchLayerSegmentParams
 
 const initialState: CurrentLayerSegmentState = {
     item: null,
-    isLoading: true,
+    isLoading: false,
     error: null,
 };
 

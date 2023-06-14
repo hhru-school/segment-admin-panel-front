@@ -1,10 +1,10 @@
-export const enum LayerStatuses {
+export const enum LayerStates {
     Archived = 'ARCHIVED',
     Experimental = 'EXPERIMENTAL',
     Stable = 'STABLE',
 }
 
-export type LayerStatus = `${LayerStatuses}`;
+export type LayerState = `${LayerStates}`;
 export type LayersListItem = Pick<Layer, 'id' | 'title' | 'createTime' | 'layerStatus'>;
 export type LayersList = LayersListItem[];
 
@@ -13,6 +13,6 @@ export interface Layer {
     title: string;
     description: string;
     createTime: string;
-    layerStatus: LayerStatus;
+    layerStatus: LayerState;
     parentLayersList: LayersList;
 }
