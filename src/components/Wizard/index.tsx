@@ -9,9 +9,18 @@ export interface Page {
 
 export type Pages<T = string> = Map<T, Page>;
 
+export interface State {
+    [key: string]: unknown;
+}
+
+export interface SetPageHandler {
+    (name: string, state?: State): void;
+}
+
 interface RenderWizardProps {
+    state?: State;
     activePage?: Page;
-    handleSetPage: (name: string) => void;
+    handleSetPage: SetPageHandler;
 }
 
 interface WizardProps {
@@ -22,17 +31,19 @@ interface WizardProps {
 
 const Wizard: React.FC<WizardProps> = ({ pages, defaultPage, children }) => {
     const [activePage, setActivePage] = useState(pages.get(defaultPage));
+    const [state, setState] = useState<State | undefined>();
 
-    const handleSetPage = useCallback(
-        (name: string) => {
+    const handleSetPage: SetPageHandler = useCallback(
+        (name, state) => {
             setActivePage(pages.get(name));
+            setState(state);
         },
         [pages, setActivePage]
     );
 
     return (
-        <WizardProvider activePage={activePage} setPageHandler={handleSetPage}>
-            {typeof children === 'function' ? children({ activePage, handleSetPage }) : children}
+        <WizardProvider activePage={activePage} setPageHandler={handleSetPage} state={state}>
+            {typeof children === 'function' ? children({ activePage, handleSetPage, state }) : children}
         </WizardProvider>
     );
 };

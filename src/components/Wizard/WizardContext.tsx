@@ -1,15 +1,17 @@
 import React, { createContext, useContext } from 'react';
 
-import { Page } from 'components/Wizard';
+import { Page, State, SetPageHandler } from 'components/Wizard';
 
 export interface WizardContextType {
+    setPageHandler: SetPageHandler;
+    state?: State;
     activePage?: Page;
-    setPageHandler: (name: string) => void;
 }
 
 interface WizardProviderProps {
+    setPageHandler: SetPageHandler;
+    state?: State;
     activePage?: Page;
-    setPageHandler: (name: string) => void;
     children?: React.ReactNode;
 }
 
@@ -17,8 +19,8 @@ const WizardContext = createContext<WizardContextType>({
     setPageHandler: () => null,
 });
 
-const WizardProvider: React.FC<WizardProviderProps> = ({ activePage, setPageHandler, children }) => {
-    return <WizardContext.Provider value={{ activePage, setPageHandler }}>{children}</WizardContext.Provider>;
+const WizardProvider: React.FC<WizardProviderProps> = ({ activePage, setPageHandler, children, state }) => {
+    return <WizardContext.Provider value={{ activePage, setPageHandler, state }}>{children}</WizardContext.Provider>;
 };
 
 const useWizard = (): ReturnType<typeof useContext<WizardContextType>> => useContext(WizardContext);
