@@ -1,16 +1,16 @@
 import React, { createContext, useContext } from 'react';
 
-import { Page, State, SetPageHandler } from 'components/Wizard';
+import { Page, SetPageHandler } from 'components/Wizard';
 
 export interface WizardContextType {
     setPageHandler: SetPageHandler;
-    state?: State;
+    state?: unknown;
     activePage?: Page;
 }
 
 interface WizardProviderProps {
     setPageHandler: SetPageHandler;
-    state?: State;
+    state?: unknown;
     activePage?: Page;
     children?: React.ReactNode;
 }

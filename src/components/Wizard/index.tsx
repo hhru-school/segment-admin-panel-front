@@ -1,24 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import WizardProvider, { useWizard } from 'components/Wizard/WizardContext';
 
 export interface Page {
-    title: string;
+    name: string;
     element: React.ReactNode;
 }
 
 export type Pages<T = string> = Map<T, Page>;
 
-export interface State {
-    [key: string]: unknown;
-}
-
 export interface SetPageHandler {
-    (name: string, state?: State): void;
+    (name: string, state?: unknown): void;
 }
 
 interface RenderWizardProps {
-    state?: State;
+    state?: unknown;
     activePage?: Page;
     handleSetPage: SetPageHandler;
 }
@@ -31,19 +27,21 @@ interface WizardProps {
 
 const Wizard: React.FC<WizardProps> = ({ pages, defaultPage, children }) => {
     const [activePage, setActivePage] = useState(pages.get(defaultPage));
-    const [state, setState] = useState<State | undefined>();
+    const state = useRef<unknown | undefined>();
 
     const handleSetPage: SetPageHandler = useCallback(
-        (name, state) => {
+        (name, newState) => {
             setActivePage(pages.get(name));
-            setState(state);
+            if (newState !== undefined) {
+                state.current = newState;
+            }
         },
         [pages, setActivePage]
     );
 
     return (
-        <WizardProvider activePage={activePage} setPageHandler={handleSetPage} state={state}>
-            {typeof children === 'function' ? children({ activePage, handleSetPage, state }) : children}
+        <WizardProvider activePage={activePage} setPageHandler={handleSetPage} state={state.current}>
+            {typeof children === 'function' ? children({ activePage, handleSetPage, state: state.current }) : children}
         </WizardProvider>
     );
 };
