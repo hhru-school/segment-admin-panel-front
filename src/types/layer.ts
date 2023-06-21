@@ -9,7 +9,7 @@ export type LayersListItem = Pick<Layer, 'id' | 'title' | 'createTime' | 'layerS
 export type LayersList = LayersListItem[];
 
 export interface Layer {
-    id: number;
+    id: number | string;
     title: string;
     description: string;
     createTime: string;

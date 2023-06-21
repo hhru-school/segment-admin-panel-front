@@ -1,5 +1,5 @@
 import { ActiveState } from 'types/common';
-import { FieldsList, ScreenFieldList } from 'types/field';
+import { FieldsList, ScreenFieldList, ScreenFieldDetailsList } from 'types/field';
 import { VersionsList } from 'types/version';
 
 export const enum ScreenTypes {
@@ -10,9 +10,10 @@ export const enum ScreenTypes {
 export type ScreenType = `${ScreenTypes}`;
 export type ScreensList = Screen[];
 export type DetailedScreenList = DetailedScreen[];
+export type ScreenDetailsList = ScreenDetails[];
 
 export interface Screen {
-    id: number;
+    id: number | string;
     title: string;
     description: string;
     type: ScreenType;
@@ -26,4 +27,9 @@ export interface DetailedScreen extends Omit<Screen, 'fields'> {
     oldPosition?: number;
     oldState?: ActiveState;
     isNew: boolean;
+}
+export interface ScreenDetails extends Omit<Screen, 'fields' | 'filtered'> {
+    segmentScreenEntrypointLinkId?: number;
+    fields: ScreenFieldDetailsList;
+    position: number;
 }

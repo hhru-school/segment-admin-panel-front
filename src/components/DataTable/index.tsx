@@ -24,7 +24,7 @@ interface DataTableProps<T extends object, K extends AdditionalKey = undefined>
     disableDivider?: boolean;
 }
 
-const DataTable = <T extends { id: number }, K extends AdditionalKey = undefined>({
+const DataTable = <T extends { id: number | string }, K extends AdditionalKey = undefined>({
     columns,
     rows,
     maxDisplayRows,

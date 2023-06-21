@@ -1,11 +1,11 @@
 import { ChangeState, ActiveState } from 'types/common';
-import { SegmentEntryPointList } from 'types/entryPoint';
-import { SegmentFieldList } from 'types/field';
+import { EntryPointDetailsList, SegmentEntryPointList } from 'types/entryPoint';
+import { SegmentFieldList, SegmentFieldDetailsList } from 'types/field';
 import { Layer } from 'types/layer';
 import { RolesList } from 'types/role';
 
 export interface Segment {
-    id: number;
+    id: number | string;
     title: string;
     description: string;
     parentSegment: Pick<Segment, 'id' | 'title'> | null;
@@ -14,6 +14,7 @@ export interface Segment {
     tags: string[];
 }
 export interface LayerSegmentsListItem extends Omit<Segment, 'description' | 'parentSegment' | 'createTime'> {
+    segmentStateLinkId: number;
     changeState: ChangeState;
     activeState: ActiveState;
 }
@@ -29,13 +30,13 @@ export interface LayerSegment extends Pick<Segment, 'title' | 'description' | 'r
     fields: SegmentFieldList;
     entryPoints: SegmentEntryPointList;
 }
-export interface SegmentsFieldItem extends Omit<Segment, 'description' | 'parentSegment' | 'createTime'> {
+export interface SegmentDetails extends Omit<Segment, 'parentSegment' | 'createTime'> {
+    segmentStateLinkId?: number;
     activeState: ActiveState;
-    isNew?: boolean;
-}
-export interface SegmentsFieldValue {
-    [key: string]: SegmentsFieldItem;
+    fields: SegmentFieldDetailsList;
+    entryPoints: EntryPointDetailsList;
 }
 
 export type SegmentsList = Segment[];
 export type LayerSegmentsList = LayerSegmentsListItem[];
+export type SegmentDetailsList = SegmentDetails[];

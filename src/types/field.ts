@@ -33,9 +33,11 @@ export type FieldsList = Field[];
 export type QuestionList = Question[];
 export type SegmentFieldList = SegmentField[];
 export type ScreenFieldList = ScreenField[];
+export type SegmentFieldDetailsList = SegmentFieldDetails[];
+export type ScreenFieldDetailsList = ScreenFieldDetails[];
 
 export interface Field {
-    id: number;
+    id: number | string;
     title: string;
     type?: FieldType;
 }
@@ -46,7 +48,7 @@ export interface Question extends Field {
     possibleAnswersList: AnswerList;
 }
 export interface Answer {
-    id: number;
+    id: number | string;
     title: string;
     positiveTitle: string;
     answerType: AnswerType;
@@ -61,11 +63,18 @@ export interface SegmentField extends Field {
     isChanged: boolean;
     isNew: boolean;
 }
+export interface SegmentFieldDetails extends Omit<SegmentField, 'isChanged' | 'isNew' | 'type' | 'state'> {
+    questionRequiredLinkId?: number;
+}
 export interface ScreenField extends Field {
     visibility: FieldVisibilityState;
     oldVisibility?: FieldVisibilityState;
     oldPosition?: number;
     isNew: boolean;
+}
+export interface ScreenFieldDetails extends Omit<ScreenField, 'oldVisibility' | 'oldPosition' | 'isNew' | 'type'> {
+    screenQuestionLinkId?: number;
+    position: number;
 }
 
 export const isQuestion = (node: unknown): node is Question => {

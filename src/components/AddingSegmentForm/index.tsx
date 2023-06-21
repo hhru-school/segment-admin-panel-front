@@ -39,8 +39,8 @@ type Errors = Partial<Record<keyof Values, string>>;
 interface RequestBody {
     title: string;
     description: string;
-    parentSegmentId: number | null;
-    rolesId: number[];
+    parentSegmentId: number | string | null;
+    rolesId: Array<number | string>;
     tags: string[];
 }
 
