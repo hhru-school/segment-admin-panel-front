@@ -5,6 +5,7 @@ import ShowPrefilledIcon from 'icons/ShowPrefilled';
 import { FieldVisibilityState, FieldVisibilityStates } from 'types/field';
 
 import ChangeBox from 'components/ChangeBox';
+import IconWrapper from 'components/IconWrapper';
 
 interface FieldVisibilityProps {
     state: FieldVisibilityState;
@@ -22,7 +23,16 @@ const FieldVisibilityView: React.FC<FieldVisibilityProps> = ({
     state = FieldVisibilityStates.Show,
     previousState = null,
 }) => {
-    return <ChangeBox currentValue={icon.get(state)} previousValue={previousState ? icon.get(previousState) : null} />;
+    const isChanged = previousState !== null && previousState !== state;
+
+    return (
+        <ChangeBox
+            currentValue={<IconWrapper>{icon.get(state)}</IconWrapper>}
+            previousValue={isChanged && <IconWrapper>{icon.get(previousState)}</IconWrapper>}
+            changed={isChanged}
+        />
+    );
 };
 
 export default FieldVisibilityView;
+export { icon };
