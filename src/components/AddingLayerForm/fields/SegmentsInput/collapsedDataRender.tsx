@@ -1,10 +1,10 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { SegmentInputValue } from 'components/AddingLayerForm/types';
 import LightenChip from 'components/LightenChip';
-import { SegmentsFieldItem } from 'types/segment';
 
-const collapsedDataRender = (item: SegmentsFieldItem): React.ReactNode => (
+const collapsedDataRender = (item: SegmentInputValue): React.ReactNode => (
     <Stack spacing={2}>
         <Typography variant="subtitle2">Роли</Typography>
         <Stack direction="row" spacing={2}>

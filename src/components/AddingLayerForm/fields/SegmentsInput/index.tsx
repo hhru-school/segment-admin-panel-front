@@ -8,21 +8,23 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
+import { NewLayer, SegmentInputValue } from 'components/AddingLayerForm/types';
 import DataTable from 'components/DataTable';
-import { SegmentsFieldItem, SegmentsFieldValue } from 'types/segment';
+import { useWizard } from 'components/Wizard';
 
-import collapsedDataRender from 'components/AddingLayerForm/fields/LayerSegmentsField/collapsedDataRender';
-import getSegmentsTableColumns from 'components/AddingLayerForm/fields/LayerSegmentsField/getSegmentsTableColumns';
-import getSegmentsTableRows from 'components/AddingLayerForm/fields/LayerSegmentsField/getSegmentsTableRows';
+import collapsedDataRender from 'components/AddingLayerForm/fields/SegmentsInput/collapsedDataRender';
+import getSegmentsTableColumns from 'components/AddingLayerForm/fields/SegmentsInput/getSegmentsTableColumns';
+import getSegmentsTableRows from 'components/AddingLayerForm/fields/SegmentsInput/getSegmentsTableRows';
 
-interface LayerSegmentsFieldProps extends FieldRenderProps<SegmentsFieldValue | null> {
+interface SegmentsInputProps extends FieldRenderProps<NewLayer['segments']> {
     disabled?: boolean;
     loading?: boolean;
 }
 
-const LayerSegmentsField: React.FC<LayerSegmentsFieldProps> = ({ input, disabled = false, loading = false }) => {
+const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, loading = false }) => {
     const [searchString, setSearchString] = useState('');
-    const columns = getSegmentsTableColumns({ disabled });
+    const { setPageHandler } = useWizard();
+    const columns = getSegmentsTableColumns({ disabled, setPageHandler });
     const rows = getSegmentsTableRows(input.value, searchString);
 
     const searchHandle: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -31,7 +33,7 @@ const LayerSegmentsField: React.FC<LayerSegmentsFieldProps> = ({ input, disabled
 
     return (
         <>
-            <Typography variant="caption" component="div" sx={{ color: 'text.secondary', mt: 2, mb: 2 }}>
+            <Typography component="div" sx={{ color: 'text.secondary', mt: 2, mb: 2 }}>
                 Выберете сегменты которые необходимо добавить в слой.
             </Typography>
             <Stack direction="row" alignItems="center" spacing={4} sx={{ mb: 1 }}>
@@ -59,7 +61,7 @@ const LayerSegmentsField: React.FC<LayerSegmentsFieldProps> = ({ input, disabled
                 </Box>
             </Stack>
             <Box sx={{ mb: 4 }}>
-                <DataTable<SegmentsFieldItem, 'disabled' | 'status' | 'actions'>
+                <DataTable<SegmentInputValue, 'disabled' | 'status' | 'actions'>
                     columns={columns}
                     rows={rows}
                     maxDisplayRows={8}
@@ -74,4 +76,4 @@ const LayerSegmentsField: React.FC<LayerSegmentsFieldProps> = ({ input, disabled
     );
 };
 
-export default LayerSegmentsField;
+export default SegmentsInput;

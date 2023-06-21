@@ -5,15 +5,17 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 
-import { FieldName } from 'components/AddingLayerForm';
+import { PageName } from 'components/AddingLayerForm';
+import { PagesState, SegmentInputValue } from 'components/AddingLayerForm/types';
 import ChangeStatusChip from 'components/ChangeStatusChip';
 import { Columns, ValueGetter } from 'components/DataTable/DataTableRows';
 import SearchView from 'components/SearchView';
+import { SetPageHandler } from 'components/Wizard';
+import isActive from 'helpers/isActive';
 import isEmpty from 'helpers/isEmpty';
 import { ActiveStates, ChangeStates } from 'types/common';
-import { SegmentsFieldItem } from 'types/segment';
 
-const renderTitle: ValueGetter<SegmentsFieldItem> = ({ title }, searchString = '') => {
+const renderTitle: ValueGetter<SegmentInputValue> = ({ title }, searchString = '') => {
     if (isEmpty(searchString)) {
         return title;
     }
@@ -24,20 +26,16 @@ const renderTitle: ValueGetter<SegmentsFieldItem> = ({ title }, searchString = '
         </SearchView>
     );
 };
-const renderNewStatus: ValueGetter<SegmentsFieldItem> = ({ isNew }) => {
+const renderNewStatus: ValueGetter<SegmentInputValue> = ({ isNew }) => {
     if (!isNew) {
         return null;
     }
 
     return <ChangeStatusChip type={ChangeStates.New} variant="outlined" />;
 };
-const getRenderActiveStateControl = (disabled: boolean): ValueGetter<SegmentsFieldItem> => {
-    const isActive = (value: SegmentsFieldItem): boolean => value.activeState === ActiveStates.Active;
-    const setActiveState = (value: SegmentsFieldItem, checked: boolean): SegmentsFieldItem => {
-        return {
-            ...value,
-            activeState: checked ? ActiveStates.Active : ActiveStates.Disabled,
-        };
+const getRenderActiveStateControl = (disabled: boolean): ValueGetter<SegmentInputValue> => {
+    const setActiveState = (value: SegmentInputValue, checked: boolean): SegmentInputValue => {
+        return { ...value, activeState: checked ? ActiveStates.Active : ActiveStates.Disabled };
     };
 
     return (item) => {
@@ -48,10 +46,10 @@ const getRenderActiveStateControl = (disabled: boolean): ValueGetter<SegmentsFie
         }
 
         return (
-            <Field<SegmentsFieldItem, HTMLElement, boolean>
+            <Field<SegmentInputValue, HTMLElement, boolean>
                 type="checkbox"
-                name={`${FieldName.Segments}.id-${id}`}
-                format={isActive}
+                name={`segments.id-${id}`}
+                format={(value) => isActive(value.activeState)}
                 parse={(checked) => setActiveState(item, checked)}
             >
                 {({ input }) => <Switch {...input} disabled={disabled} />}
@@ -59,12 +57,20 @@ const getRenderActiveStateControl = (disabled: boolean): ValueGetter<SegmentsFie
         );
     };
 };
-const getRenderActions = (disabled: boolean): ValueGetter<SegmentsFieldItem> => {
-    return ({ isNew }) => {
-        if (isNew) {
+const getRenderActions = (disabled: boolean, setPageHandler: SetPageHandler): ValueGetter<SegmentInputValue> => {
+    return (item) => {
+        const pagesState: PagesState = {
+            segment: item,
+            entryPoint: null,
+            newDynamicScreen: null,
+        };
+
+        const handelSetEditSegmentPage = () => setPageHandler(PageName.Details, pagesState);
+
+        if (item.isNew) {
             return (
                 <Stack direction="row">
-                    <IconButton size="small" disabled={disabled}>
+                    <IconButton size="small" disabled={disabled} onClick={handelSetEditSegmentPage}>
                         <EditIcon fontSize="small" />
                     </IconButton>
                     <IconButton size="small" disabled={disabled}>
@@ -75,7 +81,7 @@ const getRenderActions = (disabled: boolean): ValueGetter<SegmentsFieldItem> => 
         }
 
         return (
-            <IconButton size="small" disabled={disabled}>
+            <IconButton size="small" disabled={disabled} onClick={handelSetEditSegmentPage}>
                 <EditIcon fontSize="small" />
             </IconButton>
         );
@@ -83,10 +89,13 @@ const getRenderActions = (disabled: boolean): ValueGetter<SegmentsFieldItem> => 
 };
 
 interface SegmentsTableColumnsGetter {
-    (options: { disabled: boolean }): Columns<SegmentsFieldItem, 'disabled' | 'status' | 'actions'>;
+    (options: { disabled: boolean; setPageHandler: SetPageHandler }): Columns<
+        SegmentInputValue,
+        'disabled' | 'status' | 'actions'
+    >;
 }
 
-const getSegmentsTableColumns: SegmentsTableColumnsGetter = ({ disabled }) => {
+const getSegmentsTableColumns: SegmentsTableColumnsGetter = ({ disabled, setPageHandler }) => {
     return [
         {
             key: 'title',
@@ -120,7 +129,7 @@ const getSegmentsTableColumns: SegmentsTableColumnsGetter = ({ disabled }) => {
             key: 'actions',
             align: 'right',
             sx: { width: '1%' },
-            valueGetter: getRenderActions(disabled),
+            valueGetter: getRenderActions(disabled, setPageHandler),
         },
     ];
 };
