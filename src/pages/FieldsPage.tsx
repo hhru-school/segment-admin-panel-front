@@ -20,7 +20,7 @@ const FieldsPage: React.FC = () => {
 
     const handleSearch = useCallback(
         (searchString: string) => {
-            void dispatch(fetchFields(searchString));
+            void dispatch(fetchFields({ searchQuery: searchString }));
             dispatch(setSearchString(searchString));
         },
         [dispatch]
