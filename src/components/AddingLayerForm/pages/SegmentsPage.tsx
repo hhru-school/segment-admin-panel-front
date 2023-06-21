@@ -3,17 +3,17 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { FieldName, PageName } from 'components/AddingLayerForm';
-import LayerSegmentsField from 'components/AddingLayerForm/fields/LayerSegmentsField';
-import useInitSegmentsField from 'components/AddingLayerForm/fields/LayerSegmentsField/useInitSegmentsField';
+import { PageName } from 'components/AddingLayerForm';
+import SegmentsInput from 'components/AddingLayerForm/fields/SegmentsInput';
+import useInitSegments from 'components/AddingLayerForm/hooks/useInitSegments';
+import { NewLayer } from 'components/AddingLayerForm/types';
 import FormActions from 'components/FormActions';
 import { useWizard } from 'components/Wizard';
-import { SegmentsFieldValue } from 'types/segment';
 
 const SegmentsPage: React.FC = () => {
     const { setPageHandler } = useWizard();
     const { submitting, submitSucceeded } = useFormState();
-    const loading = useInitSegmentsField();
+    const loading = useInitSegments();
     const disabled = loading || submitting || submitSucceeded;
 
     const previousPageHandle = () => {
@@ -22,8 +22,8 @@ const SegmentsPage: React.FC = () => {
 
     return (
         <>
-            <Field<SegmentsFieldValue> name={FieldName.Segments}>
-                {(props) => <LayerSegmentsField {...props} loading={loading} disabled={disabled} />}
+            <Field<NewLayer['segments']> name="segments">
+                {(props) => <SegmentsInput {...props} loading={loading} disabled={disabled} />}
             </Field>
             <FormActions>
                 <Box sx={{ flexGrow: 1 }}>
