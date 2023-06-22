@@ -1,31 +1,24 @@
 import { useField } from 'react-final-form';
 
-import { SegmentFieldInputValue, SegmentFieldInputValues, isPagesState } from 'components/AddingLayerForm/types';
+import { SegmentFieldInputValue, SegmentFieldInputValues } from 'components/AddingLayerForm/types';
 import DataTable from 'components/DataTable';
-import { useWizard } from 'components/Wizard';
 
 import getSegmentFieldsTableColumns from 'components/AddingLayerForm/fields/SegmentFieldsInput/getSegmentFieldsTableColumns';
 import getSegmentFieldsTableRows from 'components/AddingLayerForm/fields/SegmentFieldsInput/getSegmentFieldsTableRows';
 
-const SegmentFieldsInput: React.FC = () => {
-    const { state } = useWizard();
+interface SegmentFieldsInputProps {
+    name: string;
+}
 
-    if (!isPagesState(state) || state.segment === null) {
-        throw new Error('Не задан сегмент');
-    }
-
-    const {
-        segment: { id },
-    } = state;
-    const name = `segments.id-${id}.fields`;
+const SegmentFieldsInput: React.FC<SegmentFieldsInputProps> = ({ name }) => {
+    const fieldsName = `${name}.fields`;
 
     const {
         input: { value },
-    } = useField<SegmentFieldInputValues>(name, { subscription: { value: true } });
+    } = useField<SegmentFieldInputValues>(fieldsName, { subscription: { value: true } });
 
     const rows = getSegmentFieldsTableRows(value);
-    const columns = getSegmentFieldsTableColumns(name);
-
+    const columns = getSegmentFieldsTableColumns(fieldsName);
     return (
         <DataTable<SegmentFieldInputValue, 'status'>
             columns={columns}

@@ -33,11 +33,12 @@ const normalizeScreen = ({ filtered, fields, ...rest }: Screen): ScreenInputValu
 };
 
 const ScreensPage: React.FC = () => {
-    const { state } = useWizard();
+    const { state, from } = useWizard();
 
     if (!isPagesState(state) || state.segment === null || state.entryPoint === null) {
         throw new Error('Не заданы сегмент или точка входа.');
     }
+
     const { segment, entryPoint } = state;
     const name = `segments.id-${segment.id}.entryPoints.id-${entryPoint.id}.screens`;
     const segmentName = `segments.id-${segment.id}`;
@@ -56,12 +57,12 @@ const ScreensPage: React.FC = () => {
     const handleAddScreen = () => {
         form.mutators.calcNewScreensPosition(name);
         form.mutators.updateSegmentFields(segmentName);
-        setPageHandler(PageName.Details);
+        setPageHandler(from || PageName.Details);
     };
 
     const handleCancel = () => {
         form.change(name, entryPoint.screens);
-        setPageHandler(PageName.Details);
+        setPageHandler(from || PageName.Details);
     };
 
     useEffect(() => {

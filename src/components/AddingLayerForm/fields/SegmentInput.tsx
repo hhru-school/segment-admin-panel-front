@@ -66,10 +66,10 @@ const SegmentInput: React.FC<SegmentInputProps> = ({ name, loading }) => {
                 </Stack>
             </ContentBox>
             <ContentBox title="Поля" smallGutters>
-                <SegmentFieldsInput />
+                <SegmentFieldsInput name={`segments.${name}`} />
             </ContentBox>
             <ContentBox title="Точки входа" smallGutters>
-                <EntryPointsInput />
+                <EntryPointsInput name={`segments.${name}`} />
             </ContentBox>
         </Stack>
     );

@@ -3,7 +3,7 @@ import { useForm } from 'react-final-form';
 import { shallowEqual } from 'react-redux';
 import Button from '@mui/material/Button';
 
-import { PageName } from 'components/AddingLayerForm';
+import { INITIAL_BACK_STATE, PageName } from 'components/AddingLayerForm';
 import SegmentInput from 'components/AddingLayerForm/fields/SegmentInput';
 import useInitSegmentDetailsField from 'components/AddingLayerForm/hooks/useInitSegmentDetails';
 import { isPagesState } from 'components/AddingLayerForm/types';
@@ -29,11 +29,11 @@ const SegmentDetailsPage: React.FC = () => {
 
     const handleCancel = () => {
         form.mutators.resetSegment(`segments.${name}`, state.segment);
-        setPageHandler(PageName.Segments, null);
+        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     const handleAddSegment = () => {
-        setPageHandler(PageName.Segments, null);
+        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     useEffect(() => {

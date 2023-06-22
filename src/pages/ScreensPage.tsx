@@ -10,6 +10,7 @@ import ScreensGrid from 'components/ScreensGrid';
 import { useAppDispatch, useAppSelector } from 'hooks/redux-hooks';
 import useErrorAlert from 'hooks/useErrorAlert';
 import { fetchScreens, reset, selectScreensError, selectScreensLoadingStatus } from 'models/screens';
+import { ScreenTypes } from 'types/screen';
 
 const ScreensPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const ScreensPage: React.FC = () => {
     const error = useAppSelector(selectScreensError, shallowEqual);
 
     useEffect(() => {
-        void dispatch(fetchScreens());
+        void dispatch(fetchScreens(ScreenTypes.Static));
         return () => {
             dispatch(reset());
         };

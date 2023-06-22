@@ -16,7 +16,7 @@ const SegmentsPage: React.FC = () => {
     const loading = useInitSegments();
     const disabled = loading || submitting || submitSucceeded;
 
-    const previousPageHandle = () => {
+    const handleSetPreviousPage = () => {
         setPageHandler(PageName.Info);
     };
 
@@ -31,7 +31,7 @@ const SegmentsPage: React.FC = () => {
                         variant="outlined"
                         color="inherit"
                         sx={{ minWidth: 112 }}
-                        onClick={previousPageHandle}
+                        onClick={handleSetPreviousPage}
                         disabled={disabled}
                     >
                         Назад

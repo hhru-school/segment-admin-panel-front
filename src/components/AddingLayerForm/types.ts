@@ -44,6 +44,7 @@ export interface ScreenFieldInputValue extends Omit<ScreenFieldDetails, 'id'> {
     isNew: boolean;
 }
 export interface PagesState {
+    segments: SegmentInputValues | null;
     segment: SegmentInputValue | null;
     entryPoint: EntryPointInputValue | null;
     newDynamicScreen: ScreenInputValue | null;
@@ -74,7 +75,7 @@ export type ScreenInputValues = IdMap<ScreenInputValue>;
 export type ScreenFieldInputValues = IdMap<ScreenFieldInputValue>;
 
 const isPagesState = (value: unknown): value is PagesState => {
-    return isObject(value) && hasFields<PagesState>(value, ['segment', 'entryPoint']);
+    return isObject(value) && hasFields<PagesState>(value, ['segments', 'segment', 'entryPoint', 'newDynamicScreen']);
 };
 const isSegmentInputValue = (value: unknown): value is SegmentInputValue => {
     return (

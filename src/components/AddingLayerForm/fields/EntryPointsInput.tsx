@@ -13,18 +13,21 @@ import idMapToArray from 'helpers/idMapToArray';
 
 import EntryPointInput from 'components/AddingLayerForm/fields/EntryPointInput';
 
-const EntryPointsInput: React.FC = () => {
+interface EntryPointsInputProps {
+    name: string;
+}
+
+const EntryPointsInput: React.FC<EntryPointsInputProps> = ({ name }) => {
     const { setPageHandler, state } = useWizard();
 
-    if (!isPagesState(state) || state.segment === null) {
-        throw new Error('Не задан сегмент.');
+    if (!isPagesState(state)) {
+        throw new Error('Не задано предыдущее значение состояния.');
     }
 
-    const { segment } = state;
-    const name = `segments.id-${segment.id}.entryPoints`;
+    const entryPointsName = `${name}.entryPoints`;
     const form = useForm<NewLayer>();
     const { values } = form.getState();
-    const entryPoints = getIn(values, name) as EntryPointInputValues;
+    const entryPoints = getIn(values, entryPointsName) as EntryPointInputValues;
 
     const handelSetAddScreensPage = (id: number | string) => {
         const pagesState: PagesState = {
@@ -59,7 +62,7 @@ const EntryPointsInput: React.FC = () => {
                         </Stack>
                     }
                 >
-                    <EntryPointInput name={`${name}.id-${id}`} />
+                    <EntryPointInput name={`${entryPointsName}.id-${id}`} />
                 </AccordionItem>
             ))}
         </>

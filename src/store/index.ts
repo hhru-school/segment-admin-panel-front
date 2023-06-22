@@ -5,6 +5,7 @@ import currentLayerReducer from 'models/currentLayer';
 import currentLayerSegmentReducer from 'models/currentLayerSegment';
 import currentLayerSegmentsReducer from 'models/currentLayerSegments';
 import currentSegmentReducer from 'models/currentSegment';
+import entryPointsReducer from 'models/entryPoints';
 import fieldsReducer from 'models/fields';
 import layersListReducer from 'models/layersList';
 import rolesReducer from 'models/roles';
@@ -23,6 +24,7 @@ export const store = configureStore({
         screens: screensReducer,
         segments: segmentsReducer,
         roles: rolesReducer,
+        entryPoints: entryPointsReducer,
     },
 });
 

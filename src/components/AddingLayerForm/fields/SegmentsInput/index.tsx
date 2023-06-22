@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FieldRenderProps } from 'react-final-form';
+import { FieldRenderProps, useForm, useFormState } from 'react-final-form';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,7 +8,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import AddButton from 'components/AddButton';
-import { NewLayer, SegmentInputValue } from 'components/AddingLayerForm/types';
+import { PageName } from 'components/AddingLayerForm';
+import { NewLayer, PagesState, SegmentInputValue, isPagesState } from 'components/AddingLayerForm/types';
 import DataTable from 'components/DataTable';
 import { useWizard } from 'components/Wizard';
 
@@ -23,13 +24,32 @@ interface SegmentsInputProps extends FieldRenderProps<NewLayer['segments']> {
 
 const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, loading = false }) => {
     const [searchString, setSearchString] = useState('');
-    const { setPageHandler } = useWizard();
-    const columns = getSegmentsTableColumns({ disabled, setPageHandler });
-    const rows = getSegmentsTableRows(input.value, searchString);
+    const { state, setPageHandler } = useWizard();
 
-    const searchHandle: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (!isPagesState(state)) {
+        throw new Error('Не задано предыдущее значение состояния.');
+    }
+
+    const form = useForm();
+    const {
+        values: { segments },
+    } = useFormState<NewLayer>();
+    const backState: PagesState = { segments, segment: null, entryPoint: null, newDynamicScreen: null };
+
+    const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setSearchString(event.target.value);
     };
+
+    const removeSegmentHandler = (id: number | string) => {
+        form.mutators.removeSegment(`id-${id}`);
+    };
+
+    const handleSetAddSegmentPage = () => {
+        setPageHandler(PageName.AddSegment, backState);
+    };
+
+    const columns = getSegmentsTableColumns({ state, disabled, setPageHandler, removeSegmentHandler });
+    const rows = getSegmentsTableRows(input.value, searchString);
 
     return (
         <>
@@ -41,7 +61,7 @@ const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, 
                     <Box sx={{ maxWidth: 700, minWidth: 340 }}>
                         <TextField
                             value={searchString}
-                            onChange={searchHandle}
+                            onChange={handleSearch}
                             placeholder="Начните вводить наименование"
                             InputProps={{
                                 startAdornment: (
@@ -57,7 +77,9 @@ const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, 
                     </Box>
                 </Box>
                 <Box sx={{ flexShrink: 0 }}>
-                    <AddButton disabled={disabled}>Добавить сегмент</AddButton>
+                    <AddButton onClick={handleSetAddSegmentPage} disabled={disabled}>
+                        Добавить сегмент
+                    </AddButton>
                 </Box>
             </Stack>
             <Box sx={{ mb: 4 }}>

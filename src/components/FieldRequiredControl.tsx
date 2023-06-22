@@ -28,6 +28,7 @@ const FieldRequiredControl: React.FC<FieldRequiredControlProps> = ({ input, isCh
             currentValue={<CheckBox {...input} disabled={disabled} />}
             previousValue={<Value required={isChanged ? !input.checked : input.checked} />}
             changed={isChanged}
+            disabled={disabled}
         />
     );
 };

@@ -38,6 +38,7 @@ const FieldRequiredView: React.FC<FieldRequiredViewProps> = ({ required, isChang
             currentValue={<Value required={required} disabled={disabled} />}
             previousValue={isChanged ? <Value required={!required} /> : null}
             changed={isChanged}
+            disabled={disabled}
         />
     );
 };

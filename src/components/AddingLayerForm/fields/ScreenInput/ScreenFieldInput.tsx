@@ -57,7 +57,7 @@ const ScreenFieldInput: React.FC<ScreenFieldInputProps> = ({ name, field, disabl
                     <ClearIcon fontSize="small" />
                 </IconButton>
             ) : (
-                <Box sx={{ width: 27 }} />
+                <Box sx={{ width: 27, flexShrink: 0 }} />
             )}
         </ListItem>
     );
