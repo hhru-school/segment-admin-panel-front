@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import WizardProvider, { useWizard } from 'components/Wizard/WizardContext';
 
@@ -10,38 +10,63 @@ export interface Page {
 export type Pages<T = string> = Map<T, Page>;
 
 export interface SetPageHandler {
-    (name: string, state?: unknown): void;
+    (name: string, state?: unknown, from?: string): void;
+}
+
+export interface SetStateHandler {
+    (state?: unknown): void;
 }
 
 interface RenderWizardProps {
     state?: unknown;
     activePage?: Page;
     handleSetPage: SetPageHandler;
+    handleSetState: SetStateHandler;
+    from?: string;
 }
 
 interface WizardProps {
+    state: unknown;
     pages: Pages;
     defaultPage: string;
     children?: ((props: RenderWizardProps) => React.ReactNode) | React.ReactNode;
 }
 
-const Wizard: React.FC<WizardProps> = ({ pages, defaultPage, children }) => {
+const Wizard: React.FC<WizardProps> = ({ state, pages, defaultPage, children }) => {
     const [activePage, setActivePage] = useState(pages.get(defaultPage));
-    const state = useRef<unknown | undefined>();
+    const [wizardState, setWizardState] = useState(state);
+    const [from, setFrom] = useState<string>();
 
     const handleSetPage: SetPageHandler = useCallback(
         (name, newState) => {
+            setFrom(activePage?.name);
             setActivePage(pages.get(name));
+
             if (newState !== undefined) {
-                state.current = newState;
+                setWizardState(newState);
             }
         },
-        [pages, setActivePage]
+        [pages, activePage, setActivePage, setFrom]
+    );
+
+    const handleSetState: SetStateHandler = useCallback(
+        (newState) => {
+            setWizardState(newState);
+        },
+        [setWizardState]
     );
 
     return (
-        <WizardProvider activePage={activePage} setPageHandler={handleSetPage} state={state.current}>
-            {typeof children === 'function' ? children({ activePage, handleSetPage, state: state.current }) : children}
+        <WizardProvider
+            activePage={activePage}
+            setPageHandler={handleSetPage}
+            setStateHandler={handleSetState}
+            state={wizardState}
+            from={from}
+        >
+            {typeof children === 'function'
+                ? children({ activePage, handleSetPage, handleSetState, state: wizardState, from })
+                : children}
         </WizardProvider>
     );
 };
