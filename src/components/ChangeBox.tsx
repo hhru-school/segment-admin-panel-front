@@ -9,6 +9,7 @@ import { styled, lighten } from '@mui/material/styles';
 interface ChangeBoxBodyProps {
     height?: number;
     changed?: boolean;
+    disabled?: boolean;
 }
 
 interface ChangeBoxProps {
@@ -19,13 +20,17 @@ interface ChangeBoxProps {
 }
 
 const ChangeBoxBody = styled(Box, {
-    shouldForwardProp: (prop) => prop !== 'changed' && prop !== 'height',
-})<ChangeBoxBodyProps>(({ theme, changed }) => ({
+    shouldForwardProp: (prop) => prop !== 'changed' && prop !== 'height' && prop !== 'disabled',
+})<ChangeBoxBodyProps>(({ theme, changed, disabled }) => ({
     display: 'inline-block',
     borderRadius: '999em',
     verticalAlign: 'middle',
     transition: theme.transitions.create(['background-color']),
     ...(changed && { backgroundColor: lighten(theme.palette.info.light, 0.92) }),
+    ...(disabled && {
+        color: theme.palette.text.disabled,
+        filter: 'grayscale(1)',
+    }),
 }));
 
 const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue, disabled, changed = false }) => {
@@ -34,18 +39,12 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue, disa
     const currentValueBox = useRef<HTMLDivElement | null>(null);
 
     const hoverHandler: React.MouseEventHandler = (event) => {
-        if (changed) {
-            if (event.type === 'mouseenter') {
-                setExpand(true);
-            } else {
-                setExpand(false);
-            }
+        if (event.type === 'mouseenter') {
+            setExpand(changed);
+        } else {
+            setExpand(false);
         }
     };
-
-    useEffect(() => {
-        setExpand(changed);
-    }, [changed]);
 
     useLayoutEffect(() => {
         if (currentValueBox.current !== null) {
@@ -53,8 +52,17 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue, disa
         }
     }, []);
 
+    useEffect(() => {
+        setExpand(changed);
+        return () => setExpand(false);
+    }, [changed]);
+
+    useEffect(() => {
+        setExpand(false);
+    }, []);
+
     return (
-        <ChangeBoxBody changed={changed} onMouseEnter={hoverHandler} onMouseLeave={hoverHandler}>
+        <ChangeBoxBody changed={changed} onMouseEnter={hoverHandler} onMouseLeave={hoverHandler} disabled={disabled}>
             <Collapse
                 in={expand}
                 orientation="horizontal"
@@ -73,7 +81,13 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue, disa
                             <EastIcon color={disabled ? 'disabled' : 'info'} sx={{ width: 16, height: 16 }} />
                         </Stack>
                     </Fade>
-                    <Stack direction="row" alignItems="center" justifyContent="center" ref={currentValueBox}>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                        ref={currentValueBox}
+                        sx={{ color: disabled ? 'action.disabled' : 'inherit' }}
+                    >
                         {currentValue}
                     </Stack>
                 </Stack>

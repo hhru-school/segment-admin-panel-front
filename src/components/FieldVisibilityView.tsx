@@ -10,6 +10,7 @@ import IconWrapper from 'components/IconWrapper';
 interface FieldVisibilityProps {
     state: FieldVisibilityState;
     previousState?: FieldVisibilityState | null;
+    disabled?: boolean;
 }
 
 const icon = new Map<FieldVisibilityState, JSX.Element>([
@@ -22,6 +23,7 @@ const icon = new Map<FieldVisibilityState, JSX.Element>([
 const FieldVisibilityView: React.FC<FieldVisibilityProps> = ({
     state = FieldVisibilityStates.Show,
     previousState = null,
+    disabled,
 }) => {
     const isChanged = previousState !== null && previousState !== state;
 
@@ -30,6 +32,7 @@ const FieldVisibilityView: React.FC<FieldVisibilityProps> = ({
             currentValue={<IconWrapper>{icon.get(state)}</IconWrapper>}
             previousValue={isChanged && <IconWrapper>{icon.get(previousState)}</IconWrapper>}
             changed={isChanged}
+            disabled={disabled}
         />
     );
 };
