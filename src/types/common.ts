@@ -10,5 +10,12 @@ export const enum ActiveStates {
 
 export type ChangeState = `${ChangeStates}`;
 export type ActiveState = `${ActiveStates}`;
-
 export type FormError<V> = Partial<Record<keyof V, string>>;
+export type IdMapKey = `id-${number | string}`;
+
+export interface ObjectWithId {
+    id: number | string;
+}
+export interface IdMap<T> {
+    [key: IdMapKey]: T;
+}

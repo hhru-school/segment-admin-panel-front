@@ -1,5 +1,5 @@
 export interface Role {
-    id: number;
+    id: number | string;
     name: string;
 }
 export type RolesList = Role[];

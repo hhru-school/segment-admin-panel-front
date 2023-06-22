@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
-import { FieldName } from 'components/AddingLayerForm';
 import DataTable from 'components/DataTable';
 import { columns } from 'components/ParentsLayersTable';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
@@ -21,7 +20,7 @@ const getParentLayers = (value: LayersListItem | null, layers: LayersList): Laye
     return layers.slice(currentLayerIndex);
 };
 
-const ParentLayerField: React.FC<FieldRenderProps<LayersListItem | null>> = ({ input, meta }) => {
+const ParentLayerInput: React.FC<FieldRenderProps<LayersListItem | null>> = ({ input, meta }) => {
     const { value, name, onBlur, onChange, onFocus } = input;
     const [isError, errorMessage] = extractFinalFormErrorState(meta);
     const form = useForm();
@@ -31,7 +30,7 @@ const ParentLayerField: React.FC<FieldRenderProps<LayersListItem | null>> = ({ i
 
     const handleChange = (event: React.SyntheticEvent, newValue: LayersListItem | null) => {
         onChange(newValue);
-        form.change(FieldName.Segments, null);
+        form.mutators.resetSegments();
     };
 
     return (
@@ -83,4 +82,4 @@ const ParentLayerField: React.FC<FieldRenderProps<LayersListItem | null>> = ({ i
     );
 };
 
-export default ParentLayerField;
+export default ParentLayerInput;

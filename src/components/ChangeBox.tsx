@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import EastIcon from '@mui/icons-material/East';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -14,26 +14,27 @@ interface ChangeBoxBodyProps {
 interface ChangeBoxProps {
     currentValue: React.ReactNode;
     previousValue?: React.ReactNode;
+    changed?: boolean;
+    disabled?: boolean;
 }
 
 const ChangeBoxBody = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'changed' && prop !== 'height',
 })<ChangeBoxBodyProps>(({ theme, changed }) => ({
     display: 'inline-block',
-    padding: '7px',
     borderRadius: '999em',
     verticalAlign: 'middle',
+    transition: theme.transitions.create(['background-color']),
     ...(changed && { backgroundColor: lighten(theme.palette.info.light, 0.92) }),
 }));
 
-const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue }) => {
+const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue, disabled, changed = false }) => {
     const [expand, setExpand] = useState(false);
     const [width, setWidth] = useState(24);
     const currentValueBox = useRef<HTMLDivElement | null>(null);
-    const isChanged = previousValue !== null && previousValue !== undefined;
 
     const hoverHandler: React.MouseEventHandler = (event) => {
-        if (isChanged) {
+        if (changed) {
             if (event.type === 'mouseenter') {
                 setExpand(true);
             } else {
@@ -42,6 +43,10 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue }) =>
         }
     };
 
+    useEffect(() => {
+        setExpand(changed);
+    }, [changed]);
+
     useLayoutEffect(() => {
         if (currentValueBox.current !== null) {
             setWidth(currentValueBox.current.offsetWidth);
@@ -49,7 +54,7 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue }) =>
     }, []);
 
     return (
-        <ChangeBoxBody changed={isChanged} onMouseEnter={hoverHandler} onMouseLeave={hoverHandler}>
+        <ChangeBoxBody changed={changed} onMouseEnter={hoverHandler} onMouseLeave={hoverHandler}>
             <Collapse
                 in={expand}
                 orientation="horizontal"
@@ -62,10 +67,10 @@ const ChangeBox: React.FC<ChangeBoxProps> = ({ currentValue, previousValue }) =>
                             direction="row"
                             alignItems="center"
                             justifyContent="center"
-                            sx={{ color: 'action.active' }}
+                            sx={{ color: disabled ? 'action.disabled' : 'action.active' }}
                         >
                             {previousValue}
-                            <EastIcon color="info" sx={{ width: 16, height: 16, mx: 1 }} />
+                            <EastIcon color={disabled ? 'disabled' : 'info'} sx={{ width: 16, height: 16 }} />
                         </Stack>
                     </Fade>
                     <Stack direction="row" alignItems="center" justifyContent="center" ref={currentValueBox}>

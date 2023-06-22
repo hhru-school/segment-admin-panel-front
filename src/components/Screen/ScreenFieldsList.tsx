@@ -3,6 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, lighten } from '@mui/material/styles';
 
+import isEmpty from 'helpers/isEmpty';
 import { FieldsList } from 'types/field';
 import { ScreenType, ScreenTypes } from 'types/screen';
 
@@ -31,14 +32,18 @@ const StyledListItem = styled(ListItem, { shouldForwardProp: (prop) => prop !== 
     }),
 }));
 
+const emptyList = ['empty-1', 'empty-2', 'empty-3', 'empty-4'];
+
 const ScreenFieldsList: React.FC<ScreenFieldsListProps> = ({ fields, variant }) => {
     return (
         <StyledList variant={variant}>
-            {fields.map(({ id, title }) => (
-                <StyledListItem key={id} variant={variant} dense>
-                    <ListItemText primary={title} />
-                </StyledListItem>
-            ))}
+            {isEmpty(fields)
+                ? emptyList.map((key) => <StyledListItem key={key} variant={variant} sx={{ minHeight: 36 }} dense />)
+                : fields.map(({ id, title }) => (
+                      <StyledListItem key={id} variant={variant} dense>
+                          <ListItemText primary={title} />
+                      </StyledListItem>
+                  ))}
         </StyledList>
     );
 };

@@ -1,6 +1,7 @@
 import { shallowEqual } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import indexToPosition from 'helpers/indexToPosition';
 import isDisabled from 'helpers/isDisabled';
@@ -38,8 +39,16 @@ const LayerSegmentEntryPoints: React.FC = () => {
 
     return (
         <>
-            {entryPoints.map(({ id, screens, ...rest }) => (
-                <AccordionItem key={id} {...rest}>
+            {entryPoints.map(({ id, title, description, screens }) => (
+                <AccordionItem
+                    key={id}
+                    title={title}
+                    description={
+                        <Typography sx={{ color: 'text.secondary', alignSelf: 'flex-start', textIndent: 32 }}>
+                            {description}
+                        </Typography>
+                    }
+                >
                     {renderScreens(screens)}
                 </AccordionItem>
             ))}

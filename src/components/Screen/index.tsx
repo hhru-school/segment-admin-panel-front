@@ -22,6 +22,7 @@ const ScreenCard = styled(Stack, { shouldForwardProp: (prop) => prop !== 'varian
 >(({ theme, variant = ScreenTypes.Static, filtered }) => ({
     height: '100%',
     minHeight: '320px',
+    flexGrow: 1,
     padding: '16px 8px 8px',
     borderRadius: '4px',
     ...(variant === ScreenTypes.Static && { backgroundColor: lighten(theme.palette.secondary.light, 0.5) }),
@@ -51,7 +52,7 @@ const Screen: React.FC<ScreenProps> = ({ title, fields, appVersions, variant, fi
             </Typography>
             <Stack justifyContent="space-between" flexGrow={1} spacing={2}>
                 <ScreenFieldsList variant={variant} fields={fields} />
-                <AppVersions versions={appVersions} />
+                {variant === ScreenTypes.Static && <AppVersions versions={appVersions} />}
             </Stack>
         </ScreenCard>
     );

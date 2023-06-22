@@ -3,14 +3,14 @@ import { AxiosResponse } from 'axios';
 
 import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
-import { ScreensList } from 'types/screen';
+import { ScreenType, ScreensList } from 'types/screen';
 
-const fetchScreens = createAsyncThunk<ScreensList, undefined, { rejectValue: ApiError }>(
+const fetchScreens = createAsyncThunk<ScreensList, ScreenType | undefined, { rejectValue: ApiError }>(
     'screens/fetchScreens',
-    async (_, thunkApi) => {
+    async (screenType, thunkApi) => {
         let response: AxiosResponse<ScreensList>;
         try {
-            response = await api.get('/screens');
+            response = await api.get('/screens', { params: { screenType } });
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));
         }

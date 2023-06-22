@@ -2,35 +2,33 @@ import { useEffect, useState } from 'react';
 import { useField, useForm } from 'react-final-form';
 
 import api, { apiErrorHandler } from 'api';
-import { FieldName } from 'components/AddingLayerForm';
+import { NewLayer } from 'components/AddingLayerForm/types';
 import useErrorAlert from 'hooks/useErrorAlert';
-import { LayersListItem } from 'types/layer';
-import { LayerSegments, LayerSegmentsList, SegmentsFieldValue } from 'types/segment';
+import { LayerSegments } from 'types/segment';
 
-const getInitialValue = (segmentsList: LayerSegmentsList): SegmentsFieldValue => {
-    return segmentsList.reduce<SegmentsFieldValue>((value, { id, title, roles, tags, activeState }) => {
-        value[`id-${id}`] = { id, title, roles, tags, activeState, isNew: false };
-        return value;
-    }, {});
-};
-
-const useInitSegmentsFieldValue = (): boolean => {
+const useInitSegments = (): boolean => {
     const {
         input: { value },
-    } = useField<SegmentsFieldValue | null>(FieldName.Segments, { subscription: { value: true }, allowNull: true });
+    } = useField<NewLayer['segments']>('segments', { subscription: { value: true }, allowNull: true });
     const {
         input: { value: layer },
-    } = useField<LayersListItem | null>(FieldName.ParentLayer, { subscription: { value: true }, allowNull: true });
-    const isNeedLoad = value === null && layer !== null;
-    const [loading, setLoading] = useState(isNeedLoad);
-    const { setAlert } = useErrorAlert();
+    } = useField<NewLayer['parentLayer']>('parentLayer', { subscription: { value: true }, allowNull: true });
+
+    if (layer === null) {
+        throw new Error('Не задан слой.');
+    }
+
     const form = useForm();
+    const { setAlert } = useErrorAlert();
+
+    const isNeedLoad = value === null;
+    const [loading, setLoading] = useState(isNeedLoad);
 
     useEffect(() => {
         if (isNeedLoad) {
             api.get<LayerSegments>(`/layers/${layer.id}/segments`)
                 .then(({ data: { segments } }) => {
-                    form.change(FieldName.Segments, getInitialValue(segments));
+                    form.mutators.initSegments(segments);
                 })
                 .catch((error) => {
                     const apiError = apiErrorHandler(error);
@@ -50,4 +48,4 @@ const useInitSegmentsFieldValue = (): boolean => {
     return loading;
 };
 
-export default useInitSegmentsFieldValue;
+export default useInitSegments;

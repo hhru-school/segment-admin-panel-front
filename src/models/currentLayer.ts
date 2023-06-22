@@ -65,7 +65,7 @@ const selectCurrentLayerTitle = (state: RootState): string | undefined => state.
 const selectCurrentLayerParentLayers = (state: RootState): LayersList => {
     return state.currentLayer.item?.parentLayersList || [];
 };
-const selectCurrentLayerId = (state: RootState): number | null => state.currentLayer.item?.id || null;
+const selectCurrentLayerId = (state: RootState): number | string | null => state.currentLayer.item?.id || null;
 
 const { reset } = currentLayerSlice.actions;
 

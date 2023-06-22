@@ -2,8 +2,8 @@ import { Field, useFormState } from 'react-final-form';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-import { FieldName, PageName } from 'components/AddingLayerForm';
-import ParentLayerField from 'components/AddingLayerForm/fields/ParentLayerField';
+import { PageName } from 'components/AddingLayerForm';
+import ParentLayerInput from 'components/AddingLayerForm/fields/ParentLayerInput';
 import FormActions from 'components/FormActions';
 import { useWizard } from 'components/Wizard';
 import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
@@ -13,7 +13,7 @@ const InfoPage: React.FC = () => {
     const { setPageHandler } = useWizard();
     const state = useFormState();
 
-    const nextPageHandle = () => {
+    const handelSetNextPage = () => {
         if (state.valid) {
             setPageHandler(PageName.Segments);
         }
@@ -21,7 +21,7 @@ const InfoPage: React.FC = () => {
 
     return (
         <>
-            <Field<string> name={FieldName.Title}>
+            <Field<string> name="title">
                 {({ input, meta }) => {
                     const [isError, errorMessage] = extractFinalFormErrorState(meta);
                     return (
@@ -37,7 +37,7 @@ const InfoPage: React.FC = () => {
                     );
                 }}
             </Field>
-            <Field<string> name={FieldName.Description}>
+            <Field<string> name="description">
                 {({ input, meta }) => (
                     <TextField
                         {...input}
@@ -50,14 +50,14 @@ const InfoPage: React.FC = () => {
                     />
                 )}
             </Field>
-            <Field<LayersListItem | null> name={FieldName.ParentLayer} allowNull>
-                {(props) => <ParentLayerField {...props} />}
+            <Field<LayersListItem | null> name="parentLayer" allowNull>
+                {(props) => <ParentLayerInput {...props} />}
             </Field>
             <FormActions>
                 <Button href="/layers" variant="outlined" color="inherit" sx={{ minWidth: 112 }}>
                     Отмена
                 </Button>
-                <Button type="submit" variant="contained" sx={{ minWidth: 112 }} onClick={nextPageHandle}>
+                <Button type="submit" variant="contained" sx={{ minWidth: 112 }} onClick={handelSetNextPage}>
                     Далее
                 </Button>
             </FormActions>

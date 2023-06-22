@@ -8,7 +8,7 @@ export type Platform = `${Platforms}`;
 export type VersionsList = Version[];
 
 export interface Version {
-    id: number;
+    id: number | string;
     platform: Platform;
     version: string;
 }

@@ -5,15 +5,23 @@ import api, { ApiError, apiErrorHandler } from 'api';
 import { RootState } from 'store';
 import { QuestionList } from 'types/field';
 
-const fetchFields = createAsyncThunk<QuestionList, string | undefined, { rejectValue: ApiError }>(
+const enum FieldTypeParam {
+    Question = 'question',
+    ResumeField = 'resume_field',
+}
+
+interface FetchFieldsParams {
+    type?: `${FieldTypeParam}`;
+    searchQuery?: string;
+}
+
+const fetchFields = createAsyncThunk<QuestionList, FetchFieldsParams | undefined, { rejectValue: ApiError }>(
     'fields/fetchFields',
-    async (searchQuery, thunkApi) => {
+    async (params, thunkApi) => {
         let response: AxiosResponse<QuestionList>;
         try {
             response = await api.get<QuestionList>(`/questions`, {
-                params: {
-                    searchQuery,
-                },
+                params,
             });
         } catch (error) {
             return thunkApi.rejectWithValue(apiErrorHandler(error));

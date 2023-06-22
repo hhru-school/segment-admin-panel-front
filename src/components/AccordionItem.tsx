@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 interface AccordionItemProps {
     title: string;
-    description?: string;
+    description?: React.ReactNode;
     children?: React.ReactNode;
 }
 
@@ -31,11 +31,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, description, child
                 </AccordionSummary>
                 <AccordionDetails>
                     <Stack spacing={4} alignItems="center">
-                        {description && (
-                            <Typography sx={{ color: 'text.secondary', alignSelf: 'flex-start', textIndent: 32 }}>
-                                {description}
-                            </Typography>
-                        )}
+                        {description}
                         {children}
                     </Stack>
                 </AccordionDetails>

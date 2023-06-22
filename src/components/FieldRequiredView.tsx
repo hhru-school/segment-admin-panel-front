@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography';
 
 import ChangeBox from 'components/ChangeBox';
+import IconWrapper from 'components/IconWrapper';
 
 interface FieldRequiredViewProps {
     required?: boolean;
@@ -15,12 +16,19 @@ interface ValueProps {
 
 const Value: React.FC<ValueProps> = ({ required, disabled }) => {
     return (
-        <Typography
-            sx={{ width: 32, textAlign: 'center', color: disabled ? 'text.disabled' : 'inherit' }}
-            variant="body2"
-        >
-            {required ? 'Да' : 'Нет'}
-        </Typography>
+        <IconWrapper>
+            <Typography
+                sx={{
+                    width: 32,
+                    textAlign: 'center',
+                    color: disabled ? 'text.disabled' : 'inherit',
+                    lineHeight: '24px',
+                }}
+                variant="body2"
+            >
+                {required ? 'Да' : 'Нет'}
+            </Typography>
+        </IconWrapper>
     );
 };
 
@@ -29,6 +37,7 @@ const FieldRequiredView: React.FC<FieldRequiredViewProps> = ({ required, isChang
         <ChangeBox
             currentValue={<Value required={required} disabled={disabled} />}
             previousValue={isChanged ? <Value required={!required} /> : null}
+            changed={isChanged}
         />
     );
 };

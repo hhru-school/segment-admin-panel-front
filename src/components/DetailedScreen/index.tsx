@@ -1,3 +1,4 @@
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import ActiveStatusChip from 'components/ActiveStatusChip';
@@ -11,7 +12,6 @@ import { VersionsList } from 'types/version';
 
 import Card from 'components/DetailedScreen/Card';
 import FieldsList from 'components/DetailedScreen/FieldsList';
-import Header from 'components/DetailedScreen/Header';
 
 interface DetailedScreenProps {
     title: string;
@@ -54,16 +54,13 @@ const DetailedScreen: React.FC<DetailedScreenProps> = ({
             }
             disabled={disabled}
         >
-            <Header
-                state={
-                    <>
-                        {isNew && <ChangeStatusChip type={ChangeStates.New} />}
-                        {disabled && <ActiveStatusChip type={ActiveStates.Disabled} />}
-                    </>
-                }
-            >
-                {title}
-            </Header>
+            <Stack direction="row" alignItems="center" spacing={2}>
+                <Typography component="h3" variant="h6" sx={{ flexGrow: 1, overflowWrap: 'break-word' }}>
+                    {title}
+                </Typography>
+                {disabled && <ActiveStatusChip type={ActiveStates.Disabled} />}
+                {isNew && <ChangeStatusChip type={ChangeStates.New} />}
+            </Stack>
             <Typography sx={{ color: disabled ? 'inherit' : 'text.secondary' }}>{description}</Typography>
             <Typography>Тип: {screenType.get(type)}</Typography>
             <FieldsList list={fields} disabled={disabled} />
