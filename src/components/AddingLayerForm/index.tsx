@@ -16,26 +16,30 @@ import { LayerStates } from 'types/layer';
 
 import getRequestBody from 'components/AddingLayerForm/helpers/getRequestBody';
 import addFieldToScreen from 'components/AddingLayerForm/mutators/addFieldToScreen';
+import addNewSegment from 'components/AddingLayerForm/mutators/addNewSegment';
 import calcNewScreenFieldsPosition from 'components/AddingLayerForm/mutators/calcNewScreenFieldsPosition';
 import calcNewScreensPosition from 'components/AddingLayerForm/mutators/calcNewScreensPosition';
 import initSegmentDetails from 'components/AddingLayerForm/mutators/initSegmentDetails';
 import initSegments from 'components/AddingLayerForm/mutators/initSegments';
 import removeFieldFromScreen from 'components/AddingLayerForm/mutators/removeFieldFromScreen';
 import removeScreen from 'components/AddingLayerForm/mutators/removeScreen';
+import removeSegment from 'components/AddingLayerForm/mutators/removeSegment';
 import resetSegment from 'components/AddingLayerForm/mutators/resetSegment';
 import resetSegments from 'components/AddingLayerForm/mutators/resetSegments';
 import updateSegmentFields from 'components/AddingLayerForm/mutators/updateSegmentFields';
+import AddSegmentPage from 'components/AddingLayerForm/pages/AddSegmentPage';
 import LayerInfoPage from 'components/AddingLayerForm/pages/InfoPage';
 import ScreensPage from 'components/AddingLayerForm/pages/ScreensPage';
 import SegmentDetailsPage from 'components/AddingLayerForm/pages/SegmentDetailsPage';
 import LayerSegmentsPage from 'components/AddingLayerForm/pages/SegmentsPage';
-import { NewLayer, isPagesState } from 'components/AddingLayerForm/types';
+import { NewLayer, PagesState, isPagesState } from 'components/AddingLayerForm/types';
 
 export const enum PageName {
     Info = 'Info',
     Segments = 'Segments',
     Details = 'Details',
     Screens = 'Screens',
+    AddSegment = 'AddSegment',
 }
 
 const pages = new Map<`${PageName}`, Page>([
@@ -43,6 +47,7 @@ const pages = new Map<`${PageName}`, Page>([
     [PageName.Segments, { name: PageName.Segments, element: <LayerSegmentsPage /> }],
     [PageName.Details, { name: PageName.Details, element: <SegmentDetailsPage /> }],
     [PageName.Screens, { name: PageName.Screens, element: <ScreensPage /> }],
+    [PageName.AddSegment, { name: PageName.AddSegment, element: <AddSegmentPage /> }],
 ]);
 
 const getTitle = (page?: Page, state?: unknown): string => {
@@ -53,6 +58,7 @@ const getTitle = (page?: Page, state?: unknown): string => {
             [`${PageName.Segments}`]: 'Новый слой / Сегменты',
             [`${PageName.Details}`]: `Новый слой / ${segmentTitle}`,
             [`${PageName.Screens}`]: `Новый слой / ${segmentTitle} / Добавление экранов`,
+            [`${PageName.AddSegment}`]: 'Новый слой / Добавление сегмента',
         };
         return titles[page.name] || '';
     }
@@ -81,6 +87,13 @@ const submitErrorHandler = (error: unknown): string => {
     }
 
     return apiError.message;
+};
+
+const INITIAL_BACK_STATE: PagesState = {
+    segments: null,
+    segment: null,
+    entryPoint: null,
+    newDynamicScreen: null,
 };
 
 const AddingLayerForm: React.FC = () => {
@@ -114,7 +127,7 @@ const AddingLayerForm: React.FC = () => {
     };
 
     return (
-        <Wizard pages={pages} defaultPage={PageName.Info}>
+        <Wizard pages={pages} defaultPage={PageName.Info} state={INITIAL_BACK_STATE}>
             {({ activePage, state }) => {
                 return (
                     <FormLayout title={getTitle(activePage, state)} ContainerProps={{ maxWidth: 'md' }}>
@@ -131,6 +144,8 @@ const AddingLayerForm: React.FC = () => {
                             mutators={{
                                 initSegments,
                                 resetSegments,
+                                addNewSegment,
+                                removeSegment,
                                 resetSegment,
                                 initSegmentDetails,
                                 addFieldToScreen,
@@ -154,3 +169,4 @@ const AddingLayerForm: React.FC = () => {
 };
 
 export default AddingLayerForm;
+export { INITIAL_BACK_STATE };
