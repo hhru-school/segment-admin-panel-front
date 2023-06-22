@@ -28,7 +28,11 @@ const FieldsList: React.FC<FieldsListProps> = ({ list, disabled }) => {
                     {field.isNew && (
                         <ChangeStatusChip label="Новое" type={ChangeStates.New} variant="outlined" size="small" />
                     )}
-                    <FieldVisibilityView state={field.visibility} previousState={field.oldVisibility} />
+                    <FieldVisibilityView
+                        state={field.visibility}
+                        previousState={field.oldVisibility}
+                        disabled={disabled}
+                    />
                 </ListItem>
             ))}
         </List>
