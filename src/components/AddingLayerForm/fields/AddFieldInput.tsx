@@ -57,6 +57,13 @@ const AddFieldInput: React.FC<AddFieldInputProps> = ({ currentFields, addField, 
             options={currentFields ? getOptions(fields, currentFields) : fields}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(option) => option.title}
+            renderOption={(props, option) => {
+                return (
+                    <li {...props} key={option.id}>
+                        {option.title}
+                    </li>
+                );
+            }}
             renderInput={(params) => (
                 <TextField
                     {...params}

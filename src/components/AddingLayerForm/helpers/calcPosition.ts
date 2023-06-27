@@ -1,6 +1,5 @@
 import { ValueWithPosition } from 'components/AddingLayerForm/types';
-import createIdMap from 'helpers/createIdMap';
-import idMapToArray from 'helpers/idMapToArray';
+import getIdMapKeys from 'helpers/getIdMapKeys';
 import { IdMap } from 'types/common';
 
 import getLastPosition from 'components/AddingLayerForm/helpers/getLastPosition';
@@ -8,16 +7,14 @@ import getLastPosition from 'components/AddingLayerForm/helpers/getLastPosition'
 const calcPosition = <T extends ValueWithPosition>(value: IdMap<T>): IdMap<T> => {
     let lastPosition = getLastPosition(value);
 
-    return createIdMap(idMapToArray(value), (item) => {
-        const { isNew } = item;
-
-        if (isNew) {
+    getIdMapKeys(value).forEach((key) => {
+        if (value[key].isNew) {
             lastPosition += 1;
-            return { ...item, position: lastPosition };
+            value[key].position = lastPosition;
         }
-
-        return item;
     });
+
+    return value;
 };
 
 export default calcPosition;

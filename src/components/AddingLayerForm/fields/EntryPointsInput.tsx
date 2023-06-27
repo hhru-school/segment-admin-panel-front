@@ -1,69 +1,33 @@
-import { useForm } from 'react-final-form';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { getIn } from 'final-form';
+import { useMemo } from 'react';
+import Alert from '@mui/material/Alert';
 
-import AccordionItem from 'components/AccordionItem';
-import { PageName } from 'components/AddingLayerForm';
-import getNewDynamicScreen from 'components/AddingLayerForm/helpers/getNewDynamicScreen';
-import { EntryPointInputValues, NewLayer, PagesState, isPagesState } from 'components/AddingLayerForm/types';
-import { useWizard } from 'components/Wizard';
+import { EntryPointInputValues } from 'components/AddingLayerForm/types';
 import idMapToArray from 'helpers/idMapToArray';
+import isEmpty from 'helpers/isEmpty';
 
 import EntryPointInput from 'components/AddingLayerForm/fields/EntryPointInput';
 
 interface EntryPointsInputProps {
     name: string;
+    entryPoints: EntryPointInputValues;
 }
 
-const EntryPointsInput: React.FC<EntryPointsInputProps> = ({ name }) => {
-    const { setPageHandler, state } = useWizard();
-
-    if (!isPagesState(state)) {
-        throw new Error('Не задано предыдущее значение состояния.');
-    }
-
+const EntryPointsInput: React.FC<EntryPointsInputProps> = ({ name, entryPoints }) => {
     const entryPointsName = `${name}.entryPoints`;
-    const form = useForm<NewLayer>();
-    const { values } = form.getState();
-    const entryPoints = getIn(values, entryPointsName) as EntryPointInputValues;
+    const entryPointsArray = useMemo(() => idMapToArray(entryPoints), [entryPoints]);
 
-    const handelSetAddScreensPage = (id: number | string) => {
-        const pagesState: PagesState = {
-            ...state,
-            entryPoint: entryPoints[`id-${id}`],
-            newDynamicScreen: getNewDynamicScreen(),
-        };
-
-        setPageHandler(PageName.Screens, pagesState);
-    };
+    if (isEmpty(entryPointsArray)) {
+        return (
+            <Alert severity="info" sx={{ width: '100%', justifyContent: 'center', my: 1 }}>
+                Нет ни одной точки входа.
+            </Alert>
+        );
+    }
 
     return (
         <>
-            {idMapToArray(entryPoints).map(({ id, title, description }) => (
-                <AccordionItem
-                    key={id}
-                    title={title}
-                    description={
-                        <Stack
-                            direction="row"
-                            alignSelf="flex-start"
-                            alignItems="center"
-                            spacing={2}
-                            sx={{ width: '100%' }}
-                        >
-                            <Typography sx={{ flexGrow: 1, color: 'text.secondary', textIndent: 32 }}>
-                                {description}
-                            </Typography>
-                            <Button onClick={() => handelSetAddScreensPage(id)} variant="outlined">
-                                Добавить экран
-                            </Button>
-                        </Stack>
-                    }
-                >
-                    <EntryPointInput name={`${entryPointsName}.id-${id}`} />
-                </AccordionItem>
+            {entryPointsArray.map(({ id }) => (
+                <EntryPointInput key={id} name={`${entryPointsName}.id-${id}`} />
             ))}
         </>
     );

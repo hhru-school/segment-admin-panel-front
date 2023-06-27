@@ -60,7 +60,7 @@ const getRenderActiveStateControl = (disabled: boolean): ValueGetter<SegmentInpu
 const getRenderActions = (
     state: PagesState,
     disabled: boolean,
-    setPageHandler: SetPageHandler,
+    setActivePageHandler: SetPageHandler,
     removeSegmentHandler: (id: number | string) => void
 ): ValueGetter<SegmentInputValue> => {
     return (item) => {
@@ -71,7 +71,7 @@ const getRenderActions = (
             newDynamicScreen: null,
         };
 
-        const handelSetEditSegmentPage = () => setPageHandler(PageName.Details, backState);
+        const handelSetEditSegmentPage = () => setActivePageHandler(PageName.Details, backState);
 
         if (item.isNew) {
             return (
@@ -98,7 +98,7 @@ interface SegmentsTableColumnsGetter {
     (options: {
         state: PagesState;
         disabled: boolean;
-        setPageHandler: SetPageHandler;
+        setActivePageHandler: SetPageHandler;
         removeSegmentHandler: (id: number | string) => void;
     }): Columns<SegmentInputValue, 'disabled' | 'status' | 'actions'>;
 }
@@ -106,7 +106,7 @@ interface SegmentsTableColumnsGetter {
 const getSegmentsTableColumns: SegmentsTableColumnsGetter = ({
     state,
     disabled,
-    setPageHandler,
+    setActivePageHandler,
     removeSegmentHandler,
 }) => {
     return [
@@ -142,7 +142,7 @@ const getSegmentsTableColumns: SegmentsTableColumnsGetter = ({
             key: 'actions',
             align: 'right',
             sx: { width: '1%' },
-            valueGetter: getRenderActions(state, disabled, setPageHandler, removeSegmentHandler),
+            valueGetter: getRenderActions(state, disabled, setActivePageHandler, removeSegmentHandler),
         },
     ];
 };

@@ -74,11 +74,11 @@ const getSegmentDetails = (
 };
 
 const initSegmentDetails: Mutator<NewLayer> = (
-    [name, value]: [keyof SegmentInputValues, SegmentDetails],
+    [segmentName, value]: [keyof SegmentInputValues, SegmentDetails],
     state,
     { changeValue }
 ) => {
-    changeValue(state, `segments.${name}`, (segment: SegmentInputValue) => ({
+    changeValue(state, `segments.${segmentName}`, (segment: SegmentInputValue) => ({
         ...segment,
         ...getSegmentDetails(value),
     }));

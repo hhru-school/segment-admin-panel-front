@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { getIn } from 'final-form';
 
 import FieldVisibilityInput from 'components/AddingLayerForm/fields/FieldVisibilityInput';
-import getScreenName from 'components/AddingLayerForm/helpers/getScreenName';
 import getSegmentName from 'components/AddingLayerForm/helpers/getSegmentName';
 import { ScreenFieldInputValue } from 'components/AddingLayerForm/types';
 import ChangeStatusChip from 'components/ChangeStatusChip';
@@ -26,13 +25,11 @@ const ScreenFieldInput: React.FC<ScreenFieldInputProps> = ({ name, field, disabl
     const { id, title, oldVisibility, isNew } = field;
 
     const segmentName = getSegmentName(name);
-    const screenName = getScreenName(name);
     const isNewInSegment = getIn(form.getState().values, `${segmentName}.fields.id-${id}.isNew`) as boolean | undefined;
     const isCanBeRemoved = dynamic && isNew;
 
     const handleDeleteField = () => {
         form.mutators.removeFieldFromScreen(name, id);
-        form.mutators.calcNewScreenFieldsPosition(`${screenName}.fields`);
         form.mutators.updateSegmentFields(segmentName);
     };
 

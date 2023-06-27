@@ -17,7 +17,6 @@ import { LayerStates } from 'types/layer';
 import getRequestBody from 'components/AddingLayerForm/helpers/getRequestBody';
 import addFieldToScreen from 'components/AddingLayerForm/mutators/addFieldToScreen';
 import addNewSegment from 'components/AddingLayerForm/mutators/addNewSegment';
-import calcNewScreenFieldsPosition from 'components/AddingLayerForm/mutators/calcNewScreenFieldsPosition';
 import calcNewScreensPosition from 'components/AddingLayerForm/mutators/calcNewScreensPosition';
 import initSegmentDetails from 'components/AddingLayerForm/mutators/initSegmentDetails';
 import initSegments from 'components/AddingLayerForm/mutators/initSegments';
@@ -153,7 +152,6 @@ const AddingLayerForm: React.FC = () => {
                                 removeScreen,
                                 updateSegmentFields,
                                 calcNewScreensPosition,
-                                calcNewScreenFieldsPosition,
                             }}
                             render={({ handleSubmit }) => (
                                 <form autoComplete="off" onSubmit={handleSubmit}>

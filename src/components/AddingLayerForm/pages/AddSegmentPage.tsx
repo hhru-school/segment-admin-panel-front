@@ -19,17 +19,18 @@ import { Segment } from 'types/segment';
 
 const AddSegmentPage: React.FC = () => {
     const form = useForm();
-    const { state, setPageHandler, setStateHandler } = useWizard();
+    const { state, setActivePageHandler, setStateHandler } = useWizard();
 
     if (!isPagesState(state)) {
         throw new Error('Не задано предыдущее значение состояния.');
     }
 
     const { segments, segment } = state;
+
     const dispatch = useAppDispatch();
     const { setAlert } = useErrorAlert();
     const entryPoints = useAppSelector(selectEntryPointsList, shallowEqual);
-    const [currentSegment, setCurrentSegment] = useState<Segment | null>(segment as unknown as Segment);
+    const [currentSegment, setCurrentSegment] = useState<Segment | null>(segment as unknown as Segment | null);
 
     const handleChangeCurrentSegment = (newValue: Segment | null) => {
         if (currentSegment) {
@@ -43,11 +44,12 @@ const AddSegmentPage: React.FC = () => {
     };
 
     const handleCancel = () => {
-        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
+        form.mutators.resetSegments(segments);
+        setActivePageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     const handleAddSegment = () => {
-        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
+        setActivePageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     useEffect(() => {

@@ -25,7 +25,6 @@ import ScreenFieldsInput from 'components/AddingLayerForm/fields/ScreenInput/Scr
 interface ScreenInputProps {
     name: string;
     screen: ScreenInputValue;
-    forceRenderParent: () => void;
 }
 
 const screenType = new Map<ScreenType, string>([
@@ -33,11 +32,11 @@ const screenType = new Map<ScreenType, string>([
     [ScreenTypes.Dynamic, 'Динамический'],
 ]);
 
-const ScreenInput: React.FC<ScreenInputProps> = ({ name, forceRenderParent }) => {
+const ScreenInput: React.FC<ScreenInputProps> = ({ name, screen }) => {
     const {
-        input: { value: screen },
-    } = useField<ScreenInputValue>(name, { subscription: { value: true } });
-    const { id, title, description, fields, appVersions, type, position, oldPosition, state, isNew } = screen;
+        input: { value: state },
+    } = useField<ActiveState>(`${name}.state`, { subscription: { value: true } });
+    const { id, title, description, fields, appVersions, type, position, oldPosition, isNew } = screen;
     const form = useForm();
     const segmentName = getSegmentName(name);
     const entryPointName = getEntryPointName(name);
@@ -51,9 +50,7 @@ const ScreenInput: React.FC<ScreenInputProps> = ({ name, forceRenderParent }) =>
 
     const handleRemoveScreen = () => {
         form.mutators.removeScreen(entryPointName, id);
-        form.mutators.calcNewScreensPosition(`${entryPointName}.screens`);
         form.mutators.updateSegmentFields(segmentName);
-        forceRenderParent();
     };
 
     return (

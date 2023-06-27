@@ -1,4 +1,4 @@
-import { useFormState } from 'react-final-form';
+import { useForm } from 'react-final-form';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { getIn } from 'final-form';
@@ -16,14 +16,14 @@ interface SegmentInputProps {
 }
 
 const SegmentInput: React.FC<SegmentInputProps> = ({ name, loading }) => {
-    const { values } = useFormState();
-    const segment = getIn(values, `segments.${name}`) as SegmentInputValue;
+    const form = useForm();
+    const segment = getIn(form.getState().values, `segments.${name}`) as SegmentInputValue;
 
     if (!segment) {
         throw new Error('Сегмент не задан.');
     }
 
-    const { description, roles, tags } = segment;
+    const { description, roles, tags, entryPoints } = segment;
 
     if (loading) {
         return (
@@ -69,7 +69,7 @@ const SegmentInput: React.FC<SegmentInputProps> = ({ name, loading }) => {
                 <SegmentFieldsInput name={`segments.${name}`} />
             </ContentBox>
             <ContentBox title="Точки входа" smallGutters>
-                <EntryPointsInput name={`segments.${name}`} />
+                <EntryPointsInput name={`segments.${name}`} entryPoints={entryPoints || {}} />
             </ContentBox>
         </Stack>
     );

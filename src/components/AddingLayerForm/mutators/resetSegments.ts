@@ -1,9 +1,9 @@
 import { Mutator } from 'final-form';
 
-import { NewLayer } from 'components/AddingLayerForm/types';
+import { NewLayer, SegmentInputValues } from 'components/AddingLayerForm/types';
 
-const resetSegments: Mutator<NewLayer> = (_, state, { changeValue }) => {
-    changeValue(state, 'segments', () => null);
+const resetSegments: Mutator<NewLayer> = ([segments = null]: [SegmentInputValues | null], state, { changeValue }) => {
+    changeValue(state, 'segments', () => segments);
 };
 
 export default resetSegments;
