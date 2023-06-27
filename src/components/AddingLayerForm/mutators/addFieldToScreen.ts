@@ -8,11 +8,11 @@ const questionToScreenField = ({ id, title }: Question, position: number): Scree
 };
 
 const addFieldToScreen: Mutator<NewLayer> = (
-    [name, field, position]: [string, Question, number],
+    [screenFieldsName, field, position]: [string, Question, number],
     state,
     { changeValue }
 ) => {
-    changeValue(state, name, (value: ScreenFieldInputValues): ScreenFieldInputValues => {
+    changeValue(state, screenFieldsName, (value: ScreenFieldInputValues): ScreenFieldInputValues => {
         return { ...value, [`id-${field.id}`]: questionToScreenField(field, position) };
     });
 };
