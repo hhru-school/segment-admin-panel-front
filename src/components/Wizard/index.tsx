@@ -20,9 +20,9 @@ export interface SetStateHandler {
 interface RenderWizardProps {
     state?: unknown;
     activePage?: Page;
-    handleSetPage: SetPageHandler;
+    handleSetActivePage: SetPageHandler;
     handleSetState: SetStateHandler;
-    from?: string;
+    previousPage?: string;
 }
 
 interface WizardProps {
@@ -35,18 +35,18 @@ interface WizardProps {
 const Wizard: React.FC<WizardProps> = ({ state, pages, defaultPage, children }) => {
     const [activePage, setActivePage] = useState(pages.get(defaultPage));
     const [wizardState, setWizardState] = useState(state);
-    const [from, setFrom] = useState<string>();
+    const [previousPage, setPreviousPage] = useState<string>();
 
-    const handleSetPage: SetPageHandler = useCallback(
+    const handleSetActivePage: SetPageHandler = useCallback(
         (name, newState) => {
-            setFrom(activePage?.name);
+            setPreviousPage(activePage?.name);
             setActivePage(pages.get(name));
 
             if (newState !== undefined) {
                 setWizardState(newState);
             }
         },
-        [pages, activePage, setActivePage, setFrom]
+        [pages, activePage, setActivePage, setPreviousPage]
     );
 
     const handleSetState: SetStateHandler = useCallback(
@@ -59,13 +59,13 @@ const Wizard: React.FC<WizardProps> = ({ state, pages, defaultPage, children }) 
     return (
         <WizardProvider
             activePage={activePage}
-            setPageHandler={handleSetPage}
+            setActivePageHandler={handleSetActivePage}
             setStateHandler={handleSetState}
             state={wizardState}
-            from={from}
+            previousPage={previousPage}
         >
             {typeof children === 'function'
-                ? children({ activePage, handleSetPage, handleSetState, state: wizardState, from })
+                ? children({ activePage, handleSetActivePage, handleSetState, state: wizardState, previousPage })
                 : children}
         </WizardProvider>
     );

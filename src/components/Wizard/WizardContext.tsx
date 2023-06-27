@@ -4,36 +4,36 @@ import { Page, SetPageHandler, SetStateHandler } from 'components/Wizard';
 
 export interface WizardContextType {
     setStateHandler: SetStateHandler;
-    setPageHandler: SetPageHandler;
+    setActivePageHandler: SetPageHandler;
     state?: unknown;
     activePage?: Page;
-    from?: string;
+    previousPage?: string;
 }
 
 interface WizardProviderProps {
     setStateHandler: SetStateHandler;
-    setPageHandler: SetPageHandler;
+    setActivePageHandler: SetPageHandler;
     state?: unknown;
     activePage?: Page;
-    from?: string;
+    previousPage?: string;
     children?: React.ReactNode;
 }
 
 const WizardContext = createContext<WizardContextType>({
     setStateHandler: () => null,
-    setPageHandler: () => null,
+    setActivePageHandler: () => null,
 });
 
 const WizardProvider: React.FC<WizardProviderProps> = ({
     activePage,
     setStateHandler,
-    setPageHandler,
+    setActivePageHandler,
     children,
     state,
-    from,
+    previousPage,
 }) => {
     return (
-        <WizardContext.Provider value={{ activePage, setStateHandler, setPageHandler, state, from }}>
+        <WizardContext.Provider value={{ activePage, setStateHandler, setActivePageHandler, state, previousPage }}>
             {children}
         </WizardContext.Provider>
     );
