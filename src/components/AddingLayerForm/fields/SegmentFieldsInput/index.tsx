@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useField } from 'react-final-form';
 
 import { SegmentFieldInputValue, SegmentFieldInputValues } from 'components/AddingLayerForm/types';
@@ -17,8 +18,8 @@ const SegmentFieldsInput: React.FC<SegmentFieldsInputProps> = ({ name }) => {
         input: { value },
     } = useField<SegmentFieldInputValues>(fieldsName, { subscription: { value: true } });
 
-    const rows = getSegmentFieldsTableRows(value);
-    const columns = getSegmentFieldsTableColumns(fieldsName);
+    const rows = useMemo(() => getSegmentFieldsTableRows(value), [value]);
+    const columns = useMemo(() => getSegmentFieldsTableColumns(fieldsName), [fieldsName]);
     return (
         <DataTable<SegmentFieldInputValue, 'status'>
             columns={columns}

@@ -55,7 +55,7 @@ const ScreensInput: React.FC<ScreensInputProps> = ({ input, options }) => {
                 <Stack direction="row" sx={{ height: '100%' }}>
                     <Field<ScreenInputValue | undefined, HTMLElement, boolean>
                         type="checkbox"
-                        name={`${name}.id-0`}
+                        name={`${name}.id-${newDynamicScreen.id}`}
                         format={(value) => value !== undefined}
                         parse={(checked) => (checked ? newDynamicScreen : undefined)}
                     >

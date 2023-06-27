@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useForm } from 'react-final-form';
 import List from '@mui/material/List';
 
@@ -19,7 +20,7 @@ interface ScreenFieldsInputProps {
 
 const ScreenFieldsInput: React.FC<ScreenFieldsInputProps> = ({ name, fields, dynamic, disabled }) => {
     const form = useForm();
-    const fieldsArray = idMapToArray(fields);
+    const fieldsArray = useMemo(() => idMapToArray(fields), [fields]);
     const segmentName = getSegmentName(name);
 
     const handleAddField = (value: Question) => {

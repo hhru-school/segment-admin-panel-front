@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FieldRenderProps, useForm, useFormState } from 'react-final-form';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
@@ -24,7 +24,7 @@ interface SegmentsInputProps extends FieldRenderProps<NewLayer['segments']> {
 
 const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, loading = false }) => {
     const [searchString, setSearchString] = useState('');
-    const { state, setPageHandler } = useWizard();
+    const { state, setActivePageHandler } = useWizard();
 
     if (!isPagesState(state)) {
         throw new Error('Не задано предыдущее значение состояния.');
@@ -40,16 +40,22 @@ const SegmentsInput: React.FC<SegmentsInputProps> = ({ input, disabled = false, 
         setSearchString(event.target.value);
     };
 
-    const removeSegmentHandler = (id: number | string) => {
-        form.mutators.removeSegment(`id-${id}`);
-    };
+    const removeSegmentHandler = useCallback(
+        (id: number | string) => {
+            form.mutators.removeSegment(`id-${id}`);
+        },
+        [form.mutators]
+    );
 
     const handleSetAddSegmentPage = () => {
-        setPageHandler(PageName.AddSegment, backState);
+        setActivePageHandler(PageName.AddSegment, backState);
     };
 
-    const columns = getSegmentsTableColumns({ state, disabled, setPageHandler, removeSegmentHandler });
-    const rows = getSegmentsTableRows(input.value, searchString);
+    const columns = useMemo(
+        () => getSegmentsTableColumns({ state, disabled, setActivePageHandler, removeSegmentHandler }),
+        [state, disabled, setActivePageHandler, removeSegmentHandler]
+    );
+    const rows = useMemo(() => getSegmentsTableRows(input.value, searchString), [input.value, searchString]);
 
     return (
         <>
