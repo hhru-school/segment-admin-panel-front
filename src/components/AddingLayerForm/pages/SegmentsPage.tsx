@@ -11,13 +11,13 @@ import FormActions from 'components/FormActions';
 import { useWizard } from 'components/Wizard';
 
 const SegmentsPage: React.FC = () => {
-    const { setPageHandler } = useWizard();
+    const { setActivePageHandler } = useWizard();
     const { submitting, submitSucceeded } = useFormState();
     const loading = useInitSegments();
     const disabled = loading || submitting || submitSucceeded;
 
     const handleSetPreviousPage = () => {
-        setPageHandler(PageName.Info);
+        setActivePageHandler(PageName.Info);
     };
 
     return (

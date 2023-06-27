@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Field, useForm } from 'react-final-form';
 import { shallowEqual } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -33,7 +33,7 @@ const normalizeScreen = ({ filtered, fields, ...rest }: Screen): ScreenInputValu
 };
 
 const ScreensPage: React.FC = () => {
-    const { state, from } = useWizard();
+    const { state, previousPage } = useWizard();
 
     if (!isPagesState(state) || state.segment === null || state.entryPoint === null) {
         throw new Error('Не заданы сегмент или точка входа.');
@@ -45,24 +45,27 @@ const ScreensPage: React.FC = () => {
 
     const form = useForm();
     const dispatch = useAppDispatch();
-    const { setPageHandler } = useWizard();
+    const { setActivePageHandler } = useWizard();
     const { setAlert } = useErrorAlert();
 
     const isLoading = useAppSelector(selectScreensLoadingStatus);
     const screenList = useAppSelector(selectScreensList, shallowEqual);
     const error = useAppSelector(selectScreensError, shallowEqual);
 
-    const options = screenList.map(normalizeScreen).filter(({ id }) => !entryPoint.screens[`id-${id}`]);
+    const options = useMemo(
+        () => screenList.map(normalizeScreen).filter(({ id }) => !entryPoint.screens[`id-${id}`]),
+        [screenList, entryPoint.screens]
+    );
 
     const handleAddScreen = () => {
         form.mutators.calcNewScreensPosition(name);
         form.mutators.updateSegmentFields(segmentName);
-        setPageHandler(from || PageName.Details);
+        setActivePageHandler(previousPage || PageName.Details);
     };
 
     const handleCancel = () => {
         form.change(name, entryPoint.screens);
-        setPageHandler(from || PageName.Details);
+        setActivePageHandler(previousPage || PageName.Details);
     };
 
     useEffect(() => {

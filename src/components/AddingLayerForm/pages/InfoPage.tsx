@@ -10,12 +10,12 @@ import extractFinalFormErrorState from 'helpers/extractFinalFormErrorState';
 import { LayersListItem } from 'types/layer';
 
 const InfoPage: React.FC = () => {
-    const { setPageHandler } = useWizard();
+    const { setActivePageHandler } = useWizard();
     const state = useFormState();
 
     const handelSetNextPage = () => {
         if (state.valid) {
-            setPageHandler(PageName.Segments);
+            setActivePageHandler(PageName.Segments);
         }
     };
 

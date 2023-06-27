@@ -14,7 +14,7 @@ import useErrorAlert from 'hooks/useErrorAlert';
 import { fetchFields, reset, selectFieldsError } from 'models/fields';
 
 const SegmentDetailsPage: React.FC = () => {
-    const { state, setPageHandler } = useWizard();
+    const { state, setActivePageHandler } = useWizard();
 
     if (!isPagesState(state) || state.segment === null) {
         throw new Error('Не задан сегмент.');
@@ -29,11 +29,11 @@ const SegmentDetailsPage: React.FC = () => {
 
     const handleCancel = () => {
         form.mutators.resetSegment(`segments.${name}`, state.segment);
-        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
+        setActivePageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     const handleAddSegment = () => {
-        setPageHandler(PageName.Segments, INITIAL_BACK_STATE);
+        setActivePageHandler(PageName.Segments, INITIAL_BACK_STATE);
     };
 
     useEffect(() => {
